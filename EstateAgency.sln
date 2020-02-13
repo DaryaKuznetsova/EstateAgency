@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EstateAgency", "EstateAgency\EstateAgency.csproj", "{88E8BF2C-C053-4BD2-B157-3EE8A0E543CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsControlLab", "..\..\1 конструирование программного обеспечения\работа 6\WinFormsControlLab\WinFormsControlLab\WinFormsControlLab.csproj", "{1FC8C615-D85D-4EB4-93EF-E3FC99256C2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{88E8BF2C-C053-4BD2-B157-3EE8A0E543CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88E8BF2C-C053-4BD2-B157-3EE8A0E543CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88E8BF2C-C053-4BD2-B157-3EE8A0E543CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FC8C615-D85D-4EB4-93EF-E3FC99256C2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC8C615-D85D-4EB4-93EF-E3FC99256C2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC8C615-D85D-4EB4-93EF-E3FC99256C2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC8C615-D85D-4EB4-93EF-E3FC99256C2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
