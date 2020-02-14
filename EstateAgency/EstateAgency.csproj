@@ -66,6 +66,12 @@
     <Compile Include="AuthorizationForm.Designer.cs">
       <DependentUpon>AuthorizationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChangeObjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeObjectForm.Designer.cs">
+      <DependentUpon>ChangeObjectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Clients.cs" />
     <Compile Include="CustomerForm.cs">
       <SubType>Form</SubType>
@@ -81,11 +87,17 @@
       <DependentUpon>EstateAgencyDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="EstateObjects.cs" />
-    <Compile Include="ItemForm.cs">
+    <Compile Include="ItemAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ItemForm.Designer.cs">
-      <DependentUpon>ItemForm.cs</DependentUpon>
+    <Compile Include="ItemAddForm.Designer.cs">
+      <DependentUpon>ItemAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemInfoForm.Designer.cs">
+      <DependentUpon>ItemInfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -120,6 +132,12 @@
     <Compile Include="salasManagerForm.Designer.cs">
       <DependentUpon>salasManagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SearchObjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchObjectForm.Designer.cs">
+      <DependentUpon>SearchObjectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Statuses.cs" />
     <Compile Include="sysdiagrams.cs" />
     <Compile Include="Trades.cs" />
@@ -127,11 +145,17 @@
     <EmbeddedResource Include="AuthorizationForm.resx">
       <DependentUpon>AuthorizationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ChangeObjectForm.resx">
+      <DependentUpon>ChangeObjectForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomerForm.resx">
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ItemForm.resx">
-      <DependentUpon>ItemForm.cs</DependentUpon>
+    <EmbeddedResource Include="ItemAddForm.resx">
+      <DependentUpon>ItemAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemInfoForm.resx">
+      <DependentUpon>ItemInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -153,6 +177,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="salasManagerForm.resx">
       <DependentUpon>salasManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchObjectForm.resx">
+      <DependentUpon>SearchObjectForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="EstateAgencyDataSet.xsc">
       <DependentUpon>EstateAgencyDataSet.xsd</DependentUpon>

@@ -1,6 +1,6 @@
 ﻿namespace EstateAgency
 {
-    partial class ItemForm
+    partial class ItemAddForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.DescriptionTextBox = new System.Windows.Forms.TextBox();
             this.RealtyTypeComboBox = new System.Windows.Forms.ComboBox();
             this.TradeTypeComboBox = new System.Windows.Forms.ComboBox();
             this.DistrictComboBox = new System.Windows.Forms.ComboBox();
@@ -41,7 +41,7 @@
             this.AddressTextBox = new System.Windows.Forms.TextBox();
             this.AreaLabel = new System.Windows.Forms.Label();
             this.areaTextBox = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.LandTextBox = new System.Windows.Forms.TextBox();
             this.LandAreaTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -76,13 +76,13 @@
             this.label9.TabIndex = 8;
             this.label9.Text = "Владелец";
             // 
-            // textBox1
+            // DescriptionTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 198);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(475, 67);
-            this.textBox1.TabIndex = 9;
+            this.DescriptionTextBox.Location = new System.Drawing.Point(12, 198);
+            this.DescriptionTextBox.Multiline = true;
+            this.DescriptionTextBox.Name = "DescriptionTextBox";
+            this.DescriptionTextBox.Size = new System.Drawing.Size(475, 67);
+            this.DescriptionTextBox.TabIndex = 9;
             // 
             // RealtyTypeComboBox
             // 
@@ -179,13 +179,13 @@
             this.areaTextBox.Size = new System.Drawing.Size(100, 22);
             this.areaTextBox.TabIndex = 22;
             // 
-            // textBox2
+            // LandTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(18, 313);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(469, 68);
-            this.textBox2.TabIndex = 23;
+            this.LandTextBox.Location = new System.Drawing.Point(18, 313);
+            this.LandTextBox.Multiline = true;
+            this.LandTextBox.Name = "LandTextBox";
+            this.LandTextBox.Size = new System.Drawing.Size(469, 68);
+            this.LandTextBox.TabIndex = 23;
             // 
             // LandAreaTextBox
             // 
@@ -200,9 +200,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 402);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 17);
+            this.label1.Size = new System.Drawing.Size(124, 17);
             this.label1.TabIndex = 24;
-            this.label1.Text = "Площадь земли";
+            this.label1.Text = "Площадь участка";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBox3
@@ -232,7 +232,7 @@
             this.AddButton.UseVisualStyleBackColor = true;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
-            // ItemForm
+            // ItemAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -242,7 +242,7 @@
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.LandAreaTextBox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.LandTextBox);
             this.Controls.Add(this.areaTextBox);
             this.Controls.Add(this.AreaLabel);
             this.Controls.Add(this.AddressTextBox);
@@ -252,11 +252,11 @@
             this.Controls.Add(this.DistrictComboBox);
             this.Controls.Add(this.TradeTypeComboBox);
             this.Controls.Add(this.RealtyTypeComboBox);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.DescriptionTextBox);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label2);
-            this.Name = "ItemForm";
+            this.Name = "ItemAddForm";
             this.Text = "ItemForm";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -267,8 +267,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ComboBox RealtyTypeComboBox;
+        private System.Windows.Forms.TextBox DescriptionTextBox;
         private System.Windows.Forms.ComboBox TradeTypeComboBox;
         private System.Windows.Forms.ComboBox DistrictComboBox;
         private System.Windows.Forms.ComboBox RoomsComboBox;
@@ -277,11 +276,12 @@
         private System.Windows.Forms.TextBox AddressTextBox;
         private System.Windows.Forms.Label AreaLabel;
         private System.Windows.Forms.TextBox areaTextBox;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox LandTextBox;
         private System.Windows.Forms.TextBox LandAreaTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button AddButton;
+        public System.Windows.Forms.ComboBox RealtyTypeComboBox;
     }
 }

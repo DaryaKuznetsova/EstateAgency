@@ -115,14 +115,16 @@
             // changeSMI
             // 
             this.changeSMI.Name = "changeSMI";
-            this.changeSMI.Size = new System.Drawing.Size(205, 26);
+            this.changeSMI.Size = new System.Drawing.Size(216, 26);
             this.changeSMI.Text = "Изменить запись";
+            this.changeSMI.Click += new System.EventHandler(this.changeSMI_Click);
             // 
             // deleteSMI
             // 
             this.deleteSMI.Name = "deleteSMI";
-            this.deleteSMI.Size = new System.Drawing.Size(205, 26);
+            this.deleteSMI.Size = new System.Drawing.Size(216, 26);
             this.deleteSMI.Text = "Удалить запись";
+            this.deleteSMI.Click += new System.EventHandler(this.deleteSMI_Click);
             // 
             // statisticsSMI
             // 
@@ -158,7 +160,7 @@
             // 
             // EnterButton
             // 
-            this.EnterButton.Location = new System.Drawing.Point(579, 12);
+            this.EnterButton.Location = new System.Drawing.Point(670, 12);
             this.EnterButton.Name = "EnterButton";
             this.EnterButton.Size = new System.Drawing.Size(70, 58);
             this.EnterButton.TabIndex = 2;
@@ -303,10 +305,12 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 231);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(756, 366);
             this.dataGridView1.TabIndex = 20;
             // 

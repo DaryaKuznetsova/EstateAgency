@@ -11,15 +11,13 @@ using System.Windows.Forms;
 
 namespace EstateAgency
 {
-    public partial class ManagerForm : Form
+    public partial class SearchObjectForm : Form
     {
         EstateAgency db;
-        private BindingSource bindingSource1 = new BindingSource();
-
-        public ManagerForm()
+        public SearchObjectForm(EstateAgency database)
         {
             InitializeComponent();
-            db = new EstateAgency();
+            db = database;
             db.EstateObjects.Load();
             dataGridView1.DataSource = db.EstateObjects.Local.ToBindingList();
             CreateDataGridView();
@@ -47,43 +45,47 @@ namespace EstateAgency
             dataGridView1.Columns["TradeTypes"].Visible = false;
         }
 
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        private void ChangeButton_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int index = dataGridView1.SelectedRows[0].Index;
+                int id = 0;
+                bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                EstateObjects eo = db.EstateObjects.Find(id);
+                ItemInfoForm itemInfoForm = new ItemInfoForm(db, eo);
+
+                itemInfoForm.RealtyTypeTextBox.Text = eo.RealtyTypes.Name;
+                itemInfoForm.Show();
+                dataGridView1.Refresh();
+
+            }
+        }
+
+        static void CreateItemInfoForm(ItemInfoForm itemInfoForm, EstateObjects eo)
+        {
+            itemInfoForm.RealtyTypeTextBox.Text = eo.RealtyTypes.Name;
+            itemInfoForm.TradeTypeTextBox.Text = eo.TradeTypes.Name;
+            itemInfoForm.DistrictTextBox.Text = eo.Districts.Name;
+            itemInfoForm.OwnerInfoTextBox.Text = eo.Owners.Name;
 
         }
 
-        private void ManagerForm_Load(object sender, EventArgs e)
+        private void DeleteButton_Click(object sender, EventArgs e)
         {
+            int index = dataGridView1.SelectedRows[0].Index;
+            int id = 0;
+            bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+            if (converted == false)
+                return;
 
-        }
-
-        private void EnterButton_Click(object sender, EventArgs e)
-        {
-            AuthorizationForm authorizationForm = new AuthorizationForm();
-            authorizationForm.Show();
-        }
-
-        private void SearchButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void addSMI_Click(object sender, EventArgs e)
-        {
-            ItemAddForm itemf = new ItemAddForm(db);
-            itemf.Show();
-        }
-
-        private void changeSMI_Click(object sender, EventArgs e)
-        {
-            SearchObjectForm sof = new SearchObjectForm(db);
-            sof.Show();
-        }
-
-        private void deleteSMI_Click(object sender, EventArgs e)
-        {
-            SearchObjectForm sof = new SearchObjectForm(db);
-            sof.Show();
+            EstateObjects eo = db.EstateObjects.Find(id);
+            db.EstateObjects.Remove(eo);
+            db.SaveChanges();
+            dataGridView1.Refresh();
         }
     }
 }

@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace EstateAgency
 {
-    public partial class ItemForm : Form
+    public partial class ItemAddForm : Form
     {
         EstateAgency db;
 
-        public ItemForm(EstateAgency dataBase)
+        public ItemAddForm(EstateAgency dataBase)
         {
             InitializeComponent();
             db = dataBase;
