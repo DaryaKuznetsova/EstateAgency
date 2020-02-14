@@ -49,6 +49,10 @@
             this.BuyButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.ChangeButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.StatusTextBox = new System.Windows.Forms.TextBox();
+            this.AddOwnerButton = new System.Windows.Forms.Button();
+            this.AddButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PhotoPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -183,7 +187,7 @@
             // 
             // RoomsTextBox
             // 
-            this.RoomsTextBox.Location = new System.Drawing.Point(204, 233);
+            this.RoomsTextBox.Location = new System.Drawing.Point(384, 234);
             this.RoomsTextBox.Name = "RoomsTextBox";
             this.RoomsTextBox.Size = new System.Drawing.Size(100, 22);
             this.RoomsTextBox.TabIndex = 52;
@@ -213,10 +217,11 @@
             this.DeleteButton.TabIndex = 55;
             this.DeleteButton.Text = "Удалить";
             this.DeleteButton.UseVisualStyleBackColor = true;
+            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
             // 
             // ChangeButton
             // 
-            this.ChangeButton.Location = new System.Drawing.Point(333, 558);
+            this.ChangeButton.Location = new System.Drawing.Point(212, 519);
             this.ChangeButton.Name = "ChangeButton";
             this.ChangeButton.Size = new System.Drawing.Size(137, 23);
             this.ChangeButton.TabIndex = 56;
@@ -224,11 +229,50 @@
             this.ChangeButton.UseVisualStyleBackColor = true;
             this.ChangeButton.Click += new System.EventHandler(this.ChangeButton_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(235, 237);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(137, 17);
+            this.label3.TabIndex = 57;
+            this.label3.Text = "Количество комнат";
+            // 
+            // StatusTextBox
+            // 
+            this.StatusTextBox.Location = new System.Drawing.Point(356, 12);
+            this.StatusTextBox.Name = "StatusTextBox";
+            this.StatusTextBox.Size = new System.Drawing.Size(100, 22);
+            this.StatusTextBox.TabIndex = 58;
+            // 
+            // AddOwnerButton
+            // 
+            this.AddOwnerButton.Location = new System.Drawing.Point(204, 48);
+            this.AddOwnerButton.Name = "AddOwnerButton";
+            this.AddOwnerButton.Size = new System.Drawing.Size(75, 23);
+            this.AddOwnerButton.TabIndex = 59;
+            this.AddOwnerButton.Text = "Добавть";
+            this.AddOwnerButton.UseVisualStyleBackColor = true;
+            // 
+            // AddButton
+            // 
+            this.AddButton.Location = new System.Drawing.Point(356, 558);
+            this.AddButton.Name = "AddButton";
+            this.AddButton.Size = new System.Drawing.Size(100, 23);
+            this.AddButton.TabIndex = 60;
+            this.AddButton.Text = "Добавить";
+            this.AddButton.UseVisualStyleBackColor = true;
+            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
+            // 
             // ItemInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 617);
+            this.Controls.Add(this.AddButton);
+            this.Controls.Add(this.AddOwnerButton);
+            this.Controls.Add(this.StatusTextBox);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.ChangeButton);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.BuyButton);
@@ -280,5 +324,9 @@
         public System.Windows.Forms.TextBox OwnerInfoTextBox;
         public System.Windows.Forms.TextBox RoomsTextBox;
         public System.Windows.Forms.PictureBox PhotoPictureBox;
+        private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.TextBox StatusTextBox;
+        public System.Windows.Forms.Button AddOwnerButton;
+        private System.Windows.Forms.Button AddButton;
     }
 }

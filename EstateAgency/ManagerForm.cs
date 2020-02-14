@@ -70,7 +70,8 @@ namespace EstateAgency
 
         private void addSMI_Click(object sender, EventArgs e)
         {
-            ItemAddForm itemf = new ItemAddForm(db);
+            EstateObjects eo = new EstateObjects();
+            ItemInfoForm itemf = new ItemInfoForm(db, eo);
             itemf.Show();
         }
 
