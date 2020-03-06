@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.CancelButton = new System.Windows.Forms.Button();
             this.LandAreaTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.LandTextBox = new System.Windows.Forms.TextBox();
@@ -41,7 +40,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.RoomsTextBox = new System.Windows.Forms.TextBox();
-            this.PhotoPictureBox = new System.Windows.Forms.PictureBox();
             this.BuyButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.ChangeButton = new System.Windows.Forms.Button();
@@ -58,18 +56,9 @@
             this.NextImageButton = new System.Windows.Forms.Button();
             this.AddImageButton = new System.Windows.Forms.Button();
             this.DeleteImageButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.PhotoPictureBox)).BeginInit();
+            this.acceptButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // CancelButton
-            // 
-            this.CancelButton.Location = new System.Drawing.Point(12, 641);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(127, 23);
-            this.CancelButton.TabIndex = 46;
-            this.CancelButton.Text = "Отмена";
-            this.CancelButton.UseVisualStyleBackColor = true;
             // 
             // LandAreaTextBox
             // 
@@ -171,14 +160,6 @@
             this.RoomsTextBox.TabIndex = 52;
             this.RoomsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RoomsTextBox_KeyPress);
             // 
-            // PhotoPictureBox
-            // 
-            this.PhotoPictureBox.Location = new System.Drawing.Point(17, 462);
-            this.PhotoPictureBox.Name = "PhotoPictureBox";
-            this.PhotoPictureBox.Size = new System.Drawing.Size(468, 117);
-            this.PhotoPictureBox.TabIndex = 53;
-            this.PhotoPictureBox.TabStop = false;
-            // 
             // BuyButton
             // 
             this.BuyButton.Location = new System.Drawing.Point(148, 641);
@@ -187,6 +168,7 @@
             this.BuyButton.TabIndex = 54;
             this.BuyButton.Text = "Купить";
             this.BuyButton.UseVisualStyleBackColor = true;
+            this.BuyButton.Click += new System.EventHandler(this.BuyButton_Click);
             // 
             // DeleteButton
             // 
@@ -338,12 +320,24 @@
             this.DeleteImageButton.TabIndex = 70;
             this.DeleteImageButton.Text = "Удалить изображение";
             this.DeleteImageButton.UseVisualStyleBackColor = true;
+            this.DeleteImageButton.Click += new System.EventHandler(this.DeleteImageButton_Click);
+            // 
+            // acceptButton
+            // 
+            this.acceptButton.Location = new System.Drawing.Point(499, 601);
+            this.acceptButton.Name = "acceptButton";
+            this.acceptButton.Size = new System.Drawing.Size(75, 23);
+            this.acceptButton.TabIndex = 71;
+            this.acceptButton.Text = "Подтвердить";
+            this.acceptButton.UseVisualStyleBackColor = true;
+            this.acceptButton.Click += new System.EventHandler(this.acceptButton_Click);
             // 
             // ItemInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1024, 682);
+            this.Controls.Add(this.acceptButton);
             this.Controls.Add(this.DeleteImageButton);
             this.Controls.Add(this.AddImageButton);
             this.Controls.Add(this.NextImageButton);
@@ -360,9 +354,7 @@
             this.Controls.Add(this.ChangeButton);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.BuyButton);
-            this.Controls.Add(this.PhotoPictureBox);
             this.Controls.Add(this.RoomsTextBox);
-            this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.LandAreaTextBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LandTextBox);
@@ -377,7 +369,6 @@
             this.Name = "ItemInfoForm";
             this.Text = "ItemInfoForm";
             this.Load += new System.EventHandler(this.ItemInfoForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.PhotoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -385,7 +376,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label2;
@@ -401,7 +391,6 @@
         public System.Windows.Forms.TextBox PriceTextBox;
         public System.Windows.Forms.TextBox DescriptionTextBox;
         public System.Windows.Forms.TextBox RoomsTextBox;
-        public System.Windows.Forms.PictureBox PhotoPictureBox;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Button AddOwnerButton;
         private System.Windows.Forms.Button AddButton;
@@ -415,5 +404,6 @@
         private System.Windows.Forms.Button NextImageButton;
         private System.Windows.Forms.Button AddImageButton;
         private System.Windows.Forms.Button DeleteImageButton;
+        private System.Windows.Forms.Button acceptButton;
     }
 }

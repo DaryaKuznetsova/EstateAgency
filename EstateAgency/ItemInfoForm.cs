@@ -13,6 +13,122 @@ namespace EstateAgency
 {
     public partial class ItemInfoForm : Form
     {
+        private Notation notation = Notation.Client;
+
+        public Notation Notation
+        {
+            get { return notation; }
+            set
+            {
+                notation = value;
+                ChangeNotation();
+            }
+        }
+
+        private void ChangeNotation()
+        {
+            BlockEverything();
+            MakeReadOnly();
+            if (Notation == Notation.Client)
+            {
+                BuyButton.Visible = true;
+                BuyButton.Enabled = true;
+            }
+            if (Notation == Notation.Delete)
+            {
+                DeleteButton.Visible = true;
+                DeleteButton.Enabled = true;
+            }
+            if (Notation == Notation.Update)
+            {
+                MakeNotReadOnly();
+                ChangeButton.Visible = true;
+                ChangeButton.Enabled = true;
+                AddImageButton.Enabled = true;
+                AddImageButton.Visible = true;
+                DeleteImageButton.Enabled = true;
+                DeleteImageButton.Visible = true;
+                AddOwnerButton.Enabled = true;
+                AddOwnerButton.Visible = true;
+            }
+            if (Notation == Notation.Insert)
+            {
+                MakeNotReadOnly();
+                AddButton.Visible = true;
+                AddButton.Enabled = true;
+                AddImageButton.Enabled = true;
+                AddImageButton.Visible = true;
+                DeleteImageButton.Enabled = true;
+                DeleteImageButton.Visible = true;
+                AddOwnerButton.Enabled = true;
+                AddOwnerButton.Visible = true;
+            }
+            if (Notation == Notation.ManagerRequests)
+            {
+                acceptButton.Visible = true;
+                acceptButton.Enabled = true;
+            }
+        }
+
+        private void MakeNotReadOnly()
+        {
+            TradeTypeComboBox.AllowDrop = true;
+            RealtyTypeComboBox.AllowDrop = true;
+
+            PriceTextBox.ReadOnly = false;
+            AddressTextBox.ReadOnly = false;
+            DescriptionTextBox.ReadOnly = false;
+            areaTextBox.ReadOnly = false;
+            RoomsTextBox.ReadOnly = false;
+            LandAreaTextBox.ReadOnly = false;
+            LandAreaTextBox.ReadOnly = false;
+        }
+
+        private void BlockEverything()
+        {
+            DeleteButton.Enabled = false;
+            DeleteButton.Visible = false;
+            ChangeButton.Enabled = false;
+            ChangeButton.Visible = false;
+            BuyButton.Enabled = false;
+            BuyButton.Visible = false;
+            acceptButton.Enabled = false;
+            acceptButton.Visible = false;
+            AddButton.Enabled = false;
+            AddButton.Visible = false;
+            AddImageButton.Enabled = false;
+            AddImageButton.Visible = false;
+            DeleteImageButton.Enabled = false;
+            DeleteImageButton.Visible = false;
+            AddOwnerButton.Enabled = false;
+            AddOwnerButton.Visible = false;
+            PrevImageButton.Enabled = false;
+            PrevImageButton.Visible = false;
+            NextImageButton.Enabled = false;
+            NextImageButton.Visible = false;
+        }
+
+        private void MakeReadOnly()
+        {
+            TradeTypeComboBox.AllowDrop = false;
+            RealtyTypeComboBox.AllowDrop = false;
+
+            PriceTextBox.ReadOnly = true;
+            AddressTextBox.ReadOnly = true;
+            DescriptionTextBox.ReadOnly = true;
+            areaTextBox.ReadOnly = true;
+            RoomsTextBox.ReadOnly = true;
+            LandAreaTextBox.ReadOnly = true;
+            LandAreaTextBox.ReadOnly = true;
+        }
+
+        private void AllowPrevNextImageButtons()
+        {
+            PrevImageButton.Enabled = true;
+            PrevImageButton.Visible = true;
+            NextImageButton.Enabled = true;
+            NextImageButton.Visible = true;
+        }
         public SqlConnection SqlConnection { get; set; }
         public int Id { get; set; }
 
@@ -72,7 +188,7 @@ namespace EstateAgency
                 table.Load(command.ExecuteReader());
                 OwnerComboBox.DataSource = table;
                 OwnerComboBox.ValueMember = "Id";
-                OwnerComboBox.DisplayMember = "Name";
+                OwnerComboBox.DisplayMember = "Surname";
             }
             SqlConnection.Close();
         }
@@ -110,44 +226,23 @@ namespace EstateAgency
                 reader.Close();
                 SqlConnection.Close();
             }
-            List<string> images= Images(id);
 
-            pictureBox1.Image = Image.FromFile(images[0]);
+            images= Images(id);
+            if (images.Count > 0)
+            {
+                AllowPrevNextImageButtons();
+                pictureBox1.Image = Image.FromFile(images[0]);
+            }
+
             Block();
         }
 
         private static List<string> images;
+        private static string currentimagepath = "";
 
         private List<string> Images(int id)
         {
-            images = new List<string>();
-
-            string strCommand = string.Format("Select Pictures.Picture" +
-                " FROM EstateObjects" +
-                " inner join PictureObjectLinks on EstateObjects.Id=PictureObjectLinks.IdObject" +
-                " inner join Pictures on PictureObjectLinks.IdPicture=Pictures.Id" +
-                " WHERE EstateObjects.Id = '{0}'", id);
-            SqlConnection.Open();
-            SqlCommand command = new SqlCommand(strCommand, SqlConnection);
-            SqlDataReader reader = command.ExecuteReader();
-            try
-            {
-                while (reader.Read())
-                {
-                    images.Add(reader.GetValue(0).ToString());
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-            finally
-            {
-                reader.Close();
-                SqlConnection.Close();
-            }
-
-            return images;
+            return Query.Images(images, SqlConnection, Id);
         }
 
         private void NextImage(List<string> images, ref int i)
@@ -155,6 +250,7 @@ namespace EstateAgency
             if (i + 1 >= images.Count) i = 0;
             else i++;
             pictureBox1.Image = Image.FromFile(images[i]);
+            currentimagepath = images[i];
         }
 
         private void PrevImage(List<string> images, ref int i)
@@ -162,6 +258,7 @@ namespace EstateAgency
             if (i - 1 <0) i = images.Count-1;
             else i--;
             pictureBox1.Image = Image.FromFile(images[i]);
+            currentimagepath = images[i];
         }
 
         private static int currentPicture=0;
@@ -170,20 +267,8 @@ namespace EstateAgency
         {
             try
             {
-                int RealtyTypes = (int)RealtyTypeComboBox.SelectedValue;
-                int TradeType = (int)TradeTypeComboBox.SelectedValue;
-                int District = (int)DistrictComboBox.SelectedValue;
-                int Owner = (int)OwnerComboBox.SelectedValue;
-                int Status = (int)StatusComboBox.SelectedValue;
-                float Price = (float)Convert.ToDouble(PriceTextBox.Text);
-                string Address = AddressTextBox.Text;
-                string Description = DescriptionTextBox.Text;
-                byte Rooms = Convert.ToByte(RoomsTextBox.Text);
-                float LandArea = (float)Convert.ToDouble(LandAreaTextBox.Text);
-                float Area = (float)Convert.ToDouble(areaTextBox.Text);
-                string LandDescription = LandTextBox.Text;
-
-                DeleteUpdateInsertMethods.Update(Id, Status, Owner, Price, Address, District, Description, RealtyTypes, TradeType, Area, Rooms, LandDescription, LandArea, SqlConnection);
+                ConvertData();
+                DeleteUpdateInsertMethods.Update(SqlConnection, Id, Status, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
                 MessageBox.Show("Запись изменена");
                 this.Close();
             }
@@ -193,17 +278,52 @@ namespace EstateAgency
             }
         }
 
-        void Block()
+        bool Block()
         {
             if(RealtyTypeComboBox.SelectedIndex==1||RealtyTypeComboBox.SelectedIndex == 2)
             {
                 LandTextBox.Enabled = false;
                 LandAreaTextBox.Enabled = false;
+                return true;
             }
             else
             {
                 LandTextBox.Enabled = true;
                 LandAreaTextBox.Enabled = true;
+                return false;
+            }
+        }
+
+
+        private int RealtyTypes { get; set; }
+        private int TradeTypes { get; set; }
+        private int District { get; set; }
+        private int OwnerId { get; set; }
+        private int Status { get; set; }
+        private float Price { get; set; }
+        private string Address { get; set; }
+        private string Description { get; set; }
+        private byte Rooms { get; set; }
+        private float LandArea { get; set; }
+        private float Area { get; set; }
+        private string LandDescription { get; set; }
+
+        private void ConvertData()
+        {
+            RealtyTypes = (int)RealtyTypeComboBox.SelectedValue;
+            TradeTypes = (int)TradeTypeComboBox.SelectedValue;
+            District = (int)DistrictComboBox.SelectedValue;
+            OwnerId = (int)OwnerComboBox.SelectedValue;
+            Status = (int)StatusComboBox.SelectedValue;
+            Price = (float)Convert.ToDouble(PriceTextBox.Text);
+            Address = AddressTextBox.Text;
+            Description = DescriptionTextBox.Text;
+            Rooms = Convert.ToByte(RoomsTextBox.Text);
+            if (!Block())
+            {
+                LandArea = (float)Convert.ToDouble(LandAreaTextBox.Text);
+                Area = (float)Convert.ToDouble(areaTextBox.Text);
+                LandDescription = LandTextBox.Text;
             }
         }
 
@@ -211,20 +331,8 @@ namespace EstateAgency
         {
             try
             {
-                int RealtyTypes = (int)RealtyTypeComboBox.SelectedValue;
-                int TradeType = (int)TradeTypeComboBox.SelectedValue;
-                int District = (int)DistrictComboBox.SelectedValue;
-                int Owner = (int)OwnerComboBox.SelectedValue;
-                int Status = (int)StatusComboBox.SelectedValue;
-                float Price = (float)Convert.ToDouble(PriceTextBox.Text);
-                string Address = AddressTextBox.Text;
-                string Description = DescriptionTextBox.Text;
-                byte Rooms = Convert.ToByte(RoomsTextBox.Text);
-                float LandArea = (float)Convert.ToDouble(LandAreaTextBox.Text);
-                float Area = (float)Convert.ToDouble(areaTextBox.Text);
-                string LandDescription = LandTextBox.Text;
-
-                DeleteUpdateInsertMethods.Insert(Status, Owner, Price, Address, District, Description, RealtyTypes, TradeType, Area, Rooms, LandDescription, LandArea, SqlConnection);
+                ConvertData();
+                DeleteUpdateInsertMethods.Insert(SqlConnection, Status, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
                 MessageBox.Show("Запись добавлена");
                 this.Close();
             }
@@ -318,8 +426,64 @@ namespace EstateAgency
             opf.Filter = "Windows Bitmap (*.bmp)|*.bmp| Файлы JPEG (*.jpeg, *.jpg)|*.jpeg;*.jpg|Все файлы ()*.*|*.*";
             if (opf.ShowDialog() == DialogResult.OK)
             {
-                Query.AddPicture(Id, opf.FileName, SqlConnection);
+                try
+                {
+                    Query.AddPicture(Id, opf.FileName, SqlConnection);
+                    MessageBox.Show("Изображение дабвлено");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Произошла ошибка при добавлении");
+                }
+                images = Images(Id);
             }
+        }
+
+        private void DeleteImageButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Query.DeletePicture(SqlConnection, currentimagepath, Id);
+                MessageBox.Show("Изображение удалено");
+                images = Images(Id);
+            }
+            catch(Exception x)
+            {
+                MessageBox.Show(x.ToString());
+            }
+        }
+
+        private void acceptButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ConvertData();
+                DeleteUpdateInsertMethods.Update(SqlConnection, Id, 3, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
+                MessageBox.Show("Заявка одобрена");
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+
+        public int ClientId { get; set; }
+
+        private void BuyButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ConvertData();
+                DeleteUpdateInsertMethods.Update(SqlConnection, Id, 2, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
+                DeleteUpdateInsertMethods.CreateClientObjectLink(SqlConnection, ClientId, Id);
+                MessageBox.Show("Заявка подана на рассмотрение");
+            }
+            catch(Exception u)
+            {
+                MessageBox.Show(u.ToString());
+            }
+
         }
     }
 }

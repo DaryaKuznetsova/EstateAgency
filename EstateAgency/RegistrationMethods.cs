@@ -83,40 +83,48 @@ namespace EstateAgency
             else return false;
         }
 
-        public static bool RegistratedClient(string phone, string password, SqlConnection sqlConnection)
+        public static int RegistratedClient(string phone, string password, SqlConnection sqlConnection)
         {
-                string strCommand = string.Format("Select * FROM Clients WHERE Phone = '{0}' and Password='{1}'", phone, password);
+            int id = -1;
+                string strCommand = string.Format("Select id FROM Clients WHERE Phone = '{0}' and Password='{1}'", phone, password);
                 sqlConnection.Open();
                 SqlCommand command = new SqlCommand(strCommand, sqlConnection);
                 SqlDataReader reader = command.ExecuteReader();
-                try
+            try
+            {
+                while (reader.Read())
                 {
-                if (reader.HasRows) return true;
-                else return false;
+                    id = reader.GetInt32(0);
                 }
-                finally
+            }
+            finally
                 {
                     reader.Close();
                     sqlConnection.Close();
                 }
+            return id;
         }
 
-        public static bool RegistratedManager(string phone, string password, SqlConnection sqlConnection)
+        public static int RegistratedManager(string phone, string password, SqlConnection sqlConnection)
         {
-            string strCommand = string.Format("Select * FROM Managers WHERE Phone = '{0}' and Password='{1}'", phone, password);
+            int id = -1;
+            string strCommand = string.Format("Select id FROM Managers WHERE Phone = '{0}' and Password='{1}'", phone, password);
             sqlConnection.Open();
             SqlCommand command = new SqlCommand(strCommand, sqlConnection);
             SqlDataReader reader = command.ExecuteReader();
             try
             {
-                if (reader.HasRows) return true;
-                else return false;
+                while (reader.Read())
+                {
+                    id = reader.GetInt32(0);
+                }
             }
             finally
             {
                 reader.Close();
                 sqlConnection.Close();
             }
+            return id;
         }
     }
 }

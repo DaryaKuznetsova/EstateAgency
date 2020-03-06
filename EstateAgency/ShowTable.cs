@@ -31,5 +31,50 @@ namespace EstateAgency
             }
             return dt;
         }
+
+        public static DataTable DisplayCurrentRequests(SqlConnection sqlConnection)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "SELECT * FROM EstateObjects" +
+                " where statusid=2";
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            try
+            {
+                adapter.Fill(dt);
+            }
+            catch
+            {
+                MessageBox.Show("Connection failed!", "Error!");
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+            return dt;
+        }
+
+
+        public static DataTable DisplayMyRequests(SqlConnection sqlConnection, int id)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+
+            command.CommandText = string.Format("SELECT * from EstateObjects inner join ClientObjectLinks on EstateObjects.id = clientobjectlinks.ObjectId inner join Clients on clientobjectlinks.clientid = clients.id where clients.id = '{0}'", id);
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            try
+            {
+                adapter.Fill(dt);
+            }
+            catch(Exception r)
+            {
+                MessageBox.Show(r.ToString());
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+            return dt;
+        }
     }
 }

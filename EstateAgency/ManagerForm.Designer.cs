@@ -58,6 +58,7 @@
             this.RoomsCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.DistrictLabel = new System.Windows.Forms.Label();
             this.RoomsLabel = new System.Windows.Forms.Label();
+            this.RequestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -88,13 +89,14 @@
             // accountSMI
             // 
             this.accountSMI.Name = "accountSMI";
-            this.accountSMI.Size = new System.Drawing.Size(182, 26);
+            this.accountSMI.Size = new System.Drawing.Size(216, 26);
             this.accountSMI.Text = "Мой профиль";
+            this.accountSMI.Click += new System.EventHandler(this.accountSMI_Click);
             // 
             // salesSMI
             // 
             this.salesSMI.Name = "salesSMI";
-            this.salesSMI.Size = new System.Drawing.Size(182, 26);
+            this.salesSMI.Size = new System.Drawing.Size(216, 26);
             this.salesSMI.Text = "Мои продажи";
             // 
             // catalogSMI
@@ -102,7 +104,8 @@
             this.catalogSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addSMI,
             this.changeSMI,
-            this.deleteSMI});
+            this.deleteSMI,
+            this.RequestsToolStripMenuItem});
             this.catalogSMI.Name = "catalogSMI";
             this.catalogSMI.Size = new System.Drawing.Size(75, 28);
             this.catalogSMI.Text = "Каталог";
@@ -110,21 +113,21 @@
             // addSMI
             // 
             this.addSMI.Name = "addSMI";
-            this.addSMI.Size = new System.Drawing.Size(205, 26);
+            this.addSMI.Size = new System.Drawing.Size(216, 26);
             this.addSMI.Text = "Добавить запись";
             this.addSMI.Click += new System.EventHandler(this.addSMI_Click);
             // 
             // changeSMI
             // 
             this.changeSMI.Name = "changeSMI";
-            this.changeSMI.Size = new System.Drawing.Size(205, 26);
+            this.changeSMI.Size = new System.Drawing.Size(216, 26);
             this.changeSMI.Text = "Изменить запись";
             this.changeSMI.Click += new System.EventHandler(this.changeSMI_Click);
             // 
             // deleteSMI
             // 
             this.deleteSMI.Name = "deleteSMI";
-            this.deleteSMI.Size = new System.Drawing.Size(205, 26);
+            this.deleteSMI.Size = new System.Drawing.Size(216, 26);
             this.deleteSMI.Text = "Удалить запись";
             this.deleteSMI.Click += new System.EventHandler(this.deleteSMI_Click);
             // 
@@ -334,6 +337,13 @@
             this.RoomsLabel.TabIndex = 24;
             this.RoomsLabel.Text = "Количество комнат";
             // 
+            // RequestsToolStripMenuItem
+            // 
+            this.RequestsToolStripMenuItem.Name = "RequestsToolStripMenuItem";
+            this.RequestsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.RequestsToolStripMenuItem.Text = "Заявки";
+            this.RequestsToolStripMenuItem.Click += new System.EventHandler(this.RequestsToolStripMenuItem_Click);
+            // 
             // ManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -402,6 +412,7 @@
         private System.Windows.Forms.CheckedListBox RoomsCheckedListBox;
         private System.Windows.Forms.Label DistrictLabel;
         private System.Windows.Forms.Label RoomsLabel;
+        private System.Windows.Forms.ToolStripMenuItem RequestsToolStripMenuItem;
     }
 }
 

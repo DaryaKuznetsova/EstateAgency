@@ -47,6 +47,7 @@
             this.SearchButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.ChangeButton = new System.Windows.Forms.Button();
+            this.InfoButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -234,11 +235,22 @@
             this.ChangeButton.UseVisualStyleBackColor = true;
             this.ChangeButton.Click += new System.EventHandler(this.ChangeButton_Click);
             // 
+            // InfoButton
+            // 
+            this.InfoButton.Location = new System.Drawing.Point(554, 576);
+            this.InfoButton.Name = "InfoButton";
+            this.InfoButton.Size = new System.Drawing.Size(107, 23);
+            this.InfoButton.TabIndex = 40;
+            this.InfoButton.Text = "Подробнее";
+            this.InfoButton.UseVisualStyleBackColor = true;
+            this.InfoButton.Click += new System.EventHandler(this.InfoButton_Click);
+            // 
             // SearchObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 611);
+            this.Controls.Add(this.InfoButton);
             this.Controls.Add(this.ChangeButton);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.dataGridView1);
@@ -286,5 +298,6 @@
         private System.Windows.Forms.Button DeleteButton;
         private System.Windows.Forms.Button ChangeButton;
         public System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button InfoButton;
     }
 }

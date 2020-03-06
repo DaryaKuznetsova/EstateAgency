@@ -12,14 +12,71 @@ using System.Windows.Forms;
 
 namespace EstateAgency
 {
+    public enum Notation
+    {
+        Client=1,
+        Delete=2,
+        Update=3,
+        Insert=4,
+        ManagerRequests=5
+    };
+
     public partial class SearchObjectForm : Form
     {
+        public int ClientId { get; set; }
+        public int ManagerId { get; set; }
+        private Notation notation = Notation.Client;
+
+        public Notation Notation
+        {
+            get { return notation; }
+            set
+            {
+                notation = value;
+                ChangeNotation();
+            }
+        }
+
         SqlConnection SqlConnection { get; set; }
         public SearchObjectForm(SqlConnection sqlConnection)
         {
             InitializeComponent();
             SqlConnection = sqlConnection;
             dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
+        }
+
+        private void ChangeNotation()
+        {
+            BlockEverything();
+            if (Notation == Notation.Client)
+            {
+                InfoButton.Enabled = true;
+                InfoButton.Visible = true;
+            }
+            if(Notation == Notation.Delete)
+            {
+                DeleteButton.Visible = true;
+                DeleteButton.Enabled = true;
+            }
+            if (Notation == Notation.Update)
+            {
+                ChangeButton.Visible = true;
+                ChangeButton.Enabled = true;
+            }
+            if (Notation == Notation.ManagerRequests)
+            {
+                dataGridView1.DataSource = ShowTable.DisplayCurrentRequests(SqlConnection);
+            }
+        }
+
+        private void BlockEverything()
+        {
+            DeleteButton.Enabled = false;
+            DeleteButton.Visible = false;
+            ChangeButton.Enabled = false;
+            ChangeButton.Visible = false;
+            InfoButton.Enabled = false;
+            InfoButton.Visible = false;
         }
 
         public void DataLoad()
@@ -73,6 +130,8 @@ namespace EstateAgency
                     return;
 
                 ItemInfoForm itemInfoForm = new ItemInfoForm(SqlConnection, id);
+                itemInfoForm.Notation = notation;
+                itemInfoForm.ClientId = ClientId;
                 try
                 {
                     itemInfoForm.ShowDialog();
@@ -82,6 +141,11 @@ namespace EstateAgency
                     MessageBox.Show("запускай через отладчик");
                 }
             }
+        }
+
+        private void InfoButton_Click(object sender, EventArgs e)
+        {
+            CreateInfoForm();
         }
     }
 }

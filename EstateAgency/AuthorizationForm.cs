@@ -14,10 +14,12 @@ namespace EstateAgency
     public partial class AuthorizationForm : Form
     {
         SqlConnection sqlConnection;
-        public AuthorizationForm(SqlConnection sqlConnection)
+        ManagerForm mf;
+        public AuthorizationForm(ManagerForm f, SqlConnection sqlConnection)
         {
             InitializeComponent();
             this.sqlConnection = sqlConnection;
+            mf = f;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -30,12 +32,22 @@ namespace EstateAgency
         {
             string phone = LoginTextBox.Text;
             string password = PasswordTextBox.Text;
-            if (ManagerCheckBox.Checked )
+            if (ManagerCheckBox.Checked)
             {
-                if (RegistrationMethods.RegistratedManager(phone, password, sqlConnection)) MessageBox.Show("Успешно");
+                if (RegistrationMethods.RegistratedManager(phone, password, sqlConnection) != -1)
+                {
+                    mf.ManagerId = RegistrationMethods.RegistratedManager(phone, password, sqlConnection);
+                    MessageBox.Show("Успешно");
+                    this.Close();
+                }
                 else MessageBox.Show("!");
             }
-            else if (RegistrationMethods.RegistratedClient (phone, password, sqlConnection )) MessageBox.Show("Успешно");
+            else if (RegistrationMethods.RegistratedClient(phone, password, sqlConnection) != -1)
+            {
+                mf.ClientId = RegistrationMethods.RegistratedClient(phone, password, sqlConnection);
+                MessageBox.Show("Успешно");
+                this.Close();
+            }
             else MessageBox.Show("!");
         }
     }

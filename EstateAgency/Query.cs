@@ -124,6 +124,80 @@ namespace EstateAgency
                     id = reader.GetInt32(0);
                 }
             }
+            finally
+            {
+                reader.Close();
+                sqlConnection.Close();
+            }
+            return id;
+        }
+
+        public static void DeletePicture(SqlConnection sqlConnection, string path, int ObjectId)
+        {
+            int PictureId = SelectPictureId(sqlConnection, path);
+            DeleteLink(sqlConnection, ObjectId, PictureId);
+            DeletePictureFromTable(sqlConnection, path);
+        }
+
+        private static void DeleteLink(SqlConnection sqlConnection, int ObjectId, int PictureId)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            string strCommand = string.Format("DELETE FROM PictureObjectLinks WHERE IdObject = '{0}' and IdPicture='{1}'", ObjectId, PictureId);
+            command.CommandText = strCommand;
+            sqlConnection.Open();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        private static void DeletePictureFromTable(SqlConnection sqlConnection, string path)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            string strCommand = string.Format("DELETE FROM Pictures WHERE Picture = '{0}'", path);
+            command.CommandText = strCommand;
+            sqlConnection.Open();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        public static List<string> Images(List<string> images, SqlConnection sqlConnection, int id)
+        {
+            images = new List<string>();
+
+            string strCommand = string.Format("Select Pictures.Picture" +
+                " FROM EstateObjects" +
+                " inner join PictureObjectLinks on EstateObjects.Id=PictureObjectLinks.IdObject" +
+                " inner join Pictures on PictureObjectLinks.IdPicture=Pictures.Id" +
+                " WHERE EstateObjects.Id = '{0}'", id);
+            sqlConnection.Open();
+            SqlCommand command = new SqlCommand(strCommand, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    images.Add(reader.GetValue(0).ToString());
+                }
+            }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
@@ -133,7 +207,8 @@ namespace EstateAgency
                 reader.Close();
                 sqlConnection.Close();
             }
-            return id;
+
+            return images;
         }
     }
 }
