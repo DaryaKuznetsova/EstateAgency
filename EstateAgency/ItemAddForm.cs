@@ -12,12 +12,12 @@ namespace EstateAgency
 {
     public partial class ItemAddForm : Form
     {
-        EstateAgency db;
+        //EstateAgency db;
 
-        public ItemAddForm(EstateAgency dataBase)
+        public ItemAddForm()//(EstateAgency dataBase)
         {
             InitializeComponent();
-            db = dataBase;
+           // db = dataBase;
         }
 
         private void RealtyTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace EstateAgency
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            AddDeleteUpdateMethods.AddEstateObject(db, 1, 1, 3400, "tt", 1, "ss", 1, 1, 13);
+           // AddDeleteUpdateMethods.AddEstateObject(db, 1, 1, 3400, "tt", 1, "ss", 1, 1, 13);
         }
     }
 }

@@ -49,13 +49,15 @@
             this.AreaMaxTextBox = new System.Windows.Forms.TextBox();
             this.PriceLabel = new System.Windows.Forms.Label();
             this.AreaLabel = new System.Windows.Forms.Label();
-            this.DistrictComboBox = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.LandAreaLabel = new System.Windows.Forms.Label();
-            this.LandAreaTextBox2 = new System.Windows.Forms.TextBox();
-            this.LandAreaTextBox1 = new System.Windows.Forms.TextBox();
+            this.LandAreaMaxTextBox = new System.Windows.Forms.TextBox();
+            this.LandAreaMinTextBox = new System.Windows.Forms.TextBox();
             this.AdvancedSearchButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.DistrictCheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.RoomsCheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.DistrictLabel = new System.Windows.Forms.Label();
+            this.RoomsLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -108,21 +110,21 @@
             // addSMI
             // 
             this.addSMI.Name = "addSMI";
-            this.addSMI.Size = new System.Drawing.Size(216, 26);
+            this.addSMI.Size = new System.Drawing.Size(205, 26);
             this.addSMI.Text = "Добавить запись";
             this.addSMI.Click += new System.EventHandler(this.addSMI_Click);
             // 
             // changeSMI
             // 
             this.changeSMI.Name = "changeSMI";
-            this.changeSMI.Size = new System.Drawing.Size(216, 26);
+            this.changeSMI.Size = new System.Drawing.Size(205, 26);
             this.changeSMI.Text = "Изменить запись";
             this.changeSMI.Click += new System.EventHandler(this.changeSMI_Click);
             // 
             // deleteSMI
             // 
             this.deleteSMI.Name = "deleteSMI";
-            this.deleteSMI.Size = new System.Drawing.Size(216, 26);
+            this.deleteSMI.Size = new System.Drawing.Size(205, 26);
             this.deleteSMI.Text = "Удалить запись";
             this.deleteSMI.Click += new System.EventHandler(this.deleteSMI_Click);
             // 
@@ -154,7 +156,7 @@
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(145, 31);
             this.SearchButton.TabIndex = 1;
-            this.SearchButton.Text = "Поиск";
+            this.SearchButton.Text = "Найти";
             this.SearchButton.UseVisualStyleBackColor = true;
             this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
@@ -180,6 +182,7 @@
             this.RealtyTypeComboBox.Size = new System.Drawing.Size(174, 24);
             this.RealtyTypeComboBox.TabIndex = 3;
             this.RealtyTypeComboBox.Text = "Жилая недвижимость";
+            this.RealtyTypeComboBox.TextChanged += new System.EventHandler(this.RealtyTypeComboBox_TextChanged);
             // 
             // TradeTypeComboBox
             // 
@@ -244,31 +247,6 @@
             this.AreaLabel.TabIndex = 13;
             this.AreaLabel.Text = "Площадь";
             // 
-            // DistrictComboBox
-            // 
-            this.DistrictComboBox.FormattingEnabled = true;
-            this.DistrictComboBox.Location = new System.Drawing.Point(26, 144);
-            this.DistrictComboBox.Name = "DistrictComboBox";
-            this.DistrictComboBox.Size = new System.Drawing.Size(173, 24);
-            this.DistrictComboBox.TabIndex = 14;
-            this.DistrictComboBox.Text = "Район";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6+"});
-            this.comboBox1.Location = new System.Drawing.Point(274, 170);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(195, 24);
-            this.comboBox1.TabIndex = 15;
-            this.comboBox1.Text = "Количество комнат";
-            // 
             // LandAreaLabel
             // 
             this.LandAreaLabel.AutoSize = true;
@@ -278,21 +256,21 @@
             this.LandAreaLabel.TabIndex = 18;
             this.LandAreaLabel.Text = "Площадь участка";
             // 
-            // LandAreaTextBox2
+            // LandAreaMaxTextBox
             // 
-            this.LandAreaTextBox2.Location = new System.Drawing.Point(533, 172);
-            this.LandAreaTextBox2.Name = "LandAreaTextBox2";
-            this.LandAreaTextBox2.Size = new System.Drawing.Size(51, 22);
-            this.LandAreaTextBox2.TabIndex = 17;
-            this.LandAreaTextBox2.Text = "До";
+            this.LandAreaMaxTextBox.Location = new System.Drawing.Point(533, 172);
+            this.LandAreaMaxTextBox.Name = "LandAreaMaxTextBox";
+            this.LandAreaMaxTextBox.Size = new System.Drawing.Size(51, 22);
+            this.LandAreaMaxTextBox.TabIndex = 17;
+            this.LandAreaMaxTextBox.Text = "До";
             // 
-            // LandAreaTextBox1
+            // LandAreaMinTextBox
             // 
-            this.LandAreaTextBox1.Location = new System.Drawing.Point(475, 172);
-            this.LandAreaTextBox1.Name = "LandAreaTextBox1";
-            this.LandAreaTextBox1.Size = new System.Drawing.Size(52, 22);
-            this.LandAreaTextBox1.TabIndex = 16;
-            this.LandAreaTextBox1.Text = "От";
+            this.LandAreaMinTextBox.Location = new System.Drawing.Point(475, 172);
+            this.LandAreaMinTextBox.Name = "LandAreaMinTextBox";
+            this.LandAreaMinTextBox.Size = new System.Drawing.Size(52, 22);
+            this.LandAreaMinTextBox.TabIndex = 16;
+            this.LandAreaMinTextBox.Text = "От";
             // 
             // AdvancedSearchButton
             // 
@@ -314,18 +292,62 @@
             this.dataGridView1.Size = new System.Drawing.Size(756, 366);
             this.dataGridView1.TabIndex = 20;
             // 
+            // DistrictCheckedListBox
+            // 
+            this.DistrictCheckedListBox.FormattingEnabled = true;
+            this.DistrictCheckedListBox.Location = new System.Drawing.Point(25, 163);
+            this.DistrictCheckedListBox.Name = "DistrictCheckedListBox";
+            this.DistrictCheckedListBox.Size = new System.Drawing.Size(173, 55);
+            this.DistrictCheckedListBox.TabIndex = 21;
+            // 
+            // RoomsCheckedListBox
+            // 
+            this.RoomsCheckedListBox.FormattingEnabled = true;
+            this.RoomsCheckedListBox.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
+            this.RoomsCheckedListBox.Location = new System.Drawing.Point(274, 163);
+            this.RoomsCheckedListBox.Name = "RoomsCheckedListBox";
+            this.RoomsCheckedListBox.Size = new System.Drawing.Size(80, 55);
+            this.RoomsCheckedListBox.TabIndex = 22;
+            // 
+            // DistrictLabel
+            // 
+            this.DistrictLabel.AutoSize = true;
+            this.DistrictLabel.Location = new System.Drawing.Point(25, 143);
+            this.DistrictLabel.Name = "DistrictLabel";
+            this.DistrictLabel.Size = new System.Drawing.Size(49, 17);
+            this.DistrictLabel.TabIndex = 23;
+            this.DistrictLabel.Text = "Район";
+            // 
+            // RoomsLabel
+            // 
+            this.RoomsLabel.AutoSize = true;
+            this.RoomsLabel.Location = new System.Drawing.Point(274, 143);
+            this.RoomsLabel.Name = "RoomsLabel";
+            this.RoomsLabel.Size = new System.Drawing.Size(137, 17);
+            this.RoomsLabel.TabIndex = 24;
+            this.RoomsLabel.Text = "Количество комнат";
+            // 
             // ManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(780, 609);
+            this.Controls.Add(this.RoomsLabel);
+            this.Controls.Add(this.DistrictLabel);
+            this.Controls.Add(this.RoomsCheckedListBox);
+            this.Controls.Add(this.DistrictCheckedListBox);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.AdvancedSearchButton);
             this.Controls.Add(this.LandAreaLabel);
-            this.Controls.Add(this.LandAreaTextBox2);
-            this.Controls.Add(this.LandAreaTextBox1);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.DistrictComboBox);
+            this.Controls.Add(this.LandAreaMaxTextBox);
+            this.Controls.Add(this.LandAreaMinTextBox);
             this.Controls.Add(this.AreaLabel);
             this.Controls.Add(this.PriceLabel);
             this.Controls.Add(this.AreaMaxTextBox);
@@ -371,13 +393,15 @@
         private System.Windows.Forms.TextBox AreaMaxTextBox;
         private System.Windows.Forms.Label PriceLabel;
         private System.Windows.Forms.Label AreaLabel;
-        private System.Windows.Forms.ComboBox DistrictComboBox;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label LandAreaLabel;
-        private System.Windows.Forms.TextBox LandAreaTextBox2;
-        private System.Windows.Forms.TextBox LandAreaTextBox1;
+        private System.Windows.Forms.TextBox LandAreaMaxTextBox;
+        private System.Windows.Forms.TextBox LandAreaMinTextBox;
         private System.Windows.Forms.Button AdvancedSearchButton;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.CheckedListBox DistrictCheckedListBox;
+        private System.Windows.Forms.CheckedListBox RoomsCheckedListBox;
+        private System.Windows.Forms.Label DistrictLabel;
+        private System.Windows.Forms.Label RoomsLabel;
     }
 }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -9,23 +11,66 @@ namespace EstateAgency
 {
     class RegistrationMethods
     {
-        public static void AddManager(string phone, string email, string password, string surname, string name, string patronymic)
+
+        public static void AddManager(string phone, string email, string password, string surname, string name, string patronymic, SqlConnection sqlConnection)
         {
-            using (EstateAgency db = new EstateAgency())
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "INSERT INTO Managers (phone, email, name, surname, patronymic, password) VALUES ( @phone, @email, @name, @surname, @patronymic, @password)";
+            command.Parameters.Add("phone", SqlDbType.NVarChar).Value = phone;
+            command.Parameters.Add("email", SqlDbType.NVarChar).Value = email;
+            command.Parameters.Add("name", SqlDbType.NVarChar).Value = name;
+            command.Parameters.Add("surname", SqlDbType.NVarChar).Value = surname;
+            command.Parameters.Add("patronymic", SqlDbType.NVarChar).Value = patronymic;
+            command.Parameters.Add("password", SqlDbType.NVarChar).Value = password;
+            sqlConnection.Open();
+            try
             {
-                Managers m = new Managers { Phone = phone, Email = email, Surname = surname, Name = name, Patronymic = patronymic, Password = password };
-                db.Managers.Add(m);
-                db.SaveChanges();
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                sqlConnection.Close();
             }
         }
 
-        public  static void AddClient(string phone, string email, string password, string surname, string name, string patronymic)
+        public  static void AddClient(string phone, string email, string password, string surname, string name, string patronymic, SqlConnection sqlConnection)
         {
-            using (EstateAgency db = new EstateAgency())
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "INSERT INTO Clients (phone, email, name, surname, patronymic, password) VALUES ( @phone, @email, @name, @surname, @patronymic, @password)";
+            command.Parameters.Add("phone", SqlDbType.NVarChar).Value = phone;
+            command.Parameters.Add("email", SqlDbType.NVarChar).Value = email;
+            command.Parameters.Add("name", SqlDbType.NVarChar).Value = name;
+            command.Parameters.Add("surname", SqlDbType.NVarChar).Value = surname;
+            command.Parameters.Add("patronymic", SqlDbType.NVarChar).Value = patronymic;
+            command.Parameters.Add("password", SqlDbType.NVarChar).Value = password;
+            sqlConnection.Open();
+            try
             {
-                Clients c = new Clients { Phone = phone, Email = email, Surname = surname, Name = name, Patronymic = patronymic, Password = password };
-                db.Clients.Add(c);
-                db.SaveChanges();
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        public static void AddOwner(string phone, string email, string surname, string name, string patronymic, SqlConnection sqlConnection)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = "INSERT INTO Owners (phone, email, name, surname, patronymic) VALUES ( @phone, @email, @name, @surname, @patronymic)";
+            command.Parameters.Add("phone", SqlDbType.NVarChar).Value = phone;
+            command.Parameters.Add("email", SqlDbType.NVarChar).Value = email;
+            command.Parameters.Add("name", SqlDbType.NVarChar).Value = name;
+            command.Parameters.Add("surname", SqlDbType.NVarChar).Value = surname;
+            command.Parameters.Add("patronymic", SqlDbType.NVarChar).Value = patronymic;
+            sqlConnection.Open();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                sqlConnection.Close();
             }
         }
 
@@ -38,25 +83,39 @@ namespace EstateAgency
             else return false;
         }
 
-        public static bool RegistratedClient(string phone, string password)
+        public static bool RegistratedClient(string phone, string password, SqlConnection sqlConnection)
         {
-            using (EstateAgency db = new EstateAgency())
-            {
-                Clients c = db.Clients.FirstOrDefault(p => p.Phone == phone && p.Password==password);
-                if (c != null)
-                    return true;
+                string strCommand = string.Format("Select * FROM Clients WHERE Phone = '{0}' and Password='{1}'", phone, password);
+                sqlConnection.Open();
+                SqlCommand command = new SqlCommand(strCommand, sqlConnection);
+                SqlDataReader reader = command.ExecuteReader();
+                try
+                {
+                if (reader.HasRows) return true;
                 else return false;
-            }
+                }
+                finally
+                {
+                    reader.Close();
+                    sqlConnection.Close();
+                }
         }
 
-        public static bool RegistratedManager(string phone, string password)
+        public static bool RegistratedManager(string phone, string password, SqlConnection sqlConnection)
         {
-            using (EstateAgency db = new EstateAgency())
+            string strCommand = string.Format("Select * FROM Managers WHERE Phone = '{0}' and Password='{1}'", phone, password);
+            sqlConnection.Open();
+            SqlCommand command = new SqlCommand(strCommand, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            try
             {
-                Managers  c = db.Managers.FirstOrDefault(p => p.Phone == phone && p.Password == password);
-                if (c != null)
-                    return true;
+                if (reader.HasRows) return true;
                 else return false;
+            }
+            finally
+            {
+                reader.Close();
+                sqlConnection.Close();
             }
         }
     }

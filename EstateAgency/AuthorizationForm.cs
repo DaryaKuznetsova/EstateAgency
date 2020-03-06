@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,16 @@ namespace EstateAgency
 {
     public partial class AuthorizationForm : Form
     {
-        public AuthorizationForm()
+        SqlConnection sqlConnection;
+        public AuthorizationForm(SqlConnection sqlConnection)
         {
             InitializeComponent();
+            this.sqlConnection = sqlConnection;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            RegistrationForm registrationForm = new RegistrationForm();
+            RegistrationForm registrationForm = new RegistrationForm(sqlConnection);
             registrationForm.Show();
         }
 
@@ -29,10 +32,10 @@ namespace EstateAgency
             string password = PasswordTextBox.Text;
             if (ManagerCheckBox.Checked )
             {
-                if (RegistrationMethods.RegistratedManager(phone, password)) MessageBox.Show("Успешно");
+                if (RegistrationMethods.RegistratedManager(phone, password, sqlConnection)) MessageBox.Show("Успешно");
                 else MessageBox.Show("!");
             }
-            else if (RegistrationMethods.RegistratedClient (phone, password)) MessageBox.Show("Успешно");
+            else if (RegistrationMethods.RegistratedClient (phone, password, sqlConnection )) MessageBox.Show("Успешно");
             else MessageBox.Show("!");
         }
     }

@@ -40,25 +40,31 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.RealtyTypeTextBox = new System.Windows.Forms.TextBox();
-            this.TradeTypeTextBox = new System.Windows.Forms.TextBox();
-            this.DistrictTextBox = new System.Windows.Forms.TextBox();
-            this.OwnerInfoTextBox = new System.Windows.Forms.TextBox();
             this.RoomsTextBox = new System.Windows.Forms.TextBox();
             this.PhotoPictureBox = new System.Windows.Forms.PictureBox();
             this.BuyButton = new System.Windows.Forms.Button();
             this.DeleteButton = new System.Windows.Forms.Button();
             this.ChangeButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.StatusTextBox = new System.Windows.Forms.TextBox();
             this.AddOwnerButton = new System.Windows.Forms.Button();
             this.AddButton = new System.Windows.Forms.Button();
+            this.DistrictComboBox = new System.Windows.Forms.ComboBox();
+            this.TradeTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.RealtyTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.StatusComboBox = new System.Windows.Forms.ComboBox();
+            this.OwnerComboBox = new System.Windows.Forms.ComboBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PrevImageButton = new System.Windows.Forms.Button();
+            this.NextImageButton = new System.Windows.Forms.Button();
+            this.AddImageButton = new System.Windows.Forms.Button();
+            this.DeleteImageButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PhotoPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(12, 558);
+            this.CancelButton.Location = new System.Drawing.Point(12, 641);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(127, 23);
             this.CancelButton.TabIndex = 46;
@@ -67,15 +73,16 @@
             // 
             // LandAreaTextBox
             // 
-            this.LandAreaTextBox.Location = new System.Drawing.Point(148, 336);
+            this.LandAreaTextBox.Location = new System.Drawing.Point(148, 419);
             this.LandAreaTextBox.Name = "LandAreaTextBox";
             this.LandAreaTextBox.Size = new System.Drawing.Size(116, 22);
             this.LandAreaTextBox.TabIndex = 44;
+            this.LandAreaTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.LandAreaTextBox_KeyPress);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 336);
+            this.label1.Location = new System.Drawing.Point(15, 419);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(124, 17);
             this.label1.TabIndex = 43;
@@ -83,7 +90,7 @@
             // 
             // LandTextBox
             // 
-            this.LandTextBox.Location = new System.Drawing.Point(15, 262);
+            this.LandTextBox.Location = new System.Drawing.Point(15, 345);
             this.LandTextBox.Multiline = true;
             this.LandTextBox.Name = "LandTextBox";
             this.LandTextBox.Size = new System.Drawing.Size(469, 68);
@@ -91,15 +98,16 @@
             // 
             // areaTextBox
             // 
-            this.areaTextBox.Location = new System.Drawing.Point(97, 234);
+            this.areaTextBox.Location = new System.Drawing.Point(97, 317);
             this.areaTextBox.Name = "areaTextBox";
             this.areaTextBox.Size = new System.Drawing.Size(100, 22);
             this.areaTextBox.TabIndex = 41;
+            this.areaTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.areaTextBox_KeyPress);
             // 
             // AreaLabel
             // 
             this.AreaLabel.AutoSize = true;
-            this.AreaLabel.Location = new System.Drawing.Point(14, 234);
+            this.AreaLabel.Location = new System.Drawing.Point(14, 317);
             this.AreaLabel.Name = "AreaLabel";
             this.AreaLabel.Size = new System.Drawing.Size(68, 17);
             this.AreaLabel.TabIndex = 40;
@@ -107,21 +115,22 @@
             // 
             // AddressTextBox
             // 
-            this.AddressTextBox.Location = new System.Drawing.Point(97, 106);
+            this.AddressTextBox.Location = new System.Drawing.Point(97, 202);
             this.AddressTextBox.Name = "AddressTextBox";
             this.AddressTextBox.Size = new System.Drawing.Size(100, 22);
             this.AddressTextBox.TabIndex = 39;
             // 
             // PriceTextBox
             // 
-            this.PriceTextBox.Location = new System.Drawing.Point(97, 78);
+            this.PriceTextBox.Location = new System.Drawing.Point(97, 174);
             this.PriceTextBox.Name = "PriceTextBox";
             this.PriceTextBox.Size = new System.Drawing.Size(100, 22);
             this.PriceTextBox.TabIndex = 38;
+            this.PriceTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PriceTextBox_KeyPress);
             // 
             // DescriptionTextBox
             // 
-            this.DescriptionTextBox.Location = new System.Drawing.Point(10, 147);
+            this.DescriptionTextBox.Location = new System.Drawing.Point(10, 230);
             this.DescriptionTextBox.Multiline = true;
             this.DescriptionTextBox.Name = "DescriptionTextBox";
             this.DescriptionTextBox.Size = new System.Drawing.Size(475, 67);
@@ -130,7 +139,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 55);
+            this.label9.Location = new System.Drawing.Point(12, 151);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(73, 17);
             this.label9.TabIndex = 31;
@@ -139,7 +148,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 83);
+            this.label5.Location = new System.Drawing.Point(12, 179);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(43, 17);
             this.label5.TabIndex = 30;
@@ -148,53 +157,23 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 111);
+            this.label2.Location = new System.Drawing.Point(12, 207);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(48, 17);
             this.label2.TabIndex = 29;
             this.label2.Text = "Адрес";
             // 
-            // RealtyTypeTextBox
-            // 
-            this.RealtyTypeTextBox.Location = new System.Drawing.Point(11, 12);
-            this.RealtyTypeTextBox.Name = "RealtyTypeTextBox";
-            this.RealtyTypeTextBox.Size = new System.Drawing.Size(100, 22);
-            this.RealtyTypeTextBox.TabIndex = 48;
-            this.RealtyTypeTextBox.Text = "Квартира";
-            // 
-            // TradeTypeTextBox
-            // 
-            this.TradeTypeTextBox.Location = new System.Drawing.Point(117, 12);
-            this.TradeTypeTextBox.Name = "TradeTypeTextBox";
-            this.TradeTypeTextBox.Size = new System.Drawing.Size(100, 22);
-            this.TradeTypeTextBox.TabIndex = 49;
-            this.TradeTypeTextBox.Text = "Купить";
-            // 
-            // DistrictTextBox
-            // 
-            this.DistrictTextBox.Location = new System.Drawing.Point(224, 13);
-            this.DistrictTextBox.Name = "DistrictTextBox";
-            this.DistrictTextBox.Size = new System.Drawing.Size(125, 22);
-            this.DistrictTextBox.TabIndex = 50;
-            this.DistrictTextBox.Text = "Свердловский";
-            // 
-            // OwnerInfoTextBox
-            // 
-            this.OwnerInfoTextBox.Location = new System.Drawing.Point(97, 50);
-            this.OwnerInfoTextBox.Name = "OwnerInfoTextBox";
-            this.OwnerInfoTextBox.Size = new System.Drawing.Size(100, 22);
-            this.OwnerInfoTextBox.TabIndex = 51;
-            // 
             // RoomsTextBox
             // 
-            this.RoomsTextBox.Location = new System.Drawing.Point(384, 234);
+            this.RoomsTextBox.Location = new System.Drawing.Point(384, 317);
             this.RoomsTextBox.Name = "RoomsTextBox";
             this.RoomsTextBox.Size = new System.Drawing.Size(100, 22);
             this.RoomsTextBox.TabIndex = 52;
+            this.RoomsTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RoomsTextBox_KeyPress);
             // 
             // PhotoPictureBox
             // 
-            this.PhotoPictureBox.Location = new System.Drawing.Point(17, 379);
+            this.PhotoPictureBox.Location = new System.Drawing.Point(17, 462);
             this.PhotoPictureBox.Name = "PhotoPictureBox";
             this.PhotoPictureBox.Size = new System.Drawing.Size(468, 117);
             this.PhotoPictureBox.TabIndex = 53;
@@ -202,7 +181,7 @@
             // 
             // BuyButton
             // 
-            this.BuyButton.Location = new System.Drawing.Point(148, 558);
+            this.BuyButton.Location = new System.Drawing.Point(148, 641);
             this.BuyButton.Name = "BuyButton";
             this.BuyButton.Size = new System.Drawing.Size(75, 23);
             this.BuyButton.TabIndex = 54;
@@ -211,7 +190,7 @@
             // 
             // DeleteButton
             // 
-            this.DeleteButton.Location = new System.Drawing.Point(238, 558);
+            this.DeleteButton.Location = new System.Drawing.Point(238, 641);
             this.DeleteButton.Name = "DeleteButton";
             this.DeleteButton.Size = new System.Drawing.Size(75, 23);
             this.DeleteButton.TabIndex = 55;
@@ -221,7 +200,7 @@
             // 
             // ChangeButton
             // 
-            this.ChangeButton.Location = new System.Drawing.Point(212, 519);
+            this.ChangeButton.Location = new System.Drawing.Point(212, 602);
             this.ChangeButton.Name = "ChangeButton";
             this.ChangeButton.Size = new System.Drawing.Size(137, 23);
             this.ChangeButton.TabIndex = 56;
@@ -232,31 +211,25 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(235, 237);
+            this.label3.Location = new System.Drawing.Point(235, 320);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(137, 17);
             this.label3.TabIndex = 57;
             this.label3.Text = "Количество комнат";
             // 
-            // StatusTextBox
-            // 
-            this.StatusTextBox.Location = new System.Drawing.Point(356, 12);
-            this.StatusTextBox.Name = "StatusTextBox";
-            this.StatusTextBox.Size = new System.Drawing.Size(100, 22);
-            this.StatusTextBox.TabIndex = 58;
-            // 
             // AddOwnerButton
             // 
-            this.AddOwnerButton.Location = new System.Drawing.Point(204, 48);
+            this.AddOwnerButton.Location = new System.Drawing.Point(224, 144);
             this.AddOwnerButton.Name = "AddOwnerButton";
             this.AddOwnerButton.Size = new System.Drawing.Size(75, 23);
             this.AddOwnerButton.TabIndex = 59;
             this.AddOwnerButton.Text = "Добавть";
             this.AddOwnerButton.UseVisualStyleBackColor = true;
+            this.AddOwnerButton.Click += new System.EventHandler(this.AddOwnerButton_Click);
             // 
             // AddButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(356, 558);
+            this.AddButton.Location = new System.Drawing.Point(356, 641);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(100, 23);
             this.AddButton.TabIndex = 60;
@@ -264,24 +237,131 @@
             this.AddButton.UseVisualStyleBackColor = true;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
+            // DistrictComboBox
+            // 
+            this.DistrictComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DistrictComboBox.FormattingEnabled = true;
+            this.DistrictComboBox.Location = new System.Drawing.Point(15, 71);
+            this.DistrictComboBox.Name = "DistrictComboBox";
+            this.DistrictComboBox.Size = new System.Drawing.Size(173, 24);
+            this.DistrictComboBox.TabIndex = 63;
+            // 
+            // TradeTypeComboBox
+            // 
+            this.TradeTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.TradeTypeComboBox.FormattingEnabled = true;
+            this.TradeTypeComboBox.Items.AddRange(new object[] {
+            "Купить",
+            "Снять",
+            "Посуточно"});
+            this.TradeTypeComboBox.Location = new System.Drawing.Point(17, 12);
+            this.TradeTypeComboBox.Name = "TradeTypeComboBox";
+            this.TradeTypeComboBox.Size = new System.Drawing.Size(149, 24);
+            this.TradeTypeComboBox.TabIndex = 62;
+            // 
+            // RealtyTypeComboBox
+            // 
+            this.RealtyTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RealtyTypeComboBox.FormattingEnabled = true;
+            this.RealtyTypeComboBox.Items.AddRange(new object[] {
+            "Квартира",
+            "Комната",
+            "Дом"});
+            this.RealtyTypeComboBox.Location = new System.Drawing.Point(14, 42);
+            this.RealtyTypeComboBox.Name = "RealtyTypeComboBox";
+            this.RealtyTypeComboBox.Size = new System.Drawing.Size(174, 24);
+            this.RealtyTypeComboBox.TabIndex = 61;
+            this.RealtyTypeComboBox.ValueMemberChanged += new System.EventHandler(this.RealtyTypeComboBox_ValueMemberChanged);
+            this.RealtyTypeComboBox.TextChanged += new System.EventHandler(this.RealtyTypeComboBox_TextChanged);
+            // 
+            // StatusComboBox
+            // 
+            this.StatusComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.StatusComboBox.FormattingEnabled = true;
+            this.StatusComboBox.Location = new System.Drawing.Point(212, 12);
+            this.StatusComboBox.Name = "StatusComboBox";
+            this.StatusComboBox.Size = new System.Drawing.Size(121, 24);
+            this.StatusComboBox.TabIndex = 64;
+            // 
+            // OwnerComboBox
+            // 
+            this.OwnerComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.OwnerComboBox.FormattingEnabled = true;
+            this.OwnerComboBox.Location = new System.Drawing.Point(97, 144);
+            this.OwnerComboBox.Name = "OwnerComboBox";
+            this.OwnerComboBox.Size = new System.Drawing.Size(121, 24);
+            this.OwnerComboBox.TabIndex = 65;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(569, 87);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(387, 402);
+            this.pictureBox1.TabIndex = 66;
+            this.pictureBox1.TabStop = false;
+            // 
+            // PrevImageButton
+            // 
+            this.PrevImageButton.Location = new System.Drawing.Point(527, 273);
+            this.PrevImageButton.Name = "PrevImageButton";
+            this.PrevImageButton.Size = new System.Drawing.Size(36, 23);
+            this.PrevImageButton.TabIndex = 67;
+            this.PrevImageButton.Text = "<";
+            this.PrevImageButton.UseVisualStyleBackColor = true;
+            this.PrevImageButton.Click += new System.EventHandler(this.PrevImageButton_Click);
+            // 
+            // NextImageButton
+            // 
+            this.NextImageButton.Location = new System.Drawing.Point(963, 273);
+            this.NextImageButton.Name = "NextImageButton";
+            this.NextImageButton.Size = new System.Drawing.Size(34, 23);
+            this.NextImageButton.TabIndex = 68;
+            this.NextImageButton.Text = ">";
+            this.NextImageButton.UseVisualStyleBackColor = true;
+            this.NextImageButton.Click += new System.EventHandler(this.NextImageButton_Click);
+            // 
+            // AddImageButton
+            // 
+            this.AddImageButton.Location = new System.Drawing.Point(569, 496);
+            this.AddImageButton.Name = "AddImageButton";
+            this.AddImageButton.Size = new System.Drawing.Size(75, 23);
+            this.AddImageButton.TabIndex = 69;
+            this.AddImageButton.Text = "Добавть";
+            this.AddImageButton.UseVisualStyleBackColor = true;
+            this.AddImageButton.Click += new System.EventHandler(this.AddImageButton_Click);
+            // 
+            // DeleteImageButton
+            // 
+            this.DeleteImageButton.Location = new System.Drawing.Point(820, 495);
+            this.DeleteImageButton.Name = "DeleteImageButton";
+            this.DeleteImageButton.Size = new System.Drawing.Size(75, 23);
+            this.DeleteImageButton.TabIndex = 70;
+            this.DeleteImageButton.Text = "Удалить изображение";
+            this.DeleteImageButton.UseVisualStyleBackColor = true;
+            // 
             // ItemInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 617);
+            this.ClientSize = new System.Drawing.Size(1024, 682);
+            this.Controls.Add(this.DeleteImageButton);
+            this.Controls.Add(this.AddImageButton);
+            this.Controls.Add(this.NextImageButton);
+            this.Controls.Add(this.PrevImageButton);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.OwnerComboBox);
+            this.Controls.Add(this.StatusComboBox);
+            this.Controls.Add(this.DistrictComboBox);
+            this.Controls.Add(this.TradeTypeComboBox);
+            this.Controls.Add(this.RealtyTypeComboBox);
             this.Controls.Add(this.AddButton);
             this.Controls.Add(this.AddOwnerButton);
-            this.Controls.Add(this.StatusTextBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ChangeButton);
             this.Controls.Add(this.DeleteButton);
             this.Controls.Add(this.BuyButton);
             this.Controls.Add(this.PhotoPictureBox);
             this.Controls.Add(this.RoomsTextBox);
-            this.Controls.Add(this.OwnerInfoTextBox);
-            this.Controls.Add(this.DistrictTextBox);
-            this.Controls.Add(this.TradeTypeTextBox);
-            this.Controls.Add(this.RealtyTypeTextBox);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.LandAreaTextBox);
             this.Controls.Add(this.label1);
@@ -296,7 +376,9 @@
             this.Controls.Add(this.label2);
             this.Name = "ItemInfoForm";
             this.Text = "ItemInfoForm";
+            this.Load += new System.EventHandler(this.ItemInfoForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PhotoPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -318,15 +400,20 @@
         public System.Windows.Forms.TextBox AddressTextBox;
         public System.Windows.Forms.TextBox PriceTextBox;
         public System.Windows.Forms.TextBox DescriptionTextBox;
-        public System.Windows.Forms.TextBox RealtyTypeTextBox;
-        public System.Windows.Forms.TextBox TradeTypeTextBox;
-        public System.Windows.Forms.TextBox DistrictTextBox;
-        public System.Windows.Forms.TextBox OwnerInfoTextBox;
         public System.Windows.Forms.TextBox RoomsTextBox;
         public System.Windows.Forms.PictureBox PhotoPictureBox;
         private System.Windows.Forms.Label label3;
-        public System.Windows.Forms.TextBox StatusTextBox;
         public System.Windows.Forms.Button AddOwnerButton;
         private System.Windows.Forms.Button AddButton;
+        private System.Windows.Forms.ComboBox DistrictComboBox;
+        private System.Windows.Forms.ComboBox TradeTypeComboBox;
+        private System.Windows.Forms.ComboBox RealtyTypeComboBox;
+        public System.Windows.Forms.ComboBox StatusComboBox;
+        private System.Windows.Forms.ComboBox OwnerComboBox;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button PrevImageButton;
+        private System.Windows.Forms.Button NextImageButton;
+        private System.Windows.Forms.Button AddImageButton;
+        private System.Windows.Forms.Button DeleteImageButton;
     }
 }

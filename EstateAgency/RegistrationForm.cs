@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,11 @@ namespace EstateAgency
 {
     public partial class RegistrationForm : Form
     {
-        public RegistrationForm()
+        SqlConnection sqlConnection;
+        public RegistrationForm(SqlConnection sqlConnection)
         {
             InitializeComponent();
+            this.sqlConnection = sqlConnection;
         }
 
         private void SurnameTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -63,8 +66,8 @@ namespace EstateAgency
             if (password1.Equals(password2) && RegistrationMethods.CorrectEmail(email))
             {
                 if (ManagerCheckBox.Checked)
-                    RegistrationMethods.AddManager(phone, email, password1, surname, name, patronymic);
-                else RegistrationMethods.AddClient(phone, email, password1, surname, name, patronymic);
+                    RegistrationMethods.AddManager(phone, email, password1, surname, name, patronymic, sqlConnection );
+                else RegistrationMethods.AddClient(phone, email, password1, surname, name, patronymic, sqlConnection );
                 this.Close();
             }               
             else MessageBox.Show("Проверьте пароль и email");
