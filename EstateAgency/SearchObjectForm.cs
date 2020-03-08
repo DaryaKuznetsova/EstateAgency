@@ -81,7 +81,7 @@ namespace EstateAgency
 
         public void DataLoad()
         {
-            dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
+           // dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
         }
 
         private void CreateDataGridView()
@@ -132,6 +132,7 @@ namespace EstateAgency
                 ItemInfoForm itemInfoForm = new ItemInfoForm(SqlConnection, id);
                 itemInfoForm.Notation = notation;
                 itemInfoForm.ClientId = ClientId;
+                itemInfoForm.ManagerId = ManagerId;
                 try
                 {
                     itemInfoForm.ShowDialog();
@@ -144,6 +145,11 @@ namespace EstateAgency
         }
 
         private void InfoButton_Click(object sender, EventArgs e)
+        {
+            CreateInfoForm();
+        }
+
+        private void RequestButton_Click(object sender, EventArgs e)
         {
             CreateInfoForm();
         }

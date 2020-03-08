@@ -31,7 +31,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.personSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.accountSMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.salesSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.catalogSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.addSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.changeSMI = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,6 +58,7 @@
             this.DistrictLabel = new System.Windows.Forms.Label();
             this.RoomsLabel = new System.Windows.Forms.Label();
             this.RequestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.paymentButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -80,8 +80,7 @@
             // personSMI
             // 
             this.personSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.accountSMI,
-            this.salesSMI});
+            this.accountSMI});
             this.personSMI.Name = "personSMI";
             this.personSMI.Size = new System.Drawing.Size(137, 28);
             this.personSMI.Text = "Личный кабинет";
@@ -90,14 +89,8 @@
             // 
             this.accountSMI.Name = "accountSMI";
             this.accountSMI.Size = new System.Drawing.Size(216, 26);
-            this.accountSMI.Text = "Мой профиль";
+            this.accountSMI.Text = "Мои заявки";
             this.accountSMI.Click += new System.EventHandler(this.accountSMI_Click);
-            // 
-            // salesSMI
-            // 
-            this.salesSMI.Name = "salesSMI";
-            this.salesSMI.Size = new System.Drawing.Size(216, 26);
-            this.salesSMI.Text = "Мои продажи";
             // 
             // catalogSMI
             // 
@@ -344,11 +337,22 @@
             this.RequestsToolStripMenuItem.Text = "Заявки";
             this.RequestsToolStripMenuItem.Click += new System.EventHandler(this.RequestsToolStripMenuItem_Click);
             // 
+            // paymentButton
+            // 
+            this.paymentButton.Location = new System.Drawing.Point(12, 603);
+            this.paymentButton.Name = "paymentButton";
+            this.paymentButton.Size = new System.Drawing.Size(186, 23);
+            this.paymentButton.TabIndex = 25;
+            this.paymentButton.Text = "Заключить договор";
+            this.paymentButton.UseVisualStyleBackColor = true;
+            this.paymentButton.Click += new System.EventHandler(this.paymentButton_Click);
+            // 
             // ManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(780, 609);
+            this.ClientSize = new System.Drawing.Size(780, 659);
+            this.Controls.Add(this.paymentButton);
             this.Controls.Add(this.RoomsLabel);
             this.Controls.Add(this.DistrictLabel);
             this.Controls.Add(this.RoomsCheckedListBox);
@@ -390,7 +394,6 @@
         private System.Windows.Forms.ToolStripMenuItem changeSMI;
         private System.Windows.Forms.ToolStripMenuItem deleteSMI;
         private System.Windows.Forms.ToolStripMenuItem accountSMI;
-        private System.Windows.Forms.ToolStripMenuItem salesSMI;
         private System.Windows.Forms.ToolStripMenuItem reportSMI;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
         private System.Windows.Forms.Button SearchButton;
@@ -413,6 +416,7 @@
         private System.Windows.Forms.Label DistrictLabel;
         private System.Windows.Forms.Label RoomsLabel;
         private System.Windows.Forms.ToolStripMenuItem RequestsToolStripMenuItem;
+        private System.Windows.Forms.Button paymentButton;
     }
 }
 

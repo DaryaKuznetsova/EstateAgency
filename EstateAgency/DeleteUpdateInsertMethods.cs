@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace EstateAgency
 {
@@ -120,6 +121,52 @@ namespace EstateAgency
             {
                 sqlConnection.Close();
             }
+        }
+
+        public static void CreateTrade(SqlConnection sqlConnection, int item, int manager)
+        {
+            int client=FindClient(sqlConnection, item);
+            DateTime date = new DateTime();
+            date = DateTime.Today;
+            SqlCommand command = sqlConnection.CreateCommand();
+            string strcom = string.Format("insert into trades (itemid, managerid, clientid, date)" +
+                " values (@item, @manager, @client, @date)");
+            command.CommandText = strcom;
+            command.Parameters.Add("item", SqlDbType.NVarChar).Value = item ;
+            command.Parameters.Add("manager", SqlDbType.NVarChar).Value = manager ;
+            command.Parameters.Add("client", SqlDbType.NVarChar).Value = client ;
+            command.Parameters.Add("date", SqlDbType.NVarChar).Value = date;
+            sqlConnection.Open();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        private static int FindClient(SqlConnection sqlConnection, int id)
+        {
+            int client = -1;
+            string strCommand = string.Format("Select clientid FROM ClientObjectLinks WHERE objectid = '{0}'", id);
+            sqlConnection.Open();
+            SqlCommand command = new SqlCommand(strCommand, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    client = reader.GetInt32(0);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                sqlConnection.Close();
+            }
+            return client;
         }
     }
 }

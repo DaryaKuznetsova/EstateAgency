@@ -48,6 +48,7 @@
             this.DeleteButton = new System.Windows.Forms.Button();
             this.ChangeButton = new System.Windows.Forms.Button();
             this.InfoButton = new System.Windows.Forms.Button();
+            this.RequestButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -245,11 +246,22 @@
             this.InfoButton.UseVisualStyleBackColor = true;
             this.InfoButton.Click += new System.EventHandler(this.InfoButton_Click);
             // 
+            // RequestButton
+            // 
+            this.RequestButton.Location = new System.Drawing.Point(183, 579);
+            this.RequestButton.Name = "RequestButton";
+            this.RequestButton.Size = new System.Drawing.Size(75, 23);
+            this.RequestButton.TabIndex = 41;
+            this.RequestButton.Text = "Рассмотреть заявку";
+            this.RequestButton.UseVisualStyleBackColor = true;
+            this.RequestButton.Click += new System.EventHandler(this.RequestButton_Click);
+            // 
             // SearchObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 611);
+            this.Controls.Add(this.RequestButton);
             this.Controls.Add(this.InfoButton);
             this.Controls.Add(this.ChangeButton);
             this.Controls.Add(this.DeleteButton);
@@ -299,5 +311,6 @@
         private System.Windows.Forms.Button ChangeButton;
         public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button InfoButton;
+        private System.Windows.Forms.Button RequestButton;
     }
 }

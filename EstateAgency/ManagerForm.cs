@@ -87,7 +87,6 @@ namespace EstateAgency
         {
             AuthorizationForm authorizationForm = new AuthorizationForm(this, SqlConnection);
             authorizationForm.ShowDialog();
-            MessageBox.Show(ClientId.ToString());
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
@@ -205,12 +204,39 @@ namespace EstateAgency
         {
             SearchObjectForm sof = new SearchObjectForm(SqlConnection);
             sof.Notation = Notation.ManagerRequests;
+            sof.ManagerId = ManagerId;
             sof.Show();
         }
 
         private void accountSMI_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = ShowTable.DisplayMyRequests(SqlConnection, ClientId);
+        }
+
+        private void paymentButton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int index = dataGridView1.SelectedRows[0].Index;
+                int id = 0;
+                bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                PaymentForm pf = new PaymentForm(SqlConnection);
+                string[] res = Query.Contacts(SqlConnection, ClientId, id);
+                pf.PhoneTextBox.Text = res[0];
+                pf.EmailTextBox.Text = res[1];
+                pf.Id = id;
+                try
+                {
+                    pf.ShowDialog();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("запускай через отладчик");
+                }
+            }
         }
     }
 }

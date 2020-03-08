@@ -210,5 +210,80 @@ namespace EstateAgency
 
             return images;
         }
+
+        public static string[] Contacts(SqlConnection sqlConnection, int client, int item)
+        {
+            string[] res = new string[2];
+            Managers(res, sqlConnection, item, client);
+            return res;
+        }
+
+        private static void Managers(string[] res, SqlConnection sqlConnection, int item, int client)
+        {
+            string strCommand = string.Format("Select phone, email FROM Managers inner join Trades on Managers.Id=Trades.ManagerId where trades.ItemId = '{0}' and trades.Clientid = '{1}'", item, client);
+            sqlConnection.Open();
+            SqlCommand command = new SqlCommand(strCommand, sqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    res[0] = reader.GetValue(0).ToString();
+                    res[1] = reader.GetValue(1).ToString();
+                }
+            }
+            finally
+            {
+                reader.Close();
+                sqlConnection.Close();
+            }
+        }
+
+        public static void FinalTrade(SqlConnection sqlConnection, int item, int pType, int pInstrument)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            string strcom;
+                strcom = string.Format("UPDATE EstateObjects SET statusid=4 WHERE Id='{0}'", item);
+            command.CommandText = strcom;
+            
+
+            sqlConnection.Open();
+            try
+            {
+                command.ExecuteNonQuery();
+                MessageBox.Show("4");
+            }
+            catch(Exception w)
+            {
+                MessageBox.Show(w.ToString());
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+            UpdateTrade(sqlConnection, item, pType, pInstrument);
+        }
+
+        private static void UpdateTrade(SqlConnection sqlConnection, int item, int pType, int pInstrument)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            string strcom;
+            strcom = string.Format("UPDATE Trades SET paymenttypeid='{0}', paymentinstrumentid='{1}' WHERE ItemId='{2}'", pType, pInstrument, item);
+            command.CommandText = strcom;
+
+            sqlConnection.Open();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (Exception w)
+            {
+                MessageBox.Show(w.ToString());
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }

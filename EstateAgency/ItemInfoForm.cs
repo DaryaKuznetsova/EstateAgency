@@ -459,16 +459,18 @@ namespace EstateAgency
             {
                 ConvertData();
                 DeleteUpdateInsertMethods.Update(SqlConnection, Id, 3, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
+                DeleteUpdateInsertMethods.CreateTrade(SqlConnection, Id, ManagerId);
                 MessageBox.Show("Заявка одобрена");
             }
-            catch (Exception)
+            catch (Exception t)
             {
-
+                MessageBox.Show(t.ToString());
             }
 
         }
 
         public int ClientId { get; set; }
+        public int ManagerId { get; set; }
 
         private void BuyButton_Click(object sender, EventArgs e)
         {

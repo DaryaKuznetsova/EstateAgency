@@ -76,5 +76,10 @@ namespace EstateAgency
             }
             return dt;
         }
+
+        public static void DisplayPotentialTrades(SqlConnection sqlConnection)
+        {
+
+        }
     }
 }
