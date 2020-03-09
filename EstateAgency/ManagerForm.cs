@@ -27,6 +27,8 @@ namespace EstateAgency
             SqlConnection = new SqlConnection(connectionString);
             dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
             ComboBoxes();
+            PriceMinTextBox.Min = true;
+            PriceMaxTextBox.Min = false;
         }
 
         public void DataLoad()
@@ -68,6 +70,7 @@ namespace EstateAgency
                 DistrictCheckedListBox.ValueMember = "Id";
                 DistrictCheckedListBox.DisplayMember = "Name";
 
+
             }
 
             SqlConnection.Close();
@@ -91,23 +94,56 @@ namespace EstateAgency
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            SearchObjectForm sof = new SearchObjectForm(SqlConnection);
-            sof.Notation = Notation.Client;
-            sof.ClientId = ClientId;
-            sof.Show();
-            //int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
-            //int tradeType= Convert.ToInt32(TradeTypeComboBox.SelectedValue);
+            //SearchObjectForm sof = new SearchObjectForm(SqlConnection);
+            //sof.Notation = Notation.Client;
+            //sof.ClientId = ClientId;
+            //sof.Show();
+
+
+            int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
+            int tradeType = Convert.ToInt32(TradeTypeComboBox.SelectedValue);
+            float minPrice = PriceMinTextBox.Value;
+            float maxPrice = PriceMaxTextBox.Value;
             //float minPrice = (float)Convert.ToDouble(PriceMinTextBox.Text);
             //float maxPrice = (float)Convert.ToDouble(PriceMaxTextBox.Text);
             //float minArea = (float)Convert.ToDouble(AreaMinTextBox.Text);
             //float maxArea = (float)Convert.ToDouble(AreaMaxTextBox.Text);
-            //var elements = DistrictCheckedListBox.CheckedIndices;
-            //List<int> districts = new List<int>();
+            var elements = DistrictCheckedListBox.CheckedItems;
+            List<int> districts = new List<int>();
             //foreach (DataRowView indexChecked in DistrictCheckedListBox.CheckedItems)
             //{
             //    //districts.Add(Convert.ToInt32(indexChecked));
-            //   // MessageBox.Show(indexChecked.);
+            //    MessageBox.Show(indexChecked.);
             //}
+            // Determine if there are any items checked.  
+            if (DistrictCheckedListBox.CheckedItems.Count != 0)
+            {
+                // If so, loop through all checked items and print results.  
+                string s = "";
+                for (int i = 0; i < DistrictCheckedListBox.CheckedItems.Count; i++)
+                {
+                    DataRowView drv = (DataRowView)DistrictCheckedListBox.CheckedItems[i];
+                    int valueOfItem = Convert.ToInt32(drv["Id"]);
+                    s = s + "Checked Item " + (i + 1).ToString() + " = " + valueOfItem  + "\n";
+                }
+                MessageBox.Show(s);
+            }
+
+
+            //int i;
+            //string s;
+            //s = "Checked items:\n";
+            //for (i = 0; i <= (DistrictCheckedListBox.Items.Count - 1); i++)
+            //{
+            //    if (DistrictCheckedListBox.GetItemChecked(i))
+
+            //    {
+            //        DataRowView drv = (DataRowView)DistrictCheckedListBox.SelectedItem;
+            //        String valueOfItem = drv["Id "].ToString();
+            //        s = s + "Item " + (i + 1).ToString() + " = " + valueOfItem  + "\n";
+            //    }
+            //}
+            //MessageBox.Show(s);
 
             //int d1=-1;
             //int d2=-1;

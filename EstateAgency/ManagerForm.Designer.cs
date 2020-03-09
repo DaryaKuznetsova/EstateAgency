@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.personSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.accountSMI = new System.Windows.Forms.ToolStripMenuItem();
@@ -35,6 +36,7 @@
             this.addSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.changeSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.RequestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticsSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.reportSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
@@ -42,8 +44,6 @@
             this.EnterButton = new System.Windows.Forms.Button();
             this.RealtyTypeComboBox = new System.Windows.Forms.ComboBox();
             this.TradeTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.PriceMinTextBox = new System.Windows.Forms.TextBox();
-            this.PriceMaxTextBox = new System.Windows.Forms.TextBox();
             this.AreaMinTextBox = new System.Windows.Forms.TextBox();
             this.AreaMaxTextBox = new System.Windows.Forms.TextBox();
             this.PriceLabel = new System.Windows.Forms.Label();
@@ -57,8 +57,9 @@
             this.RoomsCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.DistrictLabel = new System.Windows.Forms.Label();
             this.RoomsLabel = new System.Windows.Forms.Label();
-            this.RequestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paymentButton = new System.Windows.Forms.Button();
+            this.PriceMinTextBox = new Controls.MaxMinTextBox(this.components);
+            this.PriceMaxTextBox = new Controls.MaxMinTextBox(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -88,7 +89,7 @@
             // accountSMI
             // 
             this.accountSMI.Name = "accountSMI";
-            this.accountSMI.Size = new System.Drawing.Size(216, 26);
+            this.accountSMI.Size = new System.Drawing.Size(166, 26);
             this.accountSMI.Text = "Мои заявки";
             this.accountSMI.Click += new System.EventHandler(this.accountSMI_Click);
             // 
@@ -106,23 +107,30 @@
             // addSMI
             // 
             this.addSMI.Name = "addSMI";
-            this.addSMI.Size = new System.Drawing.Size(216, 26);
+            this.addSMI.Size = new System.Drawing.Size(205, 26);
             this.addSMI.Text = "Добавить запись";
             this.addSMI.Click += new System.EventHandler(this.addSMI_Click);
             // 
             // changeSMI
             // 
             this.changeSMI.Name = "changeSMI";
-            this.changeSMI.Size = new System.Drawing.Size(216, 26);
+            this.changeSMI.Size = new System.Drawing.Size(205, 26);
             this.changeSMI.Text = "Изменить запись";
             this.changeSMI.Click += new System.EventHandler(this.changeSMI_Click);
             // 
             // deleteSMI
             // 
             this.deleteSMI.Name = "deleteSMI";
-            this.deleteSMI.Size = new System.Drawing.Size(216, 26);
+            this.deleteSMI.Size = new System.Drawing.Size(205, 26);
             this.deleteSMI.Text = "Удалить запись";
             this.deleteSMI.Click += new System.EventHandler(this.deleteSMI_Click);
+            // 
+            // RequestsToolStripMenuItem
+            // 
+            this.RequestsToolStripMenuItem.Name = "RequestsToolStripMenuItem";
+            this.RequestsToolStripMenuItem.Size = new System.Drawing.Size(205, 26);
+            this.RequestsToolStripMenuItem.Text = "Заявки";
+            this.RequestsToolStripMenuItem.Click += new System.EventHandler(this.RequestsToolStripMenuItem_Click);
             // 
             // statisticsSMI
             // 
@@ -192,22 +200,6 @@
             this.TradeTypeComboBox.Size = new System.Drawing.Size(149, 24);
             this.TradeTypeComboBox.TabIndex = 4;
             this.TradeTypeComboBox.Text = "Купить";
-            // 
-            // PriceMinTextBox
-            // 
-            this.PriceMinTextBox.Location = new System.Drawing.Point(360, 114);
-            this.PriceMinTextBox.Name = "PriceMinTextBox";
-            this.PriceMinTextBox.Size = new System.Drawing.Size(52, 22);
-            this.PriceMinTextBox.TabIndex = 7;
-            this.PriceMinTextBox.Text = "От";
-            // 
-            // PriceMaxTextBox
-            // 
-            this.PriceMaxTextBox.Location = new System.Drawing.Point(418, 114);
-            this.PriceMaxTextBox.Name = "PriceMaxTextBox";
-            this.PriceMaxTextBox.Size = new System.Drawing.Size(51, 22);
-            this.PriceMaxTextBox.TabIndex = 9;
-            this.PriceMaxTextBox.Text = "До";
             // 
             // AreaMinTextBox
             // 
@@ -330,13 +322,6 @@
             this.RoomsLabel.TabIndex = 24;
             this.RoomsLabel.Text = "Количество комнат";
             // 
-            // RequestsToolStripMenuItem
-            // 
-            this.RequestsToolStripMenuItem.Name = "RequestsToolStripMenuItem";
-            this.RequestsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.RequestsToolStripMenuItem.Text = "Заявки";
-            this.RequestsToolStripMenuItem.Click += new System.EventHandler(this.RequestsToolStripMenuItem_Click);
-            // 
             // paymentButton
             // 
             this.paymentButton.Location = new System.Drawing.Point(12, 603);
@@ -347,11 +332,31 @@
             this.paymentButton.UseVisualStyleBackColor = true;
             this.paymentButton.Click += new System.EventHandler(this.paymentButton_Click);
             // 
+            // PriceMinTextBox
+            // 
+            this.PriceMinTextBox.ForeColor = System.Drawing.Color.Red;
+            this.PriceMinTextBox.Location = new System.Drawing.Point(361, 113);
+            this.PriceMinTextBox.Name = "PriceMinTextBox";
+            this.PriceMinTextBox.Size = new System.Drawing.Size(47, 22);
+            this.PriceMinTextBox.TabIndex = 26;
+            this.PriceMinTextBox.Text = "От";
+            // 
+            // PriceMaxTextBox
+            // 
+            this.PriceMaxTextBox.ForeColor = System.Drawing.Color.Red;
+            this.PriceMaxTextBox.Location = new System.Drawing.Point(418, 113);
+            this.PriceMaxTextBox.Name = "PriceMaxTextBox";
+            this.PriceMaxTextBox.Size = new System.Drawing.Size(43, 22);
+            this.PriceMaxTextBox.TabIndex = 27;
+            this.PriceMaxTextBox.Text = "До";
+            // 
             // ManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(780, 659);
+            this.Controls.Add(this.PriceMaxTextBox);
+            this.Controls.Add(this.PriceMinTextBox);
             this.Controls.Add(this.paymentButton);
             this.Controls.Add(this.RoomsLabel);
             this.Controls.Add(this.DistrictLabel);
@@ -366,8 +371,6 @@
             this.Controls.Add(this.PriceLabel);
             this.Controls.Add(this.AreaMaxTextBox);
             this.Controls.Add(this.AreaMinTextBox);
-            this.Controls.Add(this.PriceMaxTextBox);
-            this.Controls.Add(this.PriceMinTextBox);
             this.Controls.Add(this.TradeTypeComboBox);
             this.Controls.Add(this.RealtyTypeComboBox);
             this.Controls.Add(this.EnterButton);
@@ -400,8 +403,6 @@
         private System.Windows.Forms.Button EnterButton;
         private System.Windows.Forms.ComboBox RealtyTypeComboBox;
         private System.Windows.Forms.ComboBox TradeTypeComboBox;
-        private System.Windows.Forms.TextBox PriceMinTextBox;
-        private System.Windows.Forms.TextBox PriceMaxTextBox;
         private System.Windows.Forms.TextBox AreaMinTextBox;
         private System.Windows.Forms.TextBox AreaMaxTextBox;
         private System.Windows.Forms.Label PriceLabel;
@@ -417,6 +418,8 @@
         private System.Windows.Forms.Label RoomsLabel;
         private System.Windows.Forms.ToolStripMenuItem RequestsToolStripMenuItem;
         private System.Windows.Forms.Button paymentButton;
+        private Controls.MaxMinTextBox PriceMinTextBox;
+        private Controls.MaxMinTextBox PriceMaxTextBox;
     }
 }
 
