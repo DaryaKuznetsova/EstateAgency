@@ -27,8 +27,23 @@ namespace EstateAgency
             SqlConnection = new SqlConnection(connectionString);
             dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
             ComboBoxes();
+            TextBoxes();
+        }
+
+        private void TextBoxes()
+        {
             PriceMinTextBox.Min = true;
             PriceMaxTextBox.Min = false;
+            AreaMinTextBox.Min = true;
+            AreaMaxTextBox.Min = false;
+            LandAreaMinTextBox.Min = true;
+            LandAreaMaxTextBox.Min = false;
+            PriceMaxTextBox.Text = "До";
+            PriceMinTextBox.Text = "От";
+            AreaMaxTextBox.Text = "До";
+            AreaMinTextBox.Text = "От";
+            LandAreaMaxTextBox.Text = "До";
+            LandAreaMinTextBox.Text = "От";
         }
 
         public void DataLoad()
@@ -37,7 +52,7 @@ namespace EstateAgency
         }
 
         private void ComboBoxes()
-        {            
+        {  
                 SqlConnection.Open();
                 using (var command = SqlConnection.CreateCommand())
                 {
@@ -94,93 +109,47 @@ namespace EstateAgency
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            //SearchObjectForm sof = new SearchObjectForm(SqlConnection);
-            //sof.Notation = Notation.Client;
-            //sof.ClientId = ClientId;
-            //sof.Show();
-
-
             int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
             int tradeType = Convert.ToInt32(TradeTypeComboBox.SelectedValue);
             float minPrice = PriceMinTextBox.Value;
             float maxPrice = PriceMaxTextBox.Value;
-            //float minPrice = (float)Convert.ToDouble(PriceMinTextBox.Text);
-            //float maxPrice = (float)Convert.ToDouble(PriceMaxTextBox.Text);
-            //float minArea = (float)Convert.ToDouble(AreaMinTextBox.Text);
-            //float maxArea = (float)Convert.ToDouble(AreaMaxTextBox.Text);
+            float minArea = AreaMinTextBox.Value;
+            float maxArea = AreaMaxTextBox.Value;
+            float minLandArea = LandAreaMinTextBox.Value;
+            float maxLandArea = LandAreaMaxTextBox.Value;
+
             var elements = DistrictCheckedListBox.CheckedItems;
-            List<int> districts = new List<int>();
-            //foreach (DataRowView indexChecked in DistrictCheckedListBox.CheckedItems)
-            //{
-            //    //districts.Add(Convert.ToInt32(indexChecked));
-            //    MessageBox.Show(indexChecked.);
-            //}
-            // Determine if there are any items checked.  
-            if (DistrictCheckedListBox.CheckedItems.Count != 0)
+            string districts = CreateParameters(DistrictCheckedListBox);
+            string rooms = CreateParameters(RoomsCheckedListBox);
+
+            dataGridView1.DataSource= Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);
+        }
+
+        private string CreateParameters(CheckedListBox clb)
+        {
+            string res = "";
+            if (clb.CheckedItems.Count == 0)
+                if (clb.Name == "DistrictCheckedListBox") res = "1, 2, 3, 4, 6, 7, 8";
+                else res = "1, 2, 3, 4, 5, 6, 7";
+            else
             {
-                // If so, loop through all checked items and print results.  
-                string s = "";
-                for (int i = 0; i < DistrictCheckedListBox.CheckedItems.Count; i++)
+                if(clb.Name == "DistrictCheckedListBox")
                 {
-                    DataRowView drv = (DataRowView)DistrictCheckedListBox.CheckedItems[i];
-                    int valueOfItem = Convert.ToInt32(drv["Id"]);
-                    s = s + "Checked Item " + (i + 1).ToString() + " = " + valueOfItem  + "\n";
+                    for (int i = 0; i < clb.CheckedItems.Count; i++)
+                    {
+                        DataRowView drv = (DataRowView)DistrictCheckedListBox.CheckedItems[i];
+                        int valueOfItem = Convert.ToInt32(drv["Id"]);
+                        res = res + valueOfItem + ", ";
+                    }
                 }
-                MessageBox.Show(s);
+                else
+                    for (int i = 0; i < clb.CheckedItems.Count; i++)
+                    {
+                        res = res + RoomsCheckedListBox.CheckedItems[i] + ", ";
+                    }
+                res = res.Substring(0, res.Length - 2);
             }
-
-
-            //int i;
-            //string s;
-            //s = "Checked items:\n";
-            //for (i = 0; i <= (DistrictCheckedListBox.Items.Count - 1); i++)
-            //{
-            //    if (DistrictCheckedListBox.GetItemChecked(i))
-
-            //    {
-            //        DataRowView drv = (DataRowView)DistrictCheckedListBox.SelectedItem;
-            //        String valueOfItem = drv["Id "].ToString();
-            //        s = s + "Item " + (i + 1).ToString() + " = " + valueOfItem  + "\n";
-            //    }
-            //}
-            //MessageBox.Show(s);
-
-            //int d1=-1;
-            //int d2=-1;
-            //int d3=-1;
-            //int d4=-1;
-            //int d5=-1;
-            //int d6=-1;
-            //int d7=-1;
-            //try
-            //{
-            //    d1 = districts[0];
-            //    MessageBox.Show(d1.ToString());
-            //    d2 = districts[1];
-            //    MessageBox.Show(d2.ToString());
-            //    d3 = districts[2];
-            //    MessageBox.Show(d3.ToString());
-            //    d4 = districts[3];
-            //    MessageBox.Show(d4.ToString());
-            //    d5 = districts[4];
-            //    MessageBox.Show(d5.ToString());
-            //    d6 = districts[5];
-            //    MessageBox.Show(d6.ToString());
-            //    d7 = districts[6];
-            //    MessageBox.Show(d7.ToString());
-            //}
-            //catch (Exception exe)
-            //{
-            //    MessageBox.Show(exe.ToString());
-            //}
-
-            //float minLandArea = (float)Convert.ToDouble(LandAreaMinTextBox.Text);
-            //float maxLandArea = (float)Convert.ToDouble(LandAreaMaxTextBox.Text);;
-            //List<byte> rooms = new List<byte>();
-            //foreach (int indexChecked in RoomsCheckedListBox.CheckedIndices)
-            //    rooms.Add(Convert.ToByte(indexChecked));
-
-            //dataGridView1.DataSource= Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, SqlConnection, d1, d2, d3, d4, d5, d6, d7);
+            return res;
         }
 
         private void addSMI_Click(object sender, EventArgs e)
@@ -273,6 +242,92 @@ namespace EstateAgency
                     MessageBox.Show("запускай через отладчик");
                 }
             }
+        }
+
+        private void reportSMI_Click(object sender, EventArgs e)
+        {
+            ReportForm rf = new ReportForm(SqlConnection);
+            rf.ShowDialog();
+        }
+
+        private void AdvancedSearchButton_Click(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = ShowTable.Test(SqlConnection);
+        }
+
+        private void LandAreaMinTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AreaMaxTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AreaMinTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PriceMaxTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PriceMinTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RoomsLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DistrictLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RoomsCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DistrictCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LandAreaMaxTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LandAreaLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AreaLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PriceLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TradeTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RealtyTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

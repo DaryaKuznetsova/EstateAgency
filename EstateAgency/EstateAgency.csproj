@@ -118,6 +118,12 @@
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RegistrationMethods.cs" />
+    <Compile Include="ReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportForm.Designer.cs">
+      <DependentUpon>ReportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SearchObjectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,6 +166,9 @@
     </Compile>
     <EmbeddedResource Include="RegistrationForm.resx">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportForm.resx">
+      <DependentUpon>ReportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SearchObjectForm.resx">
       <DependentUpon>SearchObjectForm.cs</DependentUpon>

@@ -77,9 +77,26 @@ namespace EstateAgency
             return dt;
         }
 
-        public static void DisplayPotentialTrades(SqlConnection sqlConnection)
+        public static DataTable Test(SqlConnection sqlConnection)
         {
+            SqlCommand command = sqlConnection.CreateCommand();
 
+            command.CommandText = string.Format("SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'Trades'");
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            try
+            {
+                adapter.Fill(dt);
+            }
+            catch (Exception r)
+            {
+                MessageBox.Show(r.ToString());
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+            return dt;
         }
     }
 }

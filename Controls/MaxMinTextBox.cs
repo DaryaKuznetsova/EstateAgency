@@ -14,6 +14,9 @@ namespace Controls
     {
         public bool Min { get; set; }
         public float Value { get; set; }
+
+        public float minv=0;
+        public float maxv=9999999;
         public MaxMinTextBox()
         {
             InitializeComponent();
@@ -43,21 +46,25 @@ namespace Controls
                 string after = new string(s.Where(r => char.IsDigit(r)).ToArray());
                 Text = after;
             }
-            double x = 0;
-            if (Text == "От") Value = 0;
-            if (Text == "До") Value = 100000000000;
-            else
-            if (!double.TryParse(Text, out x))
-            {
-                ForeColor = Color.Red;
-                if (Min) Value = 0;
-                else Value = 10000000000;
-            }
-            else
-            {
-                ForeColor = Color.Black;
-                Value = (float)x;
-            }
+
+                
+                else if (Text == "От") { Value = minv; }
+                else if (Text == "До") { Value = maxv;  }
+
+                    double x = 0;
+                    if (!double.TryParse(Text, out x))
+                    {
+                        ForeColor = Color.Red;
+                        if (Min) Value = minv;
+                        else Value = maxv;
+                    }
+                    else
+                    {
+                        ForeColor = Color.Black;
+                        Value = (float)x;
+                    }
+
+
             base.OnTextChanged(e);
         }
 

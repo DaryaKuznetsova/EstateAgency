@@ -11,42 +11,20 @@ namespace EstateAgency
 {
     class Query
     {
-        public static DataTable SelectEstateObjects(int realtyType, int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, float minLandArea, float maxLandArea, SqlConnection sqlConnection,
-            int d1 = -1, int d2 = -1, int d3 = -1, int d4 = -1, int d5 = -1, int d6 = -1, int d7 = -1)
+        public static DataTable SelectEstateObjects(int realtyType, int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, float minLandArea, float maxLandArea, string districts, string rooms, SqlConnection sqlConnection, string parameters="*")
         {
-            if (realtyType == 2) return SelectRooms(tradeType, minPrice, maxPrice, minArea, maxArea, sqlConnection,
-            d1 = -1, d2 = -1, d3 = -1, d4 = -1, d5 = -1, d6 = -1, d7 = -1);
-            else return null;
-        }
-
-        private static DataTable SelectRooms(int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, SqlConnection sqlConnection,
-            int d1=-1, int d2=-1, int d3 = -1, int d4 = -1, int d5 = -1, int d6 = -1, int d7 = -1)
-        {
-            DataTable dt = new DataTable();
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "select * from EstateObjects where " +
-                "realtytypeid=2 and tradetypeid=@tradetype " +
-                "and price BETWEEN @minprice AND @maxprice " +
-                "and area between @minarea and @maxarea and (districtid=4 or districtid=3)";
-            command.Parameters.Add("tradetype", SqlDbType.NVarChar).Value = tradeType;
-            command.Parameters.Add("minprice", SqlDbType.NVarChar).Value = minPrice ;
-            command.Parameters.Add("maxprice", SqlDbType.NVarChar).Value = maxPrice ;
-            command.Parameters.Add("minarea", SqlDbType.NVarChar).Value = minArea ;
-            command.Parameters.Add("maxarea", SqlDbType.NVarChar).Value = maxArea;
-            //command.Parameters.Add("d1", SqlDbType.NVarChar).Value = d1;
-            //command.Parameters.Add("d2", SqlDbType.NVarChar).Value = d2;
-            //command.Parameters.Add("d3", SqlDbType.NVarChar).Value = d3;
-            //command.Parameters.Add("d4", SqlDbType.NVarChar).Value = d4;
-            //command.Parameters.Add("d5", SqlDbType.NVarChar).Value = d5;
-            //command.Parameters.Add("d6", SqlDbType.NVarChar).Value = d6;
-            //command.Parameters.Add("d7", SqlDbType.NVarChar).Value = d7;
 
+            if (realtyType == 1) command = SelectFlats(tradeType, minPrice, maxPrice, minArea, maxArea, districts, rooms, sqlConnection, parameters );
+            if (realtyType == 2) command= SelectRooms(tradeType, minPrice, maxPrice, minArea, maxArea, districts, sqlConnection, parameters );
+            if (realtyType == 3|| realtyType == 4) command = SelectHouse(tradeType, minPrice, maxPrice, minArea, maxArea, districts, rooms, minLandArea, maxLandArea, sqlConnection, parameters );
+            DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             try
             {
                 adapter.Fill(dt);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
@@ -55,19 +33,97 @@ namespace EstateAgency
                 sqlConnection.Close();
             }
             return dt;
-
         }
 
-        private static void SelectFlats(int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, List<int> district, List<byte> rooms, SqlConnection sqlConnection)
+
+        private static SqlCommand SelectRooms(int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, string districts, SqlConnection sqlConnection, string parameters = "*")
         {
-            // 1  " +
-            //"and districtid in (@d1, @d2, @d3, @d4, @d5, @d6, @d7)
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = string.Format("select {0} from EstateObjects where " +
+                "realtytypeid=2 and tradetypeid=@tradetype " +
+                "and price BETWEEN @minprice AND @maxprice " +
+                "and area between @minarea and @maxarea and districtid in ({1})", parameters, districts);
+            command.Parameters.Add("tradetype", SqlDbType.NVarChar).Value = tradeType;
+            command.Parameters.Add("minprice", SqlDbType.NVarChar).Value = minPrice;
+            command.Parameters.Add("maxprice", SqlDbType.NVarChar).Value = maxPrice;
+            command.Parameters.Add("minarea", SqlDbType.NVarChar).Value = minArea;
+            command.Parameters.Add("maxarea", SqlDbType.NVarChar).Value = maxArea;
+
+            return command;
         }
 
-        private static void SelectHouse(int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, List<int> district, List<byte> rooms, float minLandArea, float maxLandArea, SqlConnection sqlConnection)
+        private static SqlCommand SelectFlats(int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, string districts, string rooms, SqlConnection sqlConnection, string parameters="*")
         {
-            //3
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = string.Format("select {0} from EstateObjects where " +
+                "realtytypeid=1 and tradetypeid=@tradetype " +
+                "and price BETWEEN @minprice AND @maxprice " +
+                "and area between @minarea and @maxarea and districtid in ({1}) and rooms in ({2})", parameters, districts, rooms);
+            command.Parameters.Add("tradetype", SqlDbType.NVarChar).Value = tradeType;
+            command.Parameters.Add("minprice", SqlDbType.NVarChar).Value = minPrice;
+            command.Parameters.Add("maxprice", SqlDbType.NVarChar).Value = maxPrice;
+            command.Parameters.Add("minarea", SqlDbType.NVarChar).Value = minArea;
+            command.Parameters.Add("maxarea", SqlDbType.NVarChar).Value = maxArea;
+
+            return command;
         }
+
+        private static SqlCommand SelectHouse(int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, string districts, string rooms, float minLandArea, float maxLandArea, SqlConnection sqlConnection, string parameters = "*")
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            //command.CommandText = string.Format("select {0} from EstateObjects where " +
+            //    "(realtytypeid=3 or realtytypeid=4) and tradetypeid=@tradetype " +
+            //    "and price BETWEEN @minprice AND @maxprice " +
+            //    "and area between @minarea and @maxarea " +
+            //    "and landarea between @minlandarea and @maxlandarea " +
+            //    "and districtid in ({1}) and rooms in ({2})", parameters, districts, rooms);
+            command.CommandText = Room(parameters, districts, rooms);
+            command.Parameters.Add("tradetype", SqlDbType.NVarChar).Value = tradeType;
+            command.Parameters.Add("minprice", SqlDbType.NVarChar).Value = minPrice;
+            command.Parameters.Add("maxprice", SqlDbType.NVarChar).Value = maxPrice;
+            command.Parameters.Add("minarea", SqlDbType.NVarChar).Value = minArea;
+            command.Parameters.Add("maxarea", SqlDbType.NVarChar).Value = maxArea;
+            command.Parameters.Add("minlandarea", SqlDbType.NVarChar).Value = minLandArea;
+            command.Parameters.Add("maxlandarea", SqlDbType.NVarChar).Value = maxLandArea;
+            return command;
+        }
+
+        private static string Room(string parameters, string districts, string rooms)
+        {
+            string res = string.Format("select {0} from EstateObjects e where " +
+                "e.realtytypeid=2 " +
+                "and e.tradetypeid=@tradetype " +
+                "and e.price BETWEEN @minprice AND @maxprice " +
+                "and e.area between @minarea and @maxarea " +
+                "and e.districtid in ({1})", parameters, districts);
+            return res;
+        }
+
+        private static string Flat(string parameters, string districts, string rooms)
+        {
+            string res= string.Format("select {0} from EstateObjects e where " +
+                "e.realtytypeid=1 " +
+                "and e.tradetypeid=@tradetype " +
+                "and e.price BETWEEN @minprice AND @maxprice " +
+                "and e.area between @minarea and @maxarea " +
+                "and e.districtid in ({1}) " +
+                "and e.rooms in ({2})", parameters, districts, rooms);
+            return res;
+        }
+
+        private static string House(string parameters, string districts, string rooms)
+        {
+            string res= string.Format("select {0} from EstateObjects e where " +
+                "(e.realtytypeid=3 or e.realtytypeid=4) " +
+                "and e.tradetypeid=@tradetype " +
+                "and e.price BETWEEN @minprice AND @maxprice " +
+                "and e.area between @minarea and @maxarea " +
+                "and e.landarea between @minlandarea and @maxlandarea " +
+                "and e.districtid in ({1}) " +
+                "and e.rooms in ({2})", parameters, districts, rooms);
+            return res;
+        }
+
 
         public static void AddPicture(int ObjectId, string path, SqlConnection sqlConnection)
         {
@@ -284,6 +340,109 @@ namespace EstateAgency
             {
                 sqlConnection.Close();
             }
+        }
+
+        private static SqlCommand SelectTradesCommand(DateTime firstDate, DateTime secondDate, SqlConnection sqlConnection, string parameters = "*")
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = string.Format("select {0} from Trades t where t.date BETWEEN @firstdate AND @seconddate", parameters);
+            command.Parameters.Add("firstdate", SqlDbType.NVarChar).Value = firstDate;
+            command.Parameters.Add("seconddate", SqlDbType.NVarChar).Value = secondDate;
+
+            return command;
+        }
+
+        public static DataTable SelectTrades(DateTime firstDate, DateTime secondDate, SqlConnection sqlConnection, string parameters="*")
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command = SelectTradesCommand(firstDate, secondDate, sqlConnection, parameters);
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            try
+            {
+                adapter.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+            return dt;
+        }
+
+
+        private static string TradeObject(string parameters, string districts, string rooms)
+        {
+            string res = string.Format("select {0} " +
+                "from EstateObjects e " +
+                "inner join Trades t on e.Id=t.ItemId " +
+                "where e.realtytypeid=@realtytype " +
+                "and e.tradetypeid=@tradetype " +
+                "and e.price BETWEEN @minprice AND @maxprice " +
+                "and e.area between @minarea and @maxarea " +
+                "and e.landarea between @minlandarea and @maxlandarea " +
+                "and e.districtid in ({1}) " +
+                "and e.rooms in ({2}) " +
+                "and t.date between @firstdate and @seconddate", parameters, districts, rooms);
+            return res;
+        }
+
+        public static DataTable JoinTradeObject(DateTime firstDate, DateTime secondDate, int realtyType, int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, float minLandArea, float maxLandArea, string districts, string rooms, SqlConnection sqlConnection, string estateParameters = "*", string tradeParameters = "*")
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            string parameters = Columns(estateParameters, tradeParameters);
+            command.CommandText = TradeObject(parameters, districts, rooms);
+
+            command.Parameters.Add("realtytype", SqlDbType.NVarChar).Value = realtyType;
+            command.Parameters.Add("tradetype", SqlDbType.NVarChar).Value = tradeType;
+            command.Parameters.Add("minprice", SqlDbType.NVarChar).Value = minPrice;
+            command.Parameters.Add("maxprice", SqlDbType.NVarChar).Value = maxPrice;
+            command.Parameters.Add("minarea", SqlDbType.NVarChar).Value = minArea;
+            command.Parameters.Add("maxarea", SqlDbType.NVarChar).Value = maxArea;
+            command.Parameters.Add("minlandarea", SqlDbType.NVarChar).Value = minLandArea;
+            command.Parameters.Add("maxlandarea", SqlDbType.NVarChar).Value = maxLandArea;
+            command.Parameters.Add("firstdate", SqlDbType.NVarChar).Value = firstDate;
+            command.Parameters.Add("seconddate", SqlDbType.NVarChar).Value = secondDate;
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            try
+            {
+                adapter.Fill(dt);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+            return dt;
+        }
+
+        private static string Columns(string estate, string trade)
+        {
+            string res = "";
+            if (String.Compare(estate, trade) == 0) res = estate;
+            if(trade =="*"&& estate != "*")
+            {
+                string temp = "t.id, t.itemid, t.managerid, t.clientid, t.date, t.paymentid, t.paymentinstrument, ";
+                res = temp + estate;
+            }
+            if (trade != "*" && estate == "*")
+            {
+                string temp = "e.id, e.statusid, e.ownerid, e.price, e.address, e.districtid, e.description, e.realtytypeid, e.tradetypeid, e.area, e.rooms, e.landdescription, e.landarea, ";
+                res = temp + trade;
+            }
+            if(trade != "*" && estate != "*")
+            {
+                res=estate + ", " + trade;
+            }
+            return res;
         }
     }
 }
