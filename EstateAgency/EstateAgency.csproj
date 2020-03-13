@@ -72,6 +72,7 @@
       <DependentUpon>CustomerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DeleteUpdateInsertMethods.cs" />
+    <Compile Include="ExcelExport.cs" />
     <Compile Include="ItemAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +97,7 @@
     <Compile Include="ManagerForm.Designer.cs">
       <DependentUpon>ManagerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="My_DataTable_Extensions.cs" />
     <Compile Include="OwnerInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +194,17 @@
       <Project>{97F1BC06-8A5D-4611-93B0-9060D1E0ADA0}</Project>
       <Name>Controls</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

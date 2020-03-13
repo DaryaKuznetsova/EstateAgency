@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace EstateAgency
 {
     public partial class ReportForm : Form
@@ -184,7 +185,54 @@ namespace EstateAgency
                         dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection, estateobjectsParameters);
                 }
                 else dataGridView1.DataSource = Query.JoinTradeObject(firstDate, secondDate, realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection, estateobjectsParameters, tradesParameters);
+                DataTable = (DataTable)dataGridView1.DataSource;
             }
+        }
+
+        private static DataTable DataTable;
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            string fileName = "";
+            bool save = SavingIntoFile(ref fileName); // Название и путь файла выбраны успешно
+            if (save)
+            {
+                try
+                {
+                    //DataTable.ExportToExcel(fileName);
+                    ExcelExport.ExportFiles(DataTable, fileName);
+                    MessageBox.Show("Изменения сохранены!");
+                }
+                catch(Exception exp)
+                {
+                    MessageBox.Show(exp.ToString());
+                }               
+            }
+        }
+
+        static bool SavingIntoFile(ref string filename) // Выбор пути сохранения и проверка расширения
+        {
+            bool ok = false;
+            SaveFileDialog SFD = new SaveFileDialog();
+            SFD.Filter = "Файлы Excel|*.xlsx;*.xls";
+            if (SFD.ShowDialog() == DialogResult.Cancel)
+                return false;
+
+            filename = SFD.FileName;
+            string sss = "";
+            string ssss = "";
+            if (filename.Length >= 3)
+            {
+                sss = filename.Substring(filename.Length - 3);
+                ssss = filename.Substring(filename.Length - 4);
+            }
+            if (sss != "xls" && ssss != "xlsx")
+            {
+                MessageBox.Show("Неверное расширение");
+                ok = false;
+            }
+            else ok = true;
+            return ok;
         }
     }
 }

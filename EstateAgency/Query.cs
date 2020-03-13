@@ -383,9 +383,9 @@ namespace EstateAgency
                 "and e.tradetypeid=@tradetype " +
                 "and e.price BETWEEN @minprice AND @maxprice " +
                 "and e.area between @minarea and @maxarea " +
-                "and e.landarea between @minlandarea and @maxlandarea " +
+                "and (e.landarea between @minlandarea and @maxlandarea or e.landarea is NULL) " +
                 "and e.districtid in ({1}) " +
-                "and e.rooms in ({2}) " +
+                "and (e.rooms in ({2}) or e.rooms is NULL) " +
                 "and t.date between @firstdate and @seconddate", parameters, districts, rooms);
             return res;
         }

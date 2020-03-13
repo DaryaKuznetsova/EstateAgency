@@ -44,7 +44,7 @@
             this.PriceLabel = new System.Windows.Forms.Label();
             this.TradeTypeComboBox = new System.Windows.Forms.ComboBox();
             this.RealtyTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.SearchButton = new System.Windows.Forms.Button();
+            this.ExportButton = new System.Windows.Forms.Button();
             this.TableNameListBox = new System.Windows.Forms.CheckedListBox();
             this.TradeColumnsListBox = new System.Windows.Forms.CheckedListBox();
             this.EstateObjectColumnsListBox = new System.Windows.Forms.CheckedListBox();
@@ -216,14 +216,15 @@
             this.RealtyTypeComboBox.Size = new System.Drawing.Size(174, 24);
             this.RealtyTypeComboBox.TabIndex = 33;
             // 
-            // SearchButton
+            // ExportButton
             // 
-            this.SearchButton.Location = new System.Drawing.Point(639, 257);
-            this.SearchButton.Name = "SearchButton";
-            this.SearchButton.Size = new System.Drawing.Size(145, 31);
-            this.SearchButton.TabIndex = 32;
-            this.SearchButton.Text = "Найти";
-            this.SearchButton.UseVisualStyleBackColor = true;
+            this.ExportButton.Location = new System.Drawing.Point(556, 404);
+            this.ExportButton.Name = "ExportButton";
+            this.ExportButton.Size = new System.Drawing.Size(145, 31);
+            this.ExportButton.TabIndex = 32;
+            this.ExportButton.Text = "Экспортировать";
+            this.ExportButton.UseVisualStyleBackColor = true;
+            this.ExportButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
             // TableNameListBox
             // 
@@ -289,7 +290,7 @@
             // 
             // CreateButton
             // 
-            this.CreateButton.Location = new System.Drawing.Point(599, 405);
+            this.CreateButton.Location = new System.Drawing.Point(312, 395);
             this.CreateButton.Name = "CreateButton";
             this.CreateButton.Size = new System.Drawing.Size(139, 40);
             this.CreateButton.TabIndex = 54;
@@ -333,7 +334,7 @@
             this.Controls.Add(this.PriceLabel);
             this.Controls.Add(this.TradeTypeComboBox);
             this.Controls.Add(this.RealtyTypeComboBox);
-            this.Controls.Add(this.SearchButton);
+            this.Controls.Add(this.ExportButton);
             this.Name = "ReportForm";
             this.Text = "ReportForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -359,7 +360,7 @@
         private System.Windows.Forms.Label PriceLabel;
         private System.Windows.Forms.ComboBox TradeTypeComboBox;
         private System.Windows.Forms.ComboBox RealtyTypeComboBox;
-        private System.Windows.Forms.Button SearchButton;
+        private System.Windows.Forms.Button ExportButton;
         private System.Windows.Forms.CheckedListBox TableNameListBox;
         private System.Windows.Forms.CheckedListBox TradeColumnsListBox;
         private System.Windows.Forms.CheckedListBox EstateObjectColumnsListBox;
