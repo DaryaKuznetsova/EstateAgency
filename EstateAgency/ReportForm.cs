@@ -199,8 +199,8 @@ namespace EstateAgency
             {
                 try
                 {
-                    //DataTable.ExportToExcel(fileName);
-                    ExcelExport.ExportFiles(DataTable, fileName);
+                    DataTable.ExportToExcel(fileName);
+                    //ExcelExport.ExportFiles(DataTable, fileName);
                     MessageBox.Show("Изменения сохранены!");
                 }
                 catch(Exception exp)

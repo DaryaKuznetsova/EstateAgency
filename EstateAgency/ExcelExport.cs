@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.Office.Interop.Excel;
 
 namespace EstateAgency
 {
@@ -13,16 +13,14 @@ namespace EstateAgency
         public static void ExportFiles(System.Data.DataTable dt, string filename)
         {
 
-            //var app = new Application();
-            //app.Visible = true;
-            //var wb = app.Workbooks.Add();
-            //var ws = wb.Worksheets[1] as Worksheet;
-            //ws.Cells[1, 1].Value = 567;
-            //wb.SaveAs(filename);
-            //app.Quit();
+            var app = new Application();
+            app.Visible = true;
+            var wb = app.Workbooks.Add();
+            var ws = wb.Worksheets[1] as Worksheet;
+            ws.Cells[1, 1].Value = 567;
+            wb.SaveAs(filename);
+            app.Quit();
 
-            //Application ex = new Application();
-            //ex.Visible = false;
             //Количество листов в рабочей книге
             //ex.SheetsInNewWorkbook = 1;
             //Добавить рабочую книгу
