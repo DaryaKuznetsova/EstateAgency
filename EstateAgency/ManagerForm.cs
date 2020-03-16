@@ -25,7 +25,7 @@ namespace EstateAgency
         {
             InitializeComponent();
             SqlConnection = new SqlConnection(connectionString);
-            dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
+            //dataGridView1.DataSource = ShowTable.AllTable(SqlConnection);
             ComboBoxes();
             TextBoxes();
         }
@@ -44,11 +44,6 @@ namespace EstateAgency
             AreaMinTextBox.Text = "От";
             LandAreaMaxTextBox.Text = "До";
             LandAreaMinTextBox.Text = "От";
-        }
-
-        public void DataLoad()
-        {
-            dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
         }
 
         private void ComboBoxes()
@@ -109,6 +104,12 @@ namespace EstateAgency
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
+            ShowSearchResults();
+            filter = true;
+        }
+
+        private void ShowSearchResults()
+        {
             int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
             int tradeType = Convert.ToInt32(TradeTypeComboBox.SelectedValue);
             float minPrice = PriceMinTextBox.Value;
@@ -122,10 +123,18 @@ namespace EstateAgency
             string districts = CreateParameters(DistrictCheckedListBox);
             string rooms = CreateParameters(RoomsCheckedListBox);
 
-            dataGridView1.DataSource= Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);
+            dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);
         }
 
-        private string CreateParameters(CheckedListBox clb)
+        private bool filter = false;
+
+        private void RefreshData()
+        {
+            if (filter) ShowSearchResults();
+            else ShowTable.AllTable(SqlConnection);
+        }
+
+        public static string CreateParameters(CheckedListBox clb)
         {
             string res = "";
             if (clb.CheckedItems.Count == 0)
@@ -137,7 +146,7 @@ namespace EstateAgency
                 {
                     for (int i = 0; i < clb.CheckedItems.Count; i++)
                     {
-                        DataRowView drv = (DataRowView)DistrictCheckedListBox.CheckedItems[i];
+                        DataRowView drv = (DataRowView)clb.CheckedItems[i];
                         int valueOfItem = Convert.ToInt32(drv["Id"]);
                         res = res + valueOfItem + ", ";
                     }
@@ -145,7 +154,7 @@ namespace EstateAgency
                 else
                     for (int i = 0; i < clb.CheckedItems.Count; i++)
                     {
-                        res = res + RoomsCheckedListBox.CheckedItems[i] + ", ";
+                        res = res + clb.CheckedItems[i] + ", ";
                     }
                 res = res.Substring(0, res.Length - 2);
             }
@@ -157,7 +166,7 @@ namespace EstateAgency
             ItemInfoForm itemf = new ItemInfoForm(SqlConnection, -1);
             itemf.Notation = Notation.Insert;
             itemf.ShowDialog();
-            DataLoad();
+            RefreshData();
         }
 
         private void changeSMI_Click(object sender, EventArgs e)
@@ -165,7 +174,7 @@ namespace EstateAgency
             SearchObjectForm sof = new SearchObjectForm(SqlConnection);
             sof.Notation = Notation.Update;
             sof.ShowDialog();
-            DataLoad();
+            RefreshData();
         }
 
         private void deleteSMI_Click(object sender, EventArgs e)
@@ -173,7 +182,7 @@ namespace EstateAgency
             SearchObjectForm sof = new SearchObjectForm(SqlConnection);
             sof.Notation = Notation.Delete;
             sof.ShowDialog();
-            DataLoad();
+            RefreshData();
         }
 
         void Block()
@@ -215,7 +224,7 @@ namespace EstateAgency
 
         private void accountSMI_Click(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = ShowTable.DisplayMyRequests(SqlConnection, ClientId);
+            dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, ClientId);
         }
 
         private void paymentButton_Click(object sender, EventArgs e)
@@ -252,7 +261,7 @@ namespace EstateAgency
 
         private void AdvancedSearchButton_Click(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = ShowTable.Test(SqlConnection);
+            
         }
 
         private void LandAreaMinTextBox_TextChanged(object sender, EventArgs e)
@@ -328,6 +337,56 @@ namespace EstateAgency
         private void RealtyTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void открытьXlsФайлToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string fileName = "";
+            bool open = OpenFile(ref fileName); // Название и путь файла выбраны успешно
+            if (open)
+            {
+                try
+                {
+                    ExcelExport.InsetExcel(fileName, SqlConnection);
+                    MessageBox.Show("opened");
+                }
+                catch (Exception exp)
+                {
+                    MessageBox.Show(exp.ToString());
+                }
+            }
+        }
+
+        public static bool OpenFile(ref string filename) // Выбор пути сохранения и проверка расширения
+        {
+            bool ok = false;
+            OpenFileDialog SFD = new OpenFileDialog();
+            SFD.Filter = "Файлы Excel|*.xlsx;*.xls";
+            if (SFD.ShowDialog() == DialogResult.Cancel)
+                return false;
+
+            filename = SFD.FileName;
+            string sss = "";
+            string ssss = "";
+            if (filename.Length >= 3)
+            {
+                sss = filename.Substring(filename.Length - 3);
+                ssss = filename.Substring(filename.Length - 4);
+            }
+            if (sss != "xls" && ssss != "xlsx")
+            {
+                MessageBox.Show("Неверное расширение");
+                ok = false;
+            }
+            else ok = true;
+            return ok;
+        }
+
+        private void Statistics_Click(object sender, EventArgs e)
+        {
+            StatisticsForm sf = new StatisticsForm();
+            sf.CreateChart(SqlConnection);
+            sf.Show();
         }
     }
 }

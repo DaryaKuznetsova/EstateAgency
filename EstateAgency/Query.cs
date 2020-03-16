@@ -39,10 +39,7 @@ namespace EstateAgency
         private static SqlCommand SelectRooms(int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, string districts, SqlConnection sqlConnection, string parameters = "*")
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = string.Format("select {0} from EstateObjects where " +
-                "realtytypeid=2 and tradetypeid=@tradetype " +
-                "and price BETWEEN @minprice AND @maxprice " +
-                "and area between @minarea and @maxarea and districtid in ({1})", parameters, districts);
+            command.CommandText = Room(parameters, districts);
             command.Parameters.Add("tradetype", SqlDbType.NVarChar).Value = tradeType;
             command.Parameters.Add("minprice", SqlDbType.NVarChar).Value = minPrice;
             command.Parameters.Add("maxprice", SqlDbType.NVarChar).Value = maxPrice;
@@ -55,10 +52,7 @@ namespace EstateAgency
         private static SqlCommand SelectFlats(int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, string districts, string rooms, SqlConnection sqlConnection, string parameters="*")
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = string.Format("select {0} from EstateObjects where " +
-                "realtytypeid=1 and tradetypeid=@tradetype " +
-                "and price BETWEEN @minprice AND @maxprice " +
-                "and area between @minarea and @maxarea and districtid in ({1}) and rooms in ({2})", parameters, districts, rooms);
+            command.CommandText = Flat(parameters, districts, rooms);
             command.Parameters.Add("tradetype", SqlDbType.NVarChar).Value = tradeType;
             command.Parameters.Add("minprice", SqlDbType.NVarChar).Value = minPrice;
             command.Parameters.Add("maxprice", SqlDbType.NVarChar).Value = maxPrice;
@@ -71,13 +65,7 @@ namespace EstateAgency
         private static SqlCommand SelectHouse(int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, string districts, string rooms, float minLandArea, float maxLandArea, SqlConnection sqlConnection, string parameters = "*")
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            //command.CommandText = string.Format("select {0} from EstateObjects where " +
-            //    "(realtytypeid=3 or realtytypeid=4) and tradetypeid=@tradetype " +
-            //    "and price BETWEEN @minprice AND @maxprice " +
-            //    "and area between @minarea and @maxarea " +
-            //    "and landarea between @minlandarea and @maxlandarea " +
-            //    "and districtid in ({1}) and rooms in ({2})", parameters, districts, rooms);
-            command.CommandText = Room(parameters, districts, rooms);
+            command.CommandText = House(parameters, districts, rooms);
             command.Parameters.Add("tradetype", SqlDbType.NVarChar).Value = tradeType;
             command.Parameters.Add("minprice", SqlDbType.NVarChar).Value = minPrice;
             command.Parameters.Add("maxprice", SqlDbType.NVarChar).Value = maxPrice;
@@ -88,7 +76,7 @@ namespace EstateAgency
             return command;
         }
 
-        private static string Room(string parameters, string districts, string rooms)
+        private static string Room(string parameters, string districts)
         {
             string res = string.Format("select {0} from EstateObjects e where " +
                 "e.realtytypeid=2 " +
@@ -124,149 +112,6 @@ namespace EstateAgency
             return res;
         }
 
-
-        public static void AddPicture(int ObjectId, string path, SqlConnection sqlConnection)
-        {
-            InsertPicture(sqlConnection, path);
-            int picId = SelectPictureId(sqlConnection, path);
-            InsertPictureObjectLink(sqlConnection, ObjectId, picId);
-        }
-
-        private static void InsertPicture(SqlConnection sqlConnection, string path)
-        {
-            SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "INSERT INTO Pictures (picture) VALUES ( @picture)";
-            command.Parameters.Add("picture", SqlDbType.NVarChar).Value = path;
-            sqlConnection.Open();
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            finally
-            {
-                sqlConnection.Close();
-            }
-        }
-
-        private static void InsertPictureObjectLink(SqlConnection sqlConnection, int ObjectId, int PictureId)
-        {
-            SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "INSERT INTO PictureObjectLinks VALUES ( @ObjectId, @PictureId)";
-            command.Parameters.Add("ObjectId", SqlDbType.NVarChar).Value = ObjectId;
-            command.Parameters.Add("PictureId", SqlDbType.NVarChar).Value = PictureId;
-            sqlConnection.Open();
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            finally
-            {
-                sqlConnection.Close();
-            }
-        }
-
-        private static int SelectPictureId(SqlConnection sqlConnection, string path)
-        {
-            int id = 0;
-
-            string strCommand = string.Format("Select id FROM pictures WHERE picture = '{0}'", path);
-            sqlConnection.Open();
-            SqlCommand command = new SqlCommand(strCommand, sqlConnection);
-            SqlDataReader reader = command.ExecuteReader();
-            try
-            {
-                while (reader.Read())
-                {
-                    id = reader.GetInt32(0);
-                }
-            }
-            finally
-            {
-                reader.Close();
-                sqlConnection.Close();
-            }
-            return id;
-        }
-
-        public static void DeletePicture(SqlConnection sqlConnection, string path, int ObjectId)
-        {
-            int PictureId = SelectPictureId(sqlConnection, path);
-            DeleteLink(sqlConnection, ObjectId, PictureId);
-            DeletePictureFromTable(sqlConnection, path);
-        }
-
-        private static void DeleteLink(SqlConnection sqlConnection, int ObjectId, int PictureId)
-        {
-            SqlCommand command = sqlConnection.CreateCommand();
-            string strCommand = string.Format("DELETE FROM PictureObjectLinks WHERE IdObject = '{0}' and IdPicture='{1}'", ObjectId, PictureId);
-            command.CommandText = strCommand;
-            sqlConnection.Open();
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-            finally
-            {
-                sqlConnection.Close();
-            }
-        }
-
-        private static void DeletePictureFromTable(SqlConnection sqlConnection, string path)
-        {
-            SqlCommand command = sqlConnection.CreateCommand();
-            string strCommand = string.Format("DELETE FROM Pictures WHERE Picture = '{0}'", path);
-            command.CommandText = strCommand;
-            sqlConnection.Open();
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-            finally
-            {
-                sqlConnection.Close();
-            }
-        }
-
-        public static List<string> Images(List<string> images, SqlConnection sqlConnection, int id)
-        {
-            images = new List<string>();
-
-            string strCommand = string.Format("Select Pictures.Picture" +
-                " FROM EstateObjects" +
-                " inner join PictureObjectLinks on EstateObjects.Id=PictureObjectLinks.IdObject" +
-                " inner join Pictures on PictureObjectLinks.IdPicture=Pictures.Id" +
-                " WHERE EstateObjects.Id = '{0}'", id);
-            sqlConnection.Open();
-            SqlCommand command = new SqlCommand(strCommand, sqlConnection);
-            SqlDataReader reader = command.ExecuteReader();
-            try
-            {
-                while (reader.Read())
-                {
-                    images.Add(reader.GetValue(0).ToString());
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-            finally
-            {
-                reader.Close();
-                sqlConnection.Close();
-            }
-
-            return images;
-        }
-
         public static string[] Contacts(SqlConnection sqlConnection, int client, int item)
         {
             string[] res = new string[2];
@@ -276,9 +121,11 @@ namespace EstateAgency
 
         private static void Managers(string[] res, SqlConnection sqlConnection, int item, int client)
         {
-            string strCommand = string.Format("Select phone, email FROM Managers inner join Trades on Managers.Id=Trades.ManagerId where trades.ItemId = '{0}' and trades.Clientid = '{1}'", item, client);
+            string strCommand = string.Format("Select phone, email FROM Managers inner join Trades on Managers.Id=Trades.ManagerId where trades.ItemId = @item and trades.Clientid = @client", item, client);
             sqlConnection.Open();
             SqlCommand command = new SqlCommand(strCommand, sqlConnection);
+            command.Parameters.AddWithValue("@item", item);
+            command.Parameters.AddWithValue("@client", client);
             SqlDataReader reader = command.ExecuteReader();
             try
             {
@@ -299,19 +146,14 @@ namespace EstateAgency
         {
             SqlCommand command = sqlConnection.CreateCommand();
             string strcom;
-                strcom = string.Format("UPDATE EstateObjects SET statusid=4 WHERE Id='{0}'", item);
+                strcom = string.Format("UPDATE EstateObjects SET statusid=4 WHERE Id=@item");
             command.CommandText = strcom;
-            
+            command.Parameters.AddWithValue("@item", item);
 
             sqlConnection.Open();
             try
             {
                 command.ExecuteNonQuery();
-                MessageBox.Show("4");
-            }
-            catch(Exception w)
-            {
-                MessageBox.Show(w.ToString());
             }
             finally
             {
@@ -324,17 +166,16 @@ namespace EstateAgency
         {
             SqlCommand command = sqlConnection.CreateCommand();
             string strcom;
-            strcom = string.Format("UPDATE Trades SET paymenttypeid='{0}', paymentinstrumentid='{1}' WHERE ItemId='{2}'", pType, pInstrument, item);
+            strcom = string.Format("UPDATE Trades SET paymenttypeid=@ptid paymentinstrumentid=@piid WHERE ItemId=@item", pType, pInstrument, item);
             command.CommandText = strcom;
+            command.Parameters.AddWithValue("@ptid", pType);
+            command.Parameters.AddWithValue("@piid", pInstrument);
+            command.Parameters.AddWithValue("@item", item);
 
             sqlConnection.Open();
             try
             {
                 command.ExecuteNonQuery();
-            }
-            catch (Exception w)
-            {
-                MessageBox.Show(w.ToString());
             }
             finally
             {
@@ -361,10 +202,6 @@ namespace EstateAgency
             try
             {
                 adapter.Fill(dt);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
             }
             finally
             {
@@ -412,10 +249,6 @@ namespace EstateAgency
             try
             {
                 adapter.Fill(dt);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
             }
             finally
             {

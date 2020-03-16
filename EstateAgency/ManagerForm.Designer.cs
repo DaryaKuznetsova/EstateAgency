@@ -60,6 +60,9 @@
             this.AreaMinTextBox = new Controls.MaxMinTextBox(this.components);
             this.PriceMaxTextBox = new Controls.MaxMinTextBox(this.components);
             this.PriceMinTextBox = new Controls.MaxMinTextBox(this.components);
+            this.открытьXlsФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ввестиЗначенияВручнуюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Statistics = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -106,36 +109,40 @@
             // 
             // addSMI
             // 
+            this.addSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.открытьXlsФайлToolStripMenuItem,
+            this.ввестиЗначенияВручнуюToolStripMenuItem});
             this.addSMI.Name = "addSMI";
-            this.addSMI.Size = new System.Drawing.Size(205, 26);
+            this.addSMI.Size = new System.Drawing.Size(216, 26);
             this.addSMI.Text = "Добавить запись";
             this.addSMI.Click += new System.EventHandler(this.addSMI_Click);
             // 
             // changeSMI
             // 
             this.changeSMI.Name = "changeSMI";
-            this.changeSMI.Size = new System.Drawing.Size(205, 26);
+            this.changeSMI.Size = new System.Drawing.Size(216, 26);
             this.changeSMI.Text = "Изменить запись";
             this.changeSMI.Click += new System.EventHandler(this.changeSMI_Click);
             // 
             // deleteSMI
             // 
             this.deleteSMI.Name = "deleteSMI";
-            this.deleteSMI.Size = new System.Drawing.Size(205, 26);
+            this.deleteSMI.Size = new System.Drawing.Size(216, 26);
             this.deleteSMI.Text = "Удалить запись";
             this.deleteSMI.Click += new System.EventHandler(this.deleteSMI_Click);
             // 
             // RequestsToolStripMenuItem
             // 
             this.RequestsToolStripMenuItem.Name = "RequestsToolStripMenuItem";
-            this.RequestsToolStripMenuItem.Size = new System.Drawing.Size(205, 26);
+            this.RequestsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.RequestsToolStripMenuItem.Text = "Заявки";
             this.RequestsToolStripMenuItem.Click += new System.EventHandler(this.RequestsToolStripMenuItem_Click);
             // 
             // statisticsSMI
             // 
             this.statisticsSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reportSMI});
+            this.reportSMI,
+            this.Statistics});
             this.statisticsSMI.Name = "statisticsSMI";
             this.statisticsSMI.Size = new System.Drawing.Size(96, 28);
             this.statisticsSMI.Text = "Статистика";
@@ -383,6 +390,26 @@
             this.PriceMinTextBox.Value = 1E+10F;
             this.PriceMinTextBox.TextChanged += new System.EventHandler(this.PriceMinTextBox_TextChanged);
             // 
+            // открытьXlsФайлToolStripMenuItem
+            // 
+            this.открытьXlsФайлToolStripMenuItem.Name = "открытьXlsФайлToolStripMenuItem";
+            this.открытьXlsФайлToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
+            this.открытьXlsФайлToolStripMenuItem.Text = "Открыть xls файл";
+            this.открытьXlsФайлToolStripMenuItem.Click += new System.EventHandler(this.открытьXlsФайлToolStripMenuItem_Click);
+            // 
+            // ввестиЗначенияВручнуюToolStripMenuItem
+            // 
+            this.ввестиЗначенияВручнуюToolStripMenuItem.Name = "ввестиЗначенияВручнуюToolStripMenuItem";
+            this.ввестиЗначенияВручнуюToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
+            this.ввестиЗначенияВручнуюToolStripMenuItem.Text = "Ввести значения вручную";
+            // 
+            // Statistics
+            // 
+            this.Statistics.Name = "Statistics";
+            this.Statistics.Size = new System.Drawing.Size(216, 26);
+            this.Statistics.Text = "Статистика";
+            this.Statistics.Click += new System.EventHandler(this.Statistics_Click);
+            // 
             // ManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -453,6 +480,9 @@
         private Controls.MaxMinTextBox AreaMaxTextBox;
         private Controls.MaxMinTextBox LandAreaMinTextBox;
         private Controls.MaxMinTextBox LandAreaMaxTextBox;
+        private System.Windows.Forms.ToolStripMenuItem открытьXlsФайлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ввестиЗначенияВручнуюToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Statistics;
     }
 }
 

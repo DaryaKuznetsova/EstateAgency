@@ -11,10 +11,22 @@ namespace EstateAgency
 {
     class ShowTable
     {
-        public static DataTable DisplayTable(string tableName, SqlConnection sqlConnection)
+        private Notation notation = Notation.Client;
+
+        public Notation Notation
+        {
+            get { return notation; }
+            set
+            {
+                notation = value;
+               // ChangeNotation();
+            }
+        }
+        
+        public static DataTable AllTable(SqlConnection sqlConnection)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "SELECT * FROM " + tableName;
+            command.CommandText = "SELECT * FROM EstateObjects";
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             try
@@ -31,6 +43,11 @@ namespace EstateAgency
             }
             return dt;
         }
+
+        //private static DataTable Filter(SqlConnection sqlConnection, SearchObjectForm sof)
+        //{
+
+        //}
 
         public static DataTable DisplayCurrentRequests(SqlConnection sqlConnection)
         {
@@ -55,7 +72,7 @@ namespace EstateAgency
         }
 
 
-        public static DataTable DisplayMyRequests(SqlConnection sqlConnection, int id)
+        public static DataTable DisplayClientRequests(SqlConnection sqlConnection, int id)
         {
             SqlCommand command = sqlConnection.CreateCommand();
 

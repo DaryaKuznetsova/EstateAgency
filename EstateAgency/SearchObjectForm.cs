@@ -42,7 +42,16 @@ namespace EstateAgency
         {
             InitializeComponent();
             SqlConnection = sqlConnection;
-            dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
+            dataGridView1.DataSource = ShowTable.AllTable(SqlConnection);
+            TextBoxes();
+            ComboBoxes();
+        }
+
+
+
+        private void ShowsearchResults()
+        {
+
         }
 
         private void ChangeNotation()
@@ -79,31 +88,65 @@ namespace EstateAgency
             InfoButton.Visible = false;
         }
 
+        private void TextBoxes()
+        {
+            PriceMinTextBox.Min = true;
+            PriceMaxTextBox.Min = false;
+            AreaMinTextBox.Min = true;
+            AreaMaxTextBox.Min = false;
+            LandAreaMinTextBox.Min = true;
+            LandAreaMaxTextBox.Min = false;
+            PriceMaxTextBox.Text = "До";
+            PriceMinTextBox.Text = "От";
+            AreaMaxTextBox.Text = "До";
+            AreaMinTextBox.Text = "От";
+            LandAreaMaxTextBox.Text = "До";
+            LandAreaMinTextBox.Text = "От";
+        }
+
+        private void ComboBoxes()
+        {
+            SqlConnection.Open();
+            using (var command = SqlConnection.CreateCommand())
+            {
+                command.CommandText = "select * from RealtyTypes";
+                var table = new DataTable();
+                table.Load(command.ExecuteReader());
+                RealtyTypeComboBox.DataSource = table;
+                RealtyTypeComboBox.ValueMember = "Id";
+                RealtyTypeComboBox.DisplayMember = "Name";
+
+            }
+
+            using (var command = SqlConnection.CreateCommand())
+            {
+                command.CommandText = "select * from TradeTypes";
+                var table = new DataTable();
+                table.Load(command.ExecuteReader());
+                TradeTypeComboBox.DataSource = table;
+                TradeTypeComboBox.ValueMember = "Id";
+                TradeTypeComboBox.DisplayMember = "Name";
+
+            }
+
+            using (var command = SqlConnection.CreateCommand())
+            {
+                command.CommandText = "select * from Districts";
+                var table2 = new DataTable();
+                table2.Load(command.ExecuteReader());
+                DistrictCheckedListBox.DataSource = table2;
+                DistrictCheckedListBox.ValueMember = "Id";
+                DistrictCheckedListBox.DisplayMember = "Name";
+
+
+            }
+
+            SqlConnection.Close();
+        }
+
         public void DataLoad()
         {
            // dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
-        }
-
-        private void CreateDataGridView()
-        {
-            dataGridView1.Columns["Id"].Visible = false;
-            dataGridView1.Columns["StatusId"].Visible = false;
-            dataGridView1.Columns["OwnerId"].Visible = false;
-            dataGridView1.Columns["DistrictId"].Visible = false;
-            dataGridView1.Columns["Description"].Visible = false;
-            dataGridView1.Columns["RealtyTypeId"].Visible = false;
-            dataGridView1.Columns["TradeTypeId"].Visible = false;
-            dataGridView1.Columns["Area"].Visible = false;
-            dataGridView1.Columns["LandDescription"].Visible = false;
-            dataGridView1.Columns["LandArea"].Visible = false;
-            dataGridView1.Columns["Furniture"].Visible = false;
-            dataGridView1.Columns["Trades"].Visible = false;
-            dataGridView1.Columns["Pictures"].Visible = false;
-            dataGridView1.Columns["Owners"].Visible = false;
-            dataGridView1.Columns["Districts"].Visible = false;
-            dataGridView1.Columns["Statuses"].Visible = false;
-            dataGridView1.Columns["RealtyTypes"].Visible = false;
-            dataGridView1.Columns["TradeTypes"].Visible = false;
         }
 
         private void ChangeButton_Click(object sender, EventArgs e)
@@ -152,6 +195,42 @@ namespace EstateAgency
         private void RequestButton_Click(object sender, EventArgs e)
         {
             CreateInfoForm();
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
+            int tradeType = Convert.ToInt32(TradeTypeComboBox.SelectedValue);
+            float minPrice = PriceMinTextBox.Value;
+            float maxPrice = PriceMaxTextBox.Value;
+            float minArea = AreaMinTextBox.Value;
+            float maxArea = AreaMaxTextBox.Value;
+            float minLandArea = LandAreaMinTextBox.Value;
+            float maxLandArea = LandAreaMaxTextBox.Value;
+
+            var elements = DistrictCheckedListBox.CheckedItems;
+            string districts = ManagerForm.CreateParameters(DistrictCheckedListBox);
+            string rooms = ManagerForm.CreateParameters(RoomsCheckedListBox);
+
+            dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);
+        }
+
+        private void SearchButton_Click_1(object sender, EventArgs e)
+        {
+            int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
+            int tradeType = Convert.ToInt32(TradeTypeComboBox.SelectedValue);
+            float minPrice = PriceMinTextBox.Value;
+            float maxPrice = PriceMaxTextBox.Value;
+            float minArea = AreaMinTextBox.Value;
+            float maxArea = AreaMaxTextBox.Value;
+            float minLandArea = LandAreaMinTextBox.Value;
+            float maxLandArea = LandAreaMaxTextBox.Value;
+
+            var elements = DistrictCheckedListBox.CheckedItems;
+            string districts = ManagerForm.CreateParameters(DistrictCheckedListBox);
+            string rooms = ManagerForm.CreateParameters(RoomsCheckedListBox);
+
+            dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);
         }
     }
 }

@@ -210,7 +210,7 @@ namespace EstateAgency
             }
         }
 
-        static bool SavingIntoFile(ref string filename) // Выбор пути сохранения и проверка расширения
+        public static bool SavingIntoFile(ref string filename) // Выбор пути сохранения и проверка расширения
         {
             bool ok = false;
             SaveFileDialog SFD = new SaveFileDialog();

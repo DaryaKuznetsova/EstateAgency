@@ -31,7 +31,7 @@
             this.LandAreaTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.LandTextBox = new System.Windows.Forms.TextBox();
-            this.areaTextBox = new System.Windows.Forms.TextBox();
+            this.AreaTextBox = new System.Windows.Forms.TextBox();
             this.AreaLabel = new System.Windows.Forms.Label();
             this.AddressTextBox = new System.Windows.Forms.TextBox();
             this.PriceTextBox = new System.Windows.Forms.TextBox();
@@ -85,13 +85,13 @@
             this.LandTextBox.Size = new System.Drawing.Size(469, 68);
             this.LandTextBox.TabIndex = 42;
             // 
-            // areaTextBox
+            // AreaTextBox
             // 
-            this.areaTextBox.Location = new System.Drawing.Point(97, 317);
-            this.areaTextBox.Name = "areaTextBox";
-            this.areaTextBox.Size = new System.Drawing.Size(100, 22);
-            this.areaTextBox.TabIndex = 41;
-            this.areaTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.areaTextBox_KeyPress);
+            this.AreaTextBox.Location = new System.Drawing.Point(97, 317);
+            this.AreaTextBox.Name = "AreaTextBox";
+            this.AreaTextBox.Size = new System.Drawing.Size(100, 22);
+            this.AreaTextBox.TabIndex = 41;
+            this.AreaTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.areaTextBox_KeyPress);
             // 
             // AreaLabel
             // 
@@ -358,7 +358,7 @@
             this.Controls.Add(this.LandAreaTextBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LandTextBox);
-            this.Controls.Add(this.areaTextBox);
+            this.Controls.Add(this.AreaTextBox);
             this.Controls.Add(this.AreaLabel);
             this.Controls.Add(this.AddressTextBox);
             this.Controls.Add(this.PriceTextBox);
@@ -385,7 +385,7 @@
         public System.Windows.Forms.TextBox LandAreaTextBox;
         public System.Windows.Forms.Label label1;
         public System.Windows.Forms.TextBox LandTextBox;
-        public System.Windows.Forms.TextBox areaTextBox;
+        public System.Windows.Forms.TextBox AreaTextBox;
         public System.Windows.Forms.Label AreaLabel;
         public System.Windows.Forms.TextBox AddressTextBox;
         public System.Windows.Forms.TextBox PriceTextBox;

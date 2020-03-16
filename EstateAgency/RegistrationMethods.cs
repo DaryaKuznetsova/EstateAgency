@@ -3,17 +3,30 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace EstateAgency
 {
     class RegistrationMethods
     {
+        static string salt = "gt#90mCti2.q";
+
+        static string GetHash(string password, string salt) //Получение хэш-значения
+        {
+            MD5 md5 = new MD5CryptoServiceProvider(); //Экземпляр объекта MD5
+            byte[] digest = md5.ComputeHash(Encoding.UTF8.GetBytes(password + salt)); //Вычисление хэш-значения
+            string base64digest = Convert.ToBase64String(digest, 0, digest.Length); //Получение строкового значения из массива байт
+            return base64digest;
+        }
 
         public static void AddManager(string phone, string email, string password, string surname, string name, string patronymic, SqlConnection sqlConnection)
         {
+            string hashPas = GetHash(password, salt);
+
             SqlCommand command = sqlConnection.CreateCommand();
             command.CommandText = "INSERT INTO Managers (phone, email, name, surname, patronymic, password) VALUES ( @phone, @email, @name, @surname, @patronymic, @password)";
             command.Parameters.Add("phone", SqlDbType.NVarChar).Value = phone;
@@ -21,7 +34,7 @@ namespace EstateAgency
             command.Parameters.Add("name", SqlDbType.NVarChar).Value = name;
             command.Parameters.Add("surname", SqlDbType.NVarChar).Value = surname;
             command.Parameters.Add("patronymic", SqlDbType.NVarChar).Value = patronymic;
-            command.Parameters.Add("password", SqlDbType.NVarChar).Value = password;
+            command.Parameters.Add("password", SqlDbType.NVarChar).Value = hashPas;
             sqlConnection.Open();
             try
             {
@@ -35,6 +48,8 @@ namespace EstateAgency
 
         public  static void AddClient(string phone, string email, string password, string surname, string name, string patronymic, SqlConnection sqlConnection)
         {
+            string hashPas = GetHash(password, salt);
+
             SqlCommand command = sqlConnection.CreateCommand();
             command.CommandText = "INSERT INTO Clients (phone, email, name, surname, patronymic, password) VALUES ( @phone, @email, @name, @surname, @patronymic, @password)";
             command.Parameters.Add("phone", SqlDbType.NVarChar).Value = phone;
@@ -42,7 +57,7 @@ namespace EstateAgency
             command.Parameters.Add("name", SqlDbType.NVarChar).Value = name;
             command.Parameters.Add("surname", SqlDbType.NVarChar).Value = surname;
             command.Parameters.Add("patronymic", SqlDbType.NVarChar).Value = patronymic;
-            command.Parameters.Add("password", SqlDbType.NVarChar).Value = password;
+            command.Parameters.Add("password", SqlDbType.NVarChar).Value = hashPas;
             sqlConnection.Open();
             try
             {
@@ -85,11 +100,18 @@ namespace EstateAgency
 
         public static int RegistratedClient(string phone, string password, SqlConnection sqlConnection)
         {
+            string hashPas = GetHash(password, salt);
+
             int id = -1;
-                string strCommand = string.Format("Select id FROM Clients WHERE Phone = '{0}' and Password='{1}'", phone, password);
-                sqlConnection.Open();
-                SqlCommand command = new SqlCommand(strCommand, sqlConnection);
-                SqlDataReader reader = command.ExecuteReader();
+                string strCommand = string.Format("Select id FROM Clients WHERE Phone = @phone and Password=@password");
+
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = strCommand;
+            command.Parameters.Add("phone", SqlDbType.NVarChar).Value = phone;
+            command.Parameters.Add("password", SqlDbType.NVarChar).Value = hashPas;
+            sqlConnection.Open();
+
+            SqlDataReader reader = command.ExecuteReader();
             try
             {
                 while (reader.Read())
@@ -107,10 +129,17 @@ namespace EstateAgency
 
         public static int RegistratedManager(string phone, string password, SqlConnection sqlConnection)
         {
+            string hashPas = GetHash(password, salt);
+
             int id = -1;
-            string strCommand = string.Format("Select id FROM Managers WHERE Phone = '{0}' and Password='{1}'", phone, password);
+            string strCommand = string.Format("Select id FROM Managers WHERE Phone = @phone and Password=@password");
+
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = strCommand;
+            command.Parameters.Add("phone", SqlDbType.NVarChar).Value = phone;
+            command.Parameters.Add("password", SqlDbType.NVarChar).Value = hashPas;
             sqlConnection.Open();
-            SqlCommand command = new SqlCommand(strCommand, sqlConnection);
+
             SqlDataReader reader = command.ExecuteReader();
             try
             {
