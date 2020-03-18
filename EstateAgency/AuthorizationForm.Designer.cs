@@ -68,9 +68,12 @@
             // LoginTextBox
             // 
             this.LoginTextBox.Location = new System.Drawing.Point(119, 114);
+            this.LoginTextBox.MaxLength = 12;
             this.LoginTextBox.Name = "LoginTextBox";
             this.LoginTextBox.Size = new System.Drawing.Size(100, 22);
             this.LoginTextBox.TabIndex = 3;
+            this.LoginTextBox.TextChanged += new System.EventHandler(this.LoginTextBox_TextChanged);
+            this.LoginTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.LoginTextBox_KeyPress);
             // 
             // PasswordTextBox
             // 
@@ -79,6 +82,7 @@
             this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(100, 22);
             this.PasswordTextBox.TabIndex = 4;
+            this.PasswordTextBox.TextChanged += new System.EventHandler(this.PasswordTextBox_TextChanged);
             // 
             // ManagerCheckBox
             // 
@@ -115,7 +119,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(365, 435);
+            this.ClientSize = new System.Drawing.Size(307, 398);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.ManagerCheckBox);

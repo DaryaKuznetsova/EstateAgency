@@ -23,8 +23,7 @@ namespace EstateAgency
 
     public partial class SearchObjectForm : Form
     {
-        public int ClientId { get; set; }
-        public int ManagerId { get; set; }
+        bool Filter = false;
         private Notation notation = Notation.Client;
 
         public Notation Notation
@@ -42,12 +41,9 @@ namespace EstateAgency
         {
             InitializeComponent();
             SqlConnection = sqlConnection;
-            dataGridView1.DataSource = ShowTable.AllTable(SqlConnection);
             TextBoxes();
             ComboBoxes();
         }
-
-
 
         private void ShowsearchResults()
         {
@@ -74,8 +70,31 @@ namespace EstateAgency
             }
             if (Notation == Notation.ManagerRequests)
             {
+                RequestButton.Visible = true;
+                RequestButton.Enabled = true;
+                BlockFilter();
                 dataGridView1.DataSource = ShowTable.DisplayCurrentRequests(SqlConnection);
             }
+        }
+
+        private void BlockFilter()
+        {
+            RealtyTypeComboBox.Visible = false;
+            TradeTypeComboBox.Visible = false;
+            DistrictCheckedListBox.Visible = false;
+            RoomsCheckedListBox.Visible = false;
+            PriceMinTextBox.Visible = false;
+            PriceMaxTextBox.Visible = false;
+            LandAreaMinTextBox.Visible = false;
+            LandAreaMaxTextBox.Visible = false;
+            AreaMinTextBox.Visible = false;
+            AreaMaxTextBox.Visible = false;
+            SearchButton.Visible = false;
+            PriceLabel.Visible = false;
+            AreaLabel.Visible = false;
+            DistrictLabel.Visible = false;
+            RoomsLabel.Visible = false;
+            LandAreaLabel.Visible = false;
         }
 
         private void BlockEverything()
@@ -86,6 +105,8 @@ namespace EstateAgency
             ChangeButton.Visible = false;
             InfoButton.Enabled = false;
             InfoButton.Visible = false;
+            RequestButton.Visible = false;
+            RequestButton.Enabled = false;
         }
 
         private void TextBoxes()
@@ -146,7 +167,23 @@ namespace EstateAgency
 
         public void DataLoad()
         {
-           // dataGridView1.DataSource = ShowTable.DisplayTable("EstateObjects", SqlConnection);
+            int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
+            int tradeType = Convert.ToInt32(TradeTypeComboBox.SelectedValue);
+            float minPrice = PriceMinTextBox.Value;
+            float maxPrice = PriceMaxTextBox.Value;
+            float minArea = AreaMinTextBox.Value;
+            float maxArea = AreaMaxTextBox.Value;
+            float minLandArea = LandAreaMinTextBox.Value;
+            float maxLandArea = LandAreaMaxTextBox.Value;
+
+            var elements = DistrictCheckedListBox.CheckedItems;
+            string districts = ManagerForm.CreateParameters(DistrictCheckedListBox);
+            string rooms = ManagerForm.CreateParameters(RoomsCheckedListBox);
+
+            if (Filter)
+                dataGridView1.DataSource = ShowTable.DisplayCurrentRequests(SqlConnection);
+            else
+                dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);
         }
 
         private void ChangeButton_Click(object sender, EventArgs e)
@@ -174,8 +211,6 @@ namespace EstateAgency
 
                 ItemInfoForm itemInfoForm = new ItemInfoForm(SqlConnection, id);
                 itemInfoForm.Notation = notation;
-                itemInfoForm.ClientId = ClientId;
-                itemInfoForm.ManagerId = ManagerId;
                 try
                 {
                     itemInfoForm.ShowDialog();
@@ -190,30 +225,32 @@ namespace EstateAgency
         private void InfoButton_Click(object sender, EventArgs e)
         {
             CreateInfoForm();
+            DataLoad();
         }
 
         private void RequestButton_Click(object sender, EventArgs e)
         {
             CreateInfoForm();
+            DataLoad();
         }
 
-        private void SearchButton_Click(object sender, EventArgs e)
-        {
-            int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
-            int tradeType = Convert.ToInt32(TradeTypeComboBox.SelectedValue);
-            float minPrice = PriceMinTextBox.Value;
-            float maxPrice = PriceMaxTextBox.Value;
-            float minArea = AreaMinTextBox.Value;
-            float maxArea = AreaMaxTextBox.Value;
-            float minLandArea = LandAreaMinTextBox.Value;
-            float maxLandArea = LandAreaMaxTextBox.Value;
+        //private void SearchButton_Click(object sender, EventArgs e)
+        //{
+        //    int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
+        //    int tradeType = Convert.ToInt32(TradeTypeComboBox.SelectedValue);
+        //    float minPrice = PriceMinTextBox.Value;
+        //    float maxPrice = PriceMaxTextBox.Value;
+        //    float minArea = AreaMinTextBox.Value;
+        //    float maxArea = AreaMaxTextBox.Value;
+        //    float minLandArea = LandAreaMinTextBox.Value;
+        //    float maxLandArea = LandAreaMaxTextBox.Value;
 
-            var elements = DistrictCheckedListBox.CheckedItems;
-            string districts = ManagerForm.CreateParameters(DistrictCheckedListBox);
-            string rooms = ManagerForm.CreateParameters(RoomsCheckedListBox);
+        //    var elements = DistrictCheckedListBox.CheckedItems;
+        //    string districts = ManagerForm.CreateParameters(DistrictCheckedListBox);
+        //    string rooms = ManagerForm.CreateParameters(RoomsCheckedListBox);
 
-            dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);
-        }
+        //    dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);
+        //}
 
         private void SearchButton_Click_1(object sender, EventArgs e)
         {
@@ -231,6 +268,11 @@ namespace EstateAgency
             string rooms = ManagerForm.CreateParameters(RoomsCheckedListBox);
 
             dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);
+        }
+
+        private void AdvancedSearchButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

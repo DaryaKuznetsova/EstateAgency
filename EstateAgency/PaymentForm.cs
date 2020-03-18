@@ -24,7 +24,16 @@ namespace EstateAgency
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Query.FinalTrade(sqlConnection, Id, Convert.ToInt32(PaymentInstrumentCB.SelectedValue), Convert.ToInt32(PaymentInstrumentCB.SelectedValue));
+            try
+            {
+                Query.FinalTrade(sqlConnection, Id, Convert.ToInt32(PaymentInstrumentCB.SelectedValue), Convert.ToInt32(PaymentInstrumentCB.SelectedValue));
+                MessageBox.Show("Заявка подтверждена.");
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void ComboBoxes()
@@ -43,7 +52,7 @@ namespace EstateAgency
 
             using (var command = sqlConnection.CreateCommand())
             {
-                command.CommandText = "select * from PaymnetInstruments";
+                command.CommandText = "select * from PaymentInstruments";
                 var table = new DataTable();
                 table.Load(command.ExecuteReader());
                 PaymentInstrumentCB.DataSource = table;

@@ -98,6 +98,34 @@ namespace EstateAgency
             else return false;
         }
 
+        public static bool CorrectCode(string code, SqlConnection sqlConnection)
+        {
+            string pas="w";
+
+            string strCommand = string.Format("Select pass FROM passwords WHERE pass = @code");
+
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = strCommand;
+            command.Parameters.Add("code", SqlDbType.NVarChar).Value = code;
+            sqlConnection.Open();
+
+            SqlDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    pas = reader.GetValue(0).ToString();
+                }
+            }
+            finally
+            {
+                reader.Close();
+                sqlConnection.Close();
+            }
+            if (pas != "w") return true;
+            else return false;
+        }
+
         public static int RegistratedClient(string phone, string password, SqlConnection sqlConnection)
         {
             string hashPas = GetHash(password, salt);

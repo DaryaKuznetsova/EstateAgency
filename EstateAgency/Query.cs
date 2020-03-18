@@ -166,7 +166,7 @@ namespace EstateAgency
         {
             SqlCommand command = sqlConnection.CreateCommand();
             string strcom;
-            strcom = string.Format("UPDATE Trades SET paymenttypeid=@ptid paymentinstrumentid=@piid WHERE ItemId=@item", pType, pInstrument, item);
+            strcom = string.Format("UPDATE Trades SET paymenttypeid=(@ptid), paymentinstrumentid=(@piid) WHERE ItemId=@item", pType, pInstrument, item);
             command.CommandText = strcom;
             command.Parameters.AddWithValue("@ptid", pType);
             command.Parameters.AddWithValue("@piid", pInstrument);

@@ -18,6 +18,9 @@ namespace EstateAgency
         {
             InitializeComponent();
             this.sqlConnection = sqlConnection;
+            CodeLabel.Visible = false;
+            CodeTextBox.Visible = false;
+            CodeTextBox.Enabled = false;
         }
 
         private void SurnameTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -34,7 +37,7 @@ namespace EstateAgency
 
         private void PatronymicTextBox_TextChanged(object sender, EventArgs e)
         {
-
+            BlockButton();
         }
 
         private void PatronymicTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -63,17 +66,86 @@ namespace EstateAgency
             string email = EmailTextBox.Text;
             string password1 = PasswordTextBox.Text;
             string password2 = Password2TextBox.Text;
+            string code = CodeTextBox.Text;
             if (password1.Equals(password2) && RegistrationMethods.CorrectEmail(email))
             {
-                if (ManagerCheckBox.Checked)
-                    RegistrationMethods.AddManager(phone, email, password1, surname, name, patronymic, sqlConnection );
-                else RegistrationMethods.AddClient(phone, email, password1, surname, name, patronymic, sqlConnection );
-                this.Close();
+                try
+                {
+                    if (ManagerCheckBox.Checked)
+                        if (RegistrationMethods.CorrectCode(code, sqlConnection))
+                        {
+                            RegistrationMethods.AddManager(phone, email, password1, surname, name, patronymic, sqlConnection);
+                            MessageBox.Show("Регистрация прошла успешно. Ваш логин - номер телефона. Авторизируйтесь для продолжения работы.");
+                        }
+                        else MessageBox.Show("Введен неверный код. Уточните код у администратора.");
+                    else
+                    {
+                        RegistrationMethods.AddClient(phone, email, password1, surname, name, patronymic, sqlConnection);
+                        MessageBox.Show("Регистрация прошла успешно. Ваш логин - номер телефона. Авторизируйтесь для продолжения работы.");
+                    }
+                    this.Close();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Пользователь с данным номером телефона или адресом электронной почты уже существует. Пожалуйста, проверьте введенные данные.");
+                }
             }               
-            else MessageBox.Show("Проверьте пароль и email");
-            ManagerForm mf = new ManagerForm();
-            mf.Show();
+            else MessageBox.Show("Проверьте пароль и email.");
+        }
 
+        private void BlockButton()
+        {
+            if (SurnameTextBox.Text.Length != 0 && NameTextBox.Text.Length != 0 &&
+                PatronymicTextBox.Text.Length != 0 && PhoneTextBox.Text.Length != 0 &&
+                EmailTextBox.Text.Length != 0 && PasswordTextBox.Text.Length != 0 && PasswordTextBox.Text.Length != 0)
+                RegistrationButton.Enabled = true;
+            else RegistrationButton.Enabled = false;
+        }
+
+        private void SurnameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BlockButton();
+        }
+
+        private void NameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BlockButton();
+        }
+
+        private void PhoneTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BlockButton();
+        }
+
+        private void EmailTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BlockButton();
+        }
+
+        private void PasswordTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BlockButton();
+        }
+
+        private void Password2TextBox_TextChanged(object sender, EventArgs e)
+        {
+            BlockButton();
+        }
+
+        private void ManagerCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if(ManagerCheckBox.Checked)
+            {
+                CodeLabel.Visible = true;
+                CodeTextBox.Visible = true;
+                CodeTextBox.Enabled = true;
+            }
+            else
+            {
+                CodeLabel.Visible = false ;
+                CodeTextBox.Visible = false;
+                CodeTextBox.Enabled = false;
+            }
         }
     }
 }

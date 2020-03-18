@@ -29,25 +29,26 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManagerForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.personSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.accountSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.catalogSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.addSMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.открытьXlsФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ввестиЗначенияВручнуюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.RequestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticsSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.reportSMI = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.Statistics = new System.Windows.Forms.ToolStripMenuItem();
             this.SearchButton = new System.Windows.Forms.Button();
-            this.EnterButton = new System.Windows.Forms.Button();
             this.RealtyTypeComboBox = new System.Windows.Forms.ComboBox();
             this.TradeTypeComboBox = new System.Windows.Forms.ComboBox();
             this.PriceLabel = new System.Windows.Forms.Label();
             this.AreaLabel = new System.Windows.Forms.Label();
             this.LandAreaLabel = new System.Windows.Forms.Label();
-            this.AdvancedSearchButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.DistrictCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.RoomsCheckedListBox = new System.Windows.Forms.CheckedListBox();
@@ -60,11 +61,13 @@
             this.AreaMinTextBox = new Controls.MaxMinTextBox(this.components);
             this.PriceMaxTextBox = new Controls.MaxMinTextBox(this.components);
             this.PriceMinTextBox = new Controls.MaxMinTextBox(this.components);
-            this.открытьXlsФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ввестиЗначенияВручнуюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Statistics = new System.Windows.Forms.ToolStripMenuItem();
+            this.EnterPictureBox = new System.Windows.Forms.PictureBox();
+            this.ExitPictureBox = new System.Windows.Forms.PictureBox();
+            this.InfoButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.EnterPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExitPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -73,11 +76,10 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.personSMI,
             this.catalogSMI,
-            this.statisticsSMI,
-            this.toolStripComboBox1});
+            this.statisticsSMI});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(780, 32);
+            this.menuStrip1.Size = new System.Drawing.Size(787, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -86,13 +88,13 @@
             this.personSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.accountSMI});
             this.personSMI.Name = "personSMI";
-            this.personSMI.Size = new System.Drawing.Size(137, 28);
+            this.personSMI.Size = new System.Drawing.Size(137, 24);
             this.personSMI.Text = "Личный кабинет";
             // 
             // accountSMI
             // 
             this.accountSMI.Name = "accountSMI";
-            this.accountSMI.Size = new System.Drawing.Size(166, 26);
+            this.accountSMI.Size = new System.Drawing.Size(216, 26);
             this.accountSMI.Text = "Мои заявки";
             this.accountSMI.Click += new System.EventHandler(this.accountSMI_Click);
             // 
@@ -104,7 +106,7 @@
             this.deleteSMI,
             this.RequestsToolStripMenuItem});
             this.catalogSMI.Name = "catalogSMI";
-            this.catalogSMI.Size = new System.Drawing.Size(75, 28);
+            this.catalogSMI.Size = new System.Drawing.Size(75, 24);
             this.catalogSMI.Text = "Каталог";
             // 
             // addSMI
@@ -116,6 +118,20 @@
             this.addSMI.Size = new System.Drawing.Size(216, 26);
             this.addSMI.Text = "Добавить запись";
             this.addSMI.Click += new System.EventHandler(this.addSMI_Click);
+            // 
+            // открытьXlsФайлToolStripMenuItem
+            // 
+            this.открытьXlsФайлToolStripMenuItem.Name = "открытьXlsФайлToolStripMenuItem";
+            this.открытьXlsФайлToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
+            this.открытьXlsФайлToolStripMenuItem.Text = "Открыть xls файл";
+            this.открытьXlsФайлToolStripMenuItem.Click += new System.EventHandler(this.открытьXlsФайлToolStripMenuItem_Click);
+            // 
+            // ввестиЗначенияВручнуюToolStripMenuItem
+            // 
+            this.ввестиЗначенияВручнуюToolStripMenuItem.Name = "ввестиЗначенияВручнуюToolStripMenuItem";
+            this.ввестиЗначенияВручнуюToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
+            this.ввестиЗначенияВручнуюToolStripMenuItem.Text = "Ввести значения вручную";
+            this.ввестиЗначенияВручнуюToolStripMenuItem.Click += new System.EventHandler(this.ввестиЗначенияВручнуюToolStripMenuItem_Click);
             // 
             // changeSMI
             // 
@@ -144,7 +160,7 @@
             this.reportSMI,
             this.Statistics});
             this.statisticsSMI.Name = "statisticsSMI";
-            this.statisticsSMI.Size = new System.Drawing.Size(96, 28);
+            this.statisticsSMI.Size = new System.Drawing.Size(96, 24);
             this.statisticsSMI.Text = "Статистика";
             // 
             // reportSMI
@@ -154,13 +170,12 @@
             this.reportSMI.Text = "Создать отчёт";
             this.reportSMI.Click += new System.EventHandler(this.reportSMI_Click);
             // 
-            // toolStripComboBox1
+            // Statistics
             // 
-            this.toolStripComboBox1.Items.AddRange(new object[] {
-            "да",
-            "нет"});
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 28);
+            this.Statistics.Name = "Statistics";
+            this.Statistics.Size = new System.Drawing.Size(216, 26);
+            this.Statistics.Text = "Статистика";
+            this.Statistics.Click += new System.EventHandler(this.Statistics_Click);
             // 
             // SearchButton
             // 
@@ -171,16 +186,6 @@
             this.SearchButton.Text = "Найти";
             this.SearchButton.UseVisualStyleBackColor = true;
             this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
-            // 
-            // EnterButton
-            // 
-            this.EnterButton.Location = new System.Drawing.Point(670, 12);
-            this.EnterButton.Name = "EnterButton";
-            this.EnterButton.Size = new System.Drawing.Size(70, 58);
-            this.EnterButton.TabIndex = 2;
-            this.EnterButton.Text = "Вход в систему";
-            this.EnterButton.UseVisualStyleBackColor = true;
-            this.EnterButton.Click += new System.EventHandler(this.EnterButton_Click);
             // 
             // RealtyTypeComboBox
             // 
@@ -240,16 +245,6 @@
             this.LandAreaLabel.TabIndex = 18;
             this.LandAreaLabel.Text = "Площадь участка";
             this.LandAreaLabel.Click += new System.EventHandler(this.LandAreaLabel_Click);
-            // 
-            // AdvancedSearchButton
-            // 
-            this.AdvancedSearchButton.Location = new System.Drawing.Point(595, 163);
-            this.AdvancedSearchButton.Name = "AdvancedSearchButton";
-            this.AdvancedSearchButton.Size = new System.Drawing.Size(145, 62);
-            this.AdvancedSearchButton.TabIndex = 19;
-            this.AdvancedSearchButton.Text = "Расширенный поиск";
-            this.AdvancedSearchButton.UseVisualStyleBackColor = true;
-            this.AdvancedSearchButton.Click += new System.EventHandler(this.AdvancedSearchButton_Click);
             // 
             // dataGridView1
             // 
@@ -390,31 +385,49 @@
             this.PriceMinTextBox.Value = 1E+10F;
             this.PriceMinTextBox.TextChanged += new System.EventHandler(this.PriceMinTextBox_TextChanged);
             // 
-            // открытьXlsФайлToolStripMenuItem
+            // EnterPictureBox
             // 
-            this.открытьXlsФайлToolStripMenuItem.Name = "открытьXlsФайлToolStripMenuItem";
-            this.открытьXlsФайлToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
-            this.открытьXlsФайлToolStripMenuItem.Text = "Открыть xls файл";
-            this.открытьXlsФайлToolStripMenuItem.Click += new System.EventHandler(this.открытьXlsФайлToolStripMenuItem_Click);
+            this.EnterPictureBox.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.EnterPictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.EnterPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("EnterPictureBox.Image")));
+            this.EnterPictureBox.Location = new System.Drawing.Point(712, 0);
+            this.EnterPictureBox.Name = "EnterPictureBox";
+            this.EnterPictureBox.Size = new System.Drawing.Size(28, 28);
+            this.EnterPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.EnterPictureBox.TabIndex = 32;
+            this.EnterPictureBox.TabStop = false;
+            this.EnterPictureBox.Click += new System.EventHandler(this.EnterPictureBox_Click);
             // 
-            // ввестиЗначенияВручнуюToolStripMenuItem
+            // ExitPictureBox
             // 
-            this.ввестиЗначенияВручнуюToolStripMenuItem.Name = "ввестиЗначенияВручнуюToolStripMenuItem";
-            this.ввестиЗначенияВручнуюToolStripMenuItem.Size = new System.Drawing.Size(265, 26);
-            this.ввестиЗначенияВручнуюToolStripMenuItem.Text = "Ввести значения вручную";
+            this.ExitPictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ExitPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("ExitPictureBox.Image")));
+            this.ExitPictureBox.Location = new System.Drawing.Point(747, 0);
+            this.ExitPictureBox.Name = "ExitPictureBox";
+            this.ExitPictureBox.Size = new System.Drawing.Size(28, 28);
+            this.ExitPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ExitPictureBox.TabIndex = 33;
+            this.ExitPictureBox.TabStop = false;
+            this.ExitPictureBox.Click += new System.EventHandler(this.ExitPictureBox_Click);
             // 
-            // Statistics
+            // InfoButton
             // 
-            this.Statistics.Name = "Statistics";
-            this.Statistics.Size = new System.Drawing.Size(216, 26);
-            this.Statistics.Text = "Статистика";
-            this.Statistics.Click += new System.EventHandler(this.Statistics_Click);
+            this.InfoButton.Location = new System.Drawing.Point(278, 603);
+            this.InfoButton.Name = "InfoButton";
+            this.InfoButton.Size = new System.Drawing.Size(130, 23);
+            this.InfoButton.TabIndex = 34;
+            this.InfoButton.Text = "Приобрести";
+            this.InfoButton.UseVisualStyleBackColor = true;
+            this.InfoButton.Click += new System.EventHandler(this.InfoButton_Click);
             // 
             // ManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(780, 659);
+            this.ClientSize = new System.Drawing.Size(787, 659);
+            this.Controls.Add(this.InfoButton);
+            this.Controls.Add(this.ExitPictureBox);
+            this.Controls.Add(this.EnterPictureBox);
             this.Controls.Add(this.LandAreaMaxTextBox);
             this.Controls.Add(this.LandAreaMinTextBox);
             this.Controls.Add(this.AreaMaxTextBox);
@@ -427,13 +440,11 @@
             this.Controls.Add(this.RoomsCheckedListBox);
             this.Controls.Add(this.DistrictCheckedListBox);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.AdvancedSearchButton);
             this.Controls.Add(this.LandAreaLabel);
             this.Controls.Add(this.AreaLabel);
             this.Controls.Add(this.PriceLabel);
             this.Controls.Add(this.TradeTypeComboBox);
             this.Controls.Add(this.RealtyTypeComboBox);
-            this.Controls.Add(this.EnterButton);
             this.Controls.Add(this.SearchButton);
             this.Controls.Add(this.menuStrip1);
             this.Name = "ManagerForm";
@@ -442,6 +453,8 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.EnterPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ExitPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -458,15 +471,12 @@
         private System.Windows.Forms.ToolStripMenuItem deleteSMI;
         private System.Windows.Forms.ToolStripMenuItem accountSMI;
         private System.Windows.Forms.ToolStripMenuItem reportSMI;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
         private System.Windows.Forms.Button SearchButton;
-        private System.Windows.Forms.Button EnterButton;
         private System.Windows.Forms.ComboBox RealtyTypeComboBox;
         private System.Windows.Forms.ComboBox TradeTypeComboBox;
         private System.Windows.Forms.Label PriceLabel;
         private System.Windows.Forms.Label AreaLabel;
         private System.Windows.Forms.Label LandAreaLabel;
-        private System.Windows.Forms.Button AdvancedSearchButton;
         public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.CheckedListBox DistrictCheckedListBox;
         private System.Windows.Forms.CheckedListBox RoomsCheckedListBox;
@@ -483,6 +493,9 @@
         private System.Windows.Forms.ToolStripMenuItem открытьXlsФайлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ввестиЗначенияВручнуюToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Statistics;
+        private System.Windows.Forms.PictureBox EnterPictureBox;
+        private System.Windows.Forms.PictureBox ExitPictureBox;
+        private System.Windows.Forms.Button InfoButton;
     }
 }
 

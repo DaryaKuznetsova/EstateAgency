@@ -15,8 +15,6 @@ namespace EstateAgency
 {
     public partial class ManagerForm : Form
     {
-        public int ClientId { get; set; }
-        public int ManagerId { get; set; }
         public SqlConnection SqlConnection { get;set; }
         static string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
@@ -28,6 +26,9 @@ namespace EstateAgency
             //dataGridView1.DataSource = ShowTable.AllTable(SqlConnection);
             ComboBoxes();
             TextBoxes();
+            Exit();
+            CurrentUser.ClientId = -1;
+            CurrentUser.ManagerId = -1;
         }
 
         private void TextBoxes()
@@ -104,8 +105,32 @@ namespace EstateAgency
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
+            InfoButton.Visible = true;
             ShowSearchResults();
             filter = true;
+        }
+
+        void CreateInfoForm()
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int index = dataGridView1.SelectedRows[0].Index;
+                int id = 0;
+                bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                ItemInfoForm itemInfoForm = new ItemInfoForm(SqlConnection, id);
+                itemInfoForm.Notation = Notation.Client;
+                try
+                {
+                    itemInfoForm.ShowDialog();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("запускай через отладчик");
+                }
+            }
         }
 
         private void ShowSearchResults()
@@ -214,17 +239,48 @@ namespace EstateAgency
             Block();
         }
 
+        private void Exit()
+        {
+            personSMI.Visible = false;
+            personSMI.Enabled = false;
+            catalogSMI.Visible = false;
+            catalogSMI.Enabled = false;
+            statisticsSMI.Visible = false;
+            statisticsSMI.Enabled = false;
+            RealtyTypeComboBox.Visible = false;
+            TradeTypeComboBox.Visible = false;
+            DistrictCheckedListBox.Visible = false;
+            RoomsCheckedListBox.Visible = false;
+            PriceMinTextBox.Visible = false;
+            PriceMaxTextBox.Visible = false;
+            LandAreaMinTextBox.Visible = false;
+            LandAreaMaxTextBox.Visible = false;
+            AreaMinTextBox.Visible = false;
+            AreaMaxTextBox.Visible = false;
+            SearchButton.Visible = false;
+            dataGridView1.Visible = false;
+            PriceLabel.Visible = false;
+            AreaLabel.Visible = false;
+            DistrictLabel.Visible = false;
+            RoomsLabel.Visible = false;
+            LandAreaLabel.Visible = false;
+            InfoButton.Visible = false;
+            paymentButton.Visible = false;
+        }
+
         private void RequestsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SearchObjectForm sof = new SearchObjectForm(SqlConnection);
             sof.Notation = Notation.ManagerRequests;
-            sof.ManagerId = ManagerId;
             sof.Show();
         }
 
         private void accountSMI_Click(object sender, EventArgs e)
         {
-            dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, ClientId);
+            Exit();
+            dataGridView1.Visible = true;
+            paymentButton.Visible = true;
+            dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, CurrentUser.ClientId);
         }
 
         private void paymentButton_Click(object sender, EventArgs e)
@@ -238,7 +294,7 @@ namespace EstateAgency
                     return;
 
                 PaymentForm pf = new PaymentForm(SqlConnection);
-                string[] res = Query.Contacts(SqlConnection, ClientId, id);
+                string[] res = Query.Contacts(SqlConnection, CurrentUser.ClientId, id);
                 pf.PhoneTextBox.Text = res[0];
                 pf.EmailTextBox.Text = res[1];
                 pf.Id = id;
@@ -255,8 +311,8 @@ namespace EstateAgency
 
         private void reportSMI_Click(object sender, EventArgs e)
         {
-            ReportForm rf = new ReportForm(SqlConnection);
-            rf.ShowDialog();
+            ReportsForm sf = new ReportsForm(SqlConnection);
+            sf.Show();
         }
 
         private void AdvancedSearchButton_Click(object sender, EventArgs e)
@@ -384,9 +440,87 @@ namespace EstateAgency
 
         private void Statistics_Click(object sender, EventArgs e)
         {
-            StatisticsForm sf = new StatisticsForm();
-            sf.CreateChart(SqlConnection);
-            sf.Show();
+            StatisticsForm rf = new StatisticsForm(SqlConnection);
+            rf.Show();
+        }
+
+        private void EnterPictureBox_Click(object sender, EventArgs e)
+        {
+            AuthorizationForm authorizationForm = new AuthorizationForm(this, SqlConnection);
+            authorizationForm.ShowDialog();
+        }
+
+        private void ExitPictureBox_Click(object sender, EventArgs e)
+        {
+            Exit();
+            CurrentUser.ClientId = -1;
+            CurrentUser.ManagerId = -1;
+            EnterPictureBox.Enabled = true;
+        }
+
+        public void EnterClient()
+        {
+            personSMI.Visible = true ;
+            personSMI.Enabled = true;
+
+            RealtyTypeComboBox.Visible = true;
+            TradeTypeComboBox.Visible = true;
+            DistrictCheckedListBox.Visible = true;
+            RoomsCheckedListBox.Visible = true;
+            PriceMinTextBox.Visible = true;
+            PriceMaxTextBox.Visible = true;
+            LandAreaMinTextBox.Visible = true;
+            LandAreaMaxTextBox.Visible = true;
+            AreaMinTextBox.Visible = true;
+            AreaMaxTextBox.Visible = true;
+            SearchButton.Visible = true;
+            dataGridView1.Visible = true;
+            PriceLabel.Visible = true;
+            AreaLabel.Visible = true;
+            DistrictLabel.Visible = true;
+            RoomsLabel.Visible = true;
+            LandAreaLabel.Visible = true;
+            InfoButton.Visible = true;
+            EnterPictureBox.Enabled = false;
+        }
+
+        public void EnterManager()
+        {
+            personSMI.Visible = false;
+            personSMI.Enabled = false;
+            catalogSMI.Visible = true ;
+            catalogSMI.Enabled = true;
+            statisticsSMI.Visible = true;
+            statisticsSMI.Enabled = true;
+            RealtyTypeComboBox.Visible = false;
+            TradeTypeComboBox.Visible = false;
+            DistrictCheckedListBox.Visible = false;
+            RoomsCheckedListBox.Visible = false;
+            PriceMinTextBox.Visible = false;
+            PriceMaxTextBox.Visible = false;
+            LandAreaMinTextBox.Visible = false;
+            LandAreaMaxTextBox.Visible = false;
+            AreaMinTextBox.Visible = false;
+            AreaMaxTextBox.Visible = false;
+            SearchButton.Visible = false;
+            dataGridView1.Visible = false;
+            InfoButton.Visible = false;
+            paymentButton.Visible = false;
+            EnterPictureBox.Enabled = false;
+        }
+
+        private void InfoButton_Click(object sender, EventArgs e)
+        {
+            CreateInfoForm();
+            RefreshData();
+        }
+
+        private void ввестиЗначенияВручнуюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ItemInfoForm itemf = new ItemInfoForm(SqlConnection, -1);
+            itemf.Notation = Notation.Insert;
+            itemf.ShowDialog();
+            RefreshData();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace EstateAgency
         public static DataTable AllTable(SqlConnection sqlConnection)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandText = "SELECT * FROM EstateObjects";
+            command.CommandText = "SELECT * FROM EstateObjects where statusid=1";
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             try
@@ -44,10 +44,6 @@ namespace EstateAgency
             return dt;
         }
 
-        //private static DataTable Filter(SqlConnection sqlConnection, SearchObjectForm sof)
-        //{
-
-        //}
 
         public static DataTable DisplayCurrentRequests(SqlConnection sqlConnection)
         {

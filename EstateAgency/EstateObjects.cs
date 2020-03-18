@@ -42,6 +42,7 @@ namespace EstateAgency
 
                 command.Parameters.Add("landd", SqlDbType.NVarChar).Value = landdescription;
                 command.Parameters.Add("landa", SqlDbType.NVarChar).Value = landarea;
+                command.Parameters.Add("rooms", SqlDbType.NVarChar).Value = rooms;
             }
 
             else if (realtytype == 1)

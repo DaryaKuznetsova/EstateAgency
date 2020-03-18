@@ -45,7 +45,6 @@
             this.DistrictLabel = new System.Windows.Forms.Label();
             this.RoomsCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.DistrictCheckedListBox = new System.Windows.Forms.CheckedListBox();
-            this.AdvancedSearchButton = new System.Windows.Forms.Button();
             this.LandAreaLabel = new System.Windows.Forms.Label();
             this.AreaLabel = new System.Windows.Forms.Label();
             this.PriceLabel = new System.Windows.Forms.Label();
@@ -77,9 +76,9 @@
             // 
             // DeleteButton
             // 
-            this.DeleteButton.Location = new System.Drawing.Point(69, 579);
+            this.DeleteButton.Location = new System.Drawing.Point(12, 560);
             this.DeleteButton.Name = "DeleteButton";
-            this.DeleteButton.Size = new System.Drawing.Size(75, 23);
+            this.DeleteButton.Size = new System.Drawing.Size(108, 39);
             this.DeleteButton.TabIndex = 38;
             this.DeleteButton.Text = "Удалить";
             this.DeleteButton.UseVisualStyleBackColor = true;
@@ -87,9 +86,9 @@
             // 
             // ChangeButton
             // 
-            this.ChangeButton.Location = new System.Drawing.Point(428, 576);
+            this.ChangeButton.Location = new System.Drawing.Point(244, 560);
             this.ChangeButton.Name = "ChangeButton";
-            this.ChangeButton.Size = new System.Drawing.Size(109, 23);
+            this.ChangeButton.Size = new System.Drawing.Size(125, 39);
             this.ChangeButton.TabIndex = 39;
             this.ChangeButton.Text = "Изменить";
             this.ChangeButton.UseVisualStyleBackColor = true;
@@ -97,9 +96,9 @@
             // 
             // InfoButton
             // 
-            this.InfoButton.Location = new System.Drawing.Point(554, 576);
+            this.InfoButton.Location = new System.Drawing.Point(375, 560);
             this.InfoButton.Name = "InfoButton";
-            this.InfoButton.Size = new System.Drawing.Size(107, 23);
+            this.InfoButton.Size = new System.Drawing.Size(118, 39);
             this.InfoButton.TabIndex = 40;
             this.InfoButton.Text = "Подробнее";
             this.InfoButton.UseVisualStyleBackColor = true;
@@ -107,11 +106,11 @@
             // 
             // RequestButton
             // 
-            this.RequestButton.Location = new System.Drawing.Point(183, 579);
+            this.RequestButton.Location = new System.Drawing.Point(126, 560);
             this.RequestButton.Name = "RequestButton";
-            this.RequestButton.Size = new System.Drawing.Size(75, 23);
+            this.RequestButton.Size = new System.Drawing.Size(115, 39);
             this.RequestButton.TabIndex = 41;
-            this.RequestButton.Text = "Рассмотреть заявку";
+            this.RequestButton.Text = "Рассмотреть заявку\r\n";
             this.RequestButton.UseVisualStyleBackColor = true;
             this.RequestButton.Click += new System.EventHandler(this.RequestButton_Click);
             // 
@@ -223,15 +222,6 @@
             this.DistrictCheckedListBox.Size = new System.Drawing.Size(173, 55);
             this.DistrictCheckedListBox.TabIndex = 49;
             // 
-            // AdvancedSearchButton
-            // 
-            this.AdvancedSearchButton.Location = new System.Drawing.Point(594, 80);
-            this.AdvancedSearchButton.Name = "AdvancedSearchButton";
-            this.AdvancedSearchButton.Size = new System.Drawing.Size(145, 62);
-            this.AdvancedSearchButton.TabIndex = 48;
-            this.AdvancedSearchButton.Text = "Расширенный поиск";
-            this.AdvancedSearchButton.UseVisualStyleBackColor = true;
-            // 
             // LandAreaLabel
             // 
             this.LandAreaLabel.AutoSize = true;
@@ -310,7 +300,6 @@
             this.Controls.Add(this.DistrictLabel);
             this.Controls.Add(this.RoomsCheckedListBox);
             this.Controls.Add(this.DistrictCheckedListBox);
-            this.Controls.Add(this.AdvancedSearchButton);
             this.Controls.Add(this.LandAreaLabel);
             this.Controls.Add(this.AreaLabel);
             this.Controls.Add(this.PriceLabel);
@@ -348,7 +337,6 @@
         private System.Windows.Forms.Label DistrictLabel;
         private System.Windows.Forms.CheckedListBox RoomsCheckedListBox;
         private System.Windows.Forms.CheckedListBox DistrictCheckedListBox;
-        private System.Windows.Forms.Button AdvancedSearchButton;
         private System.Windows.Forms.Label LandAreaLabel;
         private System.Windows.Forms.Label AreaLabel;
         private System.Windows.Forms.Label PriceLabel;

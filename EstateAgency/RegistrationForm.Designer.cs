@@ -111,6 +111,7 @@
             this.ManagerCheckBox.TabIndex = 15;
             this.ManagerCheckBox.Text = "Я менеджер";
             this.ManagerCheckBox.UseVisualStyleBackColor = true;
+            this.ManagerCheckBox.CheckedChanged += new System.EventHandler(this.ManagerCheckBox_CheckedChanged);
             // 
             // RegistrationButton
             // 
@@ -125,22 +126,27 @@
             // SurnameTextBox
             // 
             this.SurnameTextBox.Location = new System.Drawing.Point(196, 61);
+            this.SurnameTextBox.MaxLength = 20;
             this.SurnameTextBox.Name = "SurnameTextBox";
             this.SurnameTextBox.Size = new System.Drawing.Size(100, 22);
             this.SurnameTextBox.TabIndex = 8;
+            this.SurnameTextBox.TextChanged += new System.EventHandler(this.SurnameTextBox_TextChanged);
             this.SurnameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SurnameTextBox_KeyPress);
             // 
             // NameTextBox
             // 
             this.NameTextBox.Location = new System.Drawing.Point(196, 89);
+            this.NameTextBox.MaxLength = 20;
             this.NameTextBox.Name = "NameTextBox";
             this.NameTextBox.Size = new System.Drawing.Size(100, 22);
             this.NameTextBox.TabIndex = 9;
+            this.NameTextBox.TextChanged += new System.EventHandler(this.NameTextBox_TextChanged);
             this.NameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NameTextBox_KeyPress);
             // 
             // PatronymicTextBox
             // 
             this.PatronymicTextBox.Location = new System.Drawing.Point(196, 117);
+            this.PatronymicTextBox.MaxLength = 20;
             this.PatronymicTextBox.Name = "PatronymicTextBox";
             this.PatronymicTextBox.Size = new System.Drawing.Size(100, 22);
             this.PatronymicTextBox.TabIndex = 10;
@@ -150,9 +156,11 @@
             // PhoneTextBox
             // 
             this.PhoneTextBox.Location = new System.Drawing.Point(196, 145);
+            this.PhoneTextBox.MaxLength = 12;
             this.PhoneTextBox.Name = "PhoneTextBox";
             this.PhoneTextBox.Size = new System.Drawing.Size(100, 22);
             this.PhoneTextBox.TabIndex = 11;
+            this.PhoneTextBox.TextChanged += new System.EventHandler(this.PhoneTextBox_TextChanged);
             this.PhoneTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PhoneTextBox_KeyPress);
             // 
             // PasswordTextBox
@@ -161,6 +169,7 @@
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.Size = new System.Drawing.Size(100, 22);
             this.PasswordTextBox.TabIndex = 13;
+            this.PasswordTextBox.TextChanged += new System.EventHandler(this.PasswordTextBox_TextChanged);
             // 
             // Password2TextBox
             // 
@@ -168,6 +177,7 @@
             this.Password2TextBox.Name = "Password2TextBox";
             this.Password2TextBox.Size = new System.Drawing.Size(100, 22);
             this.Password2TextBox.TabIndex = 14;
+            this.Password2TextBox.TextChanged += new System.EventHandler(this.Password2TextBox_TextChanged);
             // 
             // CodeTextBox
             // 
@@ -198,9 +208,11 @@
             // EmailTextBox
             // 
             this.EmailTextBox.Location = new System.Drawing.Point(196, 174);
+            this.EmailTextBox.MaxLength = 32;
             this.EmailTextBox.Name = "EmailTextBox";
             this.EmailTextBox.Size = new System.Drawing.Size(100, 22);
             this.EmailTextBox.TabIndex = 12;
+            this.EmailTextBox.TextChanged += new System.EventHandler(this.EmailTextBox_TextChanged);
             // 
             // RegistrationForm
             // 

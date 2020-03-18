@@ -120,6 +120,7 @@ namespace EstateAgency
             RoomsTextBox.ReadOnly = true;
             LandAreaTextBox.ReadOnly = true;
             LandAreaTextBox.ReadOnly = true;
+            LandTextBox.ReadOnly = true;
         }
 
         private void AllowPrevNextImageButtons()
@@ -231,6 +232,8 @@ namespace EstateAgency
             if (images.Count > 0)
             {
                 AllowPrevNextImageButtons();
+                pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+
                 pictureBox1.Image = Image.FromFile(images[0]);
             }
 
@@ -250,6 +253,9 @@ namespace EstateAgency
             if (i + 1 >= images.Count) i = 0;
             else i++;
             pictureBox1.Image = Image.FromFile(images[i]);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.Image = Image.FromFile(images[i]);
+
             currentimagepath = images[i];
         }
 
@@ -257,7 +263,10 @@ namespace EstateAgency
         {
             if (i - 1 <0) i = images.Count-1;
             else i--;
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.Image = Image.FromFile(images[i]);
+
+
             currentimagepath = images[i];
         }
 
@@ -458,7 +467,7 @@ namespace EstateAgency
             {
                 ConvertData();
                 EstateObjects.Update(SqlConnection, Id, 3, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
-                Trades.CreateTrade(SqlConnection, Id, ManagerId);
+                Trades.CreateTrade(SqlConnection, Id, CurrentUser.ManagerId);
                 MessageBox.Show("Заявка одобрена");
             }
             catch (Exception t)
@@ -468,16 +477,13 @@ namespace EstateAgency
 
         }
 
-        public int ClientId { get; set; }
-        public int ManagerId { get; set; }
-
         private void BuyButton_Click(object sender, EventArgs e)
         {
             try
             {
                 ConvertData();
                 EstateObjects.Update(SqlConnection, Id, 2, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
-                Trades.CreateClientObjectLink(SqlConnection, ClientId, Id);
+                Trades.CreateClientObjectLink(SqlConnection, CurrentUser.ClientId, Id);
                 MessageBox.Show("Заявка подана на рассмотрение");
             }
             catch(Exception u)
@@ -485,6 +491,21 @@ namespace EstateAgency
                 MessageBox.Show(u.ToString());
             }
 
+        }
+
+        private void RefuseButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ConvertData();
+                EstateObjects.Update(SqlConnection, Id, 1, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
+                Trades.CreateTrade(SqlConnection, Id, CurrentUser.ManagerId);
+                MessageBox.Show("Заявка отклонена");
+            }
+            catch (Exception t)
+            {
+                MessageBox.Show(t.ToString());
+            }
         }
     }
 }

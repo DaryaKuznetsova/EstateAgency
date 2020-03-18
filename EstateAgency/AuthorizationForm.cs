@@ -13,18 +13,19 @@ namespace EstateAgency
 {
     public partial class AuthorizationForm : Form
     {
-        SqlConnection sqlConnection;
+        SqlConnection SqlConnection;
         ManagerForm mf;
         public AuthorizationForm(ManagerForm f, SqlConnection sqlConnection)
         {
             InitializeComponent();
-            this.sqlConnection = sqlConnection;
+            this.SqlConnection = sqlConnection;
+            button1.Enabled = false;
             mf = f;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            RegistrationForm registrationForm = new RegistrationForm(sqlConnection);
+            RegistrationForm registrationForm = new RegistrationForm(SqlConnection);
             registrationForm.Show();
         }
 
@@ -34,21 +35,48 @@ namespace EstateAgency
             string password = PasswordTextBox.Text;
             if (ManagerCheckBox.Checked)
             {
-                if (RegistrationMethods.RegistratedManager(phone, password, sqlConnection) != -1)
+                if (RegistrationMethods.RegistratedManager(phone, password, SqlConnection) != -1)
                 {
-                    mf.ManagerId = RegistrationMethods.RegistratedManager(phone, password, sqlConnection);
-                    MessageBox.Show("Успешно");
+                    CurrentUser.ManagerId = RegistrationMethods.RegistratedManager(phone, password, SqlConnection);
+                    mf.EnterManager();
                     this.Close();
                 }
-                else MessageBox.Show("!");
+                else MessageBox.Show("Пользователя с данным логином и паролем нет в системе. Пожалуйста, проверьте введенные данные.");
             }
-            else if (RegistrationMethods.RegistratedClient(phone, password, sqlConnection) != -1)
+            else if (RegistrationMethods.RegistratedClient(phone, password, SqlConnection) != -1)
             {
-                mf.ClientId = RegistrationMethods.RegistratedClient(phone, password, sqlConnection);
-                MessageBox.Show("Успешно");
+                CurrentUser.ClientId = RegistrationMethods.RegistratedClient(phone, password, SqlConnection);
+                mf.EnterClient();
                 this.Close();
             }
-            else MessageBox.Show("!");
+            else MessageBox.Show("Пользователя с данным логином и паролем нет в системе. Пожалуйста, проверьте введенные данные.");
+        }
+
+        private void LoginTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+
+            if (!Char.IsDigit(ch) && ch != 8) //Если символ, введенный с клавы - не цифра (IsDigit),
+            {
+                e.Handled = true;// то событие не обрабатывается. ch!=8 (8 - это Backspace)
+            }
+        }
+
+        private void LoginTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BlockButton();
+        }
+
+        private void BlockButton()
+        {
+            if (LoginTextBox.Text.Length != 0 && PasswordTextBox.Text.Length != 0)
+                button1.Enabled = true;
+            else button1.Enabled = false;
+        }
+
+        private void PasswordTextBox_TextChanged(object sender, EventArgs e)
+        {
+            BlockButton();
         }
     }
 }
