@@ -64,6 +64,9 @@
             this.EnterPictureBox = new System.Windows.Forms.PictureBox();
             this.ExitPictureBox = new System.Windows.Forms.PictureBox();
             this.InfoButton = new System.Windows.Forms.Button();
+            this.RefuseButton = new System.Windows.Forms.Button();
+            this.BackButton = new System.Windows.Forms.Button();
+            this.MyTradesSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EnterPictureBox)).BeginInit();
@@ -86,7 +89,8 @@
             // personSMI
             // 
             this.personSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.accountSMI});
+            this.accountSMI,
+            this.MyTradesSMI});
             this.personSMI.Name = "personSMI";
             this.personSMI.Size = new System.Drawing.Size(137, 24);
             this.personSMI.Text = "Личный кабинет";
@@ -166,14 +170,14 @@
             // reportSMI
             // 
             this.reportSMI.Name = "reportSMI";
-            this.reportSMI.Size = new System.Drawing.Size(216, 26);
+            this.reportSMI.Size = new System.Drawing.Size(180, 26);
             this.reportSMI.Text = "Создать отчёт";
             this.reportSMI.Click += new System.EventHandler(this.reportSMI_Click);
             // 
             // Statistics
             // 
             this.Statistics.Name = "Statistics";
-            this.Statistics.Size = new System.Drawing.Size(216, 26);
+            this.Statistics.Size = new System.Drawing.Size(180, 26);
             this.Statistics.Text = "Статистика";
             this.Statistics.Click += new System.EventHandler(this.Statistics_Click);
             // 
@@ -307,7 +311,7 @@
             // 
             this.paymentButton.Location = new System.Drawing.Point(12, 603);
             this.paymentButton.Name = "paymentButton";
-            this.paymentButton.Size = new System.Drawing.Size(186, 23);
+            this.paymentButton.Size = new System.Drawing.Size(186, 44);
             this.paymentButton.TabIndex = 25;
             this.paymentButton.Text = "Заключить договор";
             this.paymentButton.UseVisualStyleBackColor = true;
@@ -412,19 +416,47 @@
             // 
             // InfoButton
             // 
-            this.InfoButton.Location = new System.Drawing.Point(278, 603);
+            this.InfoButton.Location = new System.Drawing.Point(205, 603);
             this.InfoButton.Name = "InfoButton";
-            this.InfoButton.Size = new System.Drawing.Size(130, 23);
+            this.InfoButton.Size = new System.Drawing.Size(130, 44);
             this.InfoButton.TabIndex = 34;
             this.InfoButton.Text = "Приобрести";
             this.InfoButton.UseVisualStyleBackColor = true;
             this.InfoButton.Click += new System.EventHandler(this.InfoButton_Click);
+            // 
+            // RefuseButton
+            // 
+            this.RefuseButton.Location = new System.Drawing.Point(342, 604);
+            this.RefuseButton.Name = "RefuseButton";
+            this.RefuseButton.Size = new System.Drawing.Size(150, 43);
+            this.RefuseButton.TabIndex = 35;
+            this.RefuseButton.Text = "Отменить заявку";
+            this.RefuseButton.UseVisualStyleBackColor = true;
+            this.RefuseButton.Click += new System.EventHandler(this.RefuseButton_Click);
+            // 
+            // BackButton
+            // 
+            this.BackButton.Location = new System.Drawing.Point(499, 604);
+            this.BackButton.Name = "BackButton";
+            this.BackButton.Size = new System.Drawing.Size(135, 43);
+            this.BackButton.TabIndex = 36;
+            this.BackButton.Text = "На главный экран";
+            this.BackButton.UseVisualStyleBackColor = true;
+            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
+            // 
+            // MyTradesSMI
+            // 
+            this.MyTradesSMI.Name = "MyTradesSMI";
+            this.MyTradesSMI.Size = new System.Drawing.Size(216, 26);
+            this.MyTradesSMI.Text = "Мои сделки";
             // 
             // ManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(787, 659);
+            this.Controls.Add(this.BackButton);
+            this.Controls.Add(this.RefuseButton);
             this.Controls.Add(this.InfoButton);
             this.Controls.Add(this.ExitPictureBox);
             this.Controls.Add(this.EnterPictureBox);
@@ -496,6 +528,9 @@
         private System.Windows.Forms.PictureBox EnterPictureBox;
         private System.Windows.Forms.PictureBox ExitPictureBox;
         private System.Windows.Forms.Button InfoButton;
+        private System.Windows.Forms.Button RefuseButton;
+        private System.Windows.Forms.Button BackButton;
+        private System.Windows.Forms.ToolStripMenuItem MyTradesSMI;
     }
 }
 

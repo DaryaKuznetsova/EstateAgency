@@ -20,13 +20,15 @@ namespace EstateAgency
             sqlConnection = s;
             ComboBoxes();
         }
-        public int Id { get; set; }
+        public int ItemId { get; set; }
+        public int LinkId { get; set; }
 
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-                Query.FinalTrade(sqlConnection, Id, Convert.ToInt32(PaymentInstrumentCB.SelectedValue), Convert.ToInt32(PaymentInstrumentCB.SelectedValue));
+                Trades.FinalTrade(sqlConnection, ItemId, Convert.ToInt32(PaymentInstrumentCB.SelectedValue), Convert.ToInt32(PaymentInstrumentCB.SelectedValue));
+                Trades.DeleteLink(sqlConnection, LinkId);
                 MessageBox.Show("Заявка подтверждена.");
                 this.Close();
             }

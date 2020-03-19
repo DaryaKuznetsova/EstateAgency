@@ -180,11 +180,11 @@ namespace EstateAgency
                 if (TableNameListBox.CheckedItems.Count == 1)
                 {
                     if (TableNameListBox.CheckedItems[0].ToString() == "Сделки")
-                        dataGridView1.DataSource = Query.SelectTrades(firstDate, secondDate, SqlConnection, tradesParameters);
+                        dataGridView1.DataSource = CompoundStatistics.SelectTrades(firstDate, secondDate, SqlConnection, tradesParameters);
                     if (TableNameListBox.CheckedItems[0].ToString() == "Объекты недвижимости")
                         dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection, estateobjectsParameters);
                 }
-                else dataGridView1.DataSource = Query.JoinTradeObject(firstDate, secondDate, realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection, estateobjectsParameters, tradesParameters);
+                else dataGridView1.DataSource = CompoundStatistics.JoinTradeObject(firstDate, secondDate, realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection, estateobjectsParameters, tradesParameters);
                 DataTable = (DataTable)dataGridView1.DataSource;
             }
         }

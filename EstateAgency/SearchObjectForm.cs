@@ -180,7 +180,7 @@ namespace EstateAgency
             string districts = ManagerForm.CreateParameters(DistrictCheckedListBox);
             string rooms = ManagerForm.CreateParameters(RoomsCheckedListBox);
 
-            if (Filter)
+            if (notation==Notation.ManagerRequests)
                 dataGridView1.DataSource = ShowTable.DisplayCurrentRequests(SqlConnection);
             else
                 dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection);

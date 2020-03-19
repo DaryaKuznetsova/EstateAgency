@@ -224,7 +224,6 @@
             // 
             // DistrictComboBox
             // 
-            this.DistrictComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.DistrictComboBox.FormattingEnabled = true;
             this.DistrictComboBox.Location = new System.Drawing.Point(10, 72);
             this.DistrictComboBox.Name = "DistrictComboBox";
@@ -233,7 +232,6 @@
             // 
             // TradeTypeComboBox
             // 
-            this.TradeTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.TradeTypeComboBox.FormattingEnabled = true;
             this.TradeTypeComboBox.Items.AddRange(new object[] {
             "Купить",
@@ -241,12 +239,11 @@
             "Посуточно"});
             this.TradeTypeComboBox.Location = new System.Drawing.Point(10, 12);
             this.TradeTypeComboBox.Name = "TradeTypeComboBox";
-            this.TradeTypeComboBox.Size = new System.Drawing.Size(149, 24);
+            this.TradeTypeComboBox.Size = new System.Drawing.Size(173, 24);
             this.TradeTypeComboBox.TabIndex = 62;
             // 
             // RealtyTypeComboBox
             // 
-            this.RealtyTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.RealtyTypeComboBox.FormattingEnabled = true;
             this.RealtyTypeComboBox.Items.AddRange(new object[] {
             "Квартира",
@@ -261,16 +258,14 @@
             // 
             // StatusComboBox
             // 
-            this.StatusComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.StatusComboBox.FormattingEnabled = true;
             this.StatusComboBox.Location = new System.Drawing.Point(212, 12);
             this.StatusComboBox.Name = "StatusComboBox";
-            this.StatusComboBox.Size = new System.Drawing.Size(121, 24);
+            this.StatusComboBox.Size = new System.Drawing.Size(173, 24);
             this.StatusComboBox.TabIndex = 64;
             // 
             // OwnerComboBox
             // 
-            this.OwnerComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.OwnerComboBox.FormattingEnabled = true;
             this.OwnerComboBox.Location = new System.Drawing.Point(86, 130);
             this.OwnerComboBox.Name = "OwnerComboBox";

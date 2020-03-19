@@ -11,12 +11,11 @@ namespace EstateAgency
 {
     class EstateObjects
     {
-        public static void Delete(int deleteID, string currentTable, string currentID, SqlConnection sqlConnection)
+        public static void Delete(int deleteID, SqlConnection sqlConnection)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            string strCommand = string.Format("DELETE FROM EstateObjects WHERE @currentid = @deleteid");
+            string strCommand = string.Format("DELETE FROM EstateObjects WHERE id = @deleteid");
             command.CommandText = strCommand;
-            command.Parameters.Add("currentid", SqlDbType.NVarChar).Value = currentID;
             command.Parameters.Add("deleteid", SqlDbType.NVarChar).Value = deleteID;
             sqlConnection.Open();
             try
@@ -38,7 +37,7 @@ namespace EstateAgency
             {
                 strcom = string.Format("UPDATE EstateObjects SET statusid=(@status), ownerid=(@owner), price=(@price), address=(@address), districtid=(@district), description=(@description), realtytypeid=(@realtytype), tradetypeid=(@tradetype), area=(@area), rooms=(@rooms)," +
     "landdescription=(@landd), landarea=(@landa)" +
-    " WHERE Id='{0}'", updateID);
+    " WHERE Id=@id");
 
                 command.Parameters.Add("landd", SqlDbType.NVarChar).Value = landdescription;
                 command.Parameters.Add("landa", SqlDbType.NVarChar).Value = landarea;
@@ -48,13 +47,16 @@ namespace EstateAgency
             else if (realtytype == 1)
             {
                 strcom = string.Format("UPDATE EstateObjects SET statusid=(@status), ownerid=(@owner), price=(@price), address=(@address), districtid=(@district), description=(@description), realtytypeid=(@realtytype), tradetypeid=(@tradetype), area=(@area), rooms=(@rooms)" +
-" WHERE Id='{0}'", updateID);
+" WHERE Id=@id");
                 command.Parameters.Add("rooms", SqlDbType.NVarChar).Value = rooms;
             }
             else
-                strcom = string.Format("UPDATE EstateObjects SET statusid=(@status), ownerid=(@owner), price=(@price), address=(@address), districtid=(@district), description=(@description), realtytypeid=(@realtytype), tradetypeid=(@tradetype), area=(@area)" +
-    " WHERE Id='{0}'", updateID);
+                strcom = string.Format("UPDATE EstateObjects SET statusid=(@status), " +
+                                        "ownerid=(@owner), price=(@price), address=(@address), districtid=(@district), description=(@description)," +
+                                        " realtytypeid=(@realtytype), tradetypeid=(@tradetype), area=(@area)" +
+                                        " WHERE Id=@id");
             command.CommandText = strcom;
+            command.Parameters.Add("id", SqlDbType.NVarChar).Value = updateID;
             command.Parameters.Add("status", SqlDbType.NVarChar).Value = status;
             command.Parameters.Add("owner", SqlDbType.NVarChar).Value = owner;
             command.Parameters.Add("price", SqlDbType.NVarChar).Value = price;
@@ -129,7 +131,7 @@ namespace EstateAgency
         public static void CreateItemInfo(SqlConnection SqlConnection, int id,
             out string StatusComboBox, out string OwnerComboBox, out string PriceTextBox,
             out string AddressTextBox, out string DistrictComboBox, out string DescriptionTextBox,
-            out string RealtyTypeComboBox, out string TradeTypeComboBox, out string areaTextBox,
+            out string RealtyTypeComboBox, out string TradeTypeComboBox, out string AreaTextBox,
             out string RoomsTextBox, out string LandTextBox, out string LandAreaTextBox)
         {
             StatusComboBox = "";
@@ -140,10 +142,11 @@ namespace EstateAgency
             DescriptionTextBox = "";
             RealtyTypeComboBox = "";
             TradeTypeComboBox = "";
-            areaTextBox = "";
+            AreaTextBox = "";
             RoomsTextBox = "";
             LandTextBox = "";
             LandAreaTextBox = "";
+            int status = 0; int realty = 0; int trade = 0; int district = 0; int owner = 0;
 
             string strCommand = string.Format("Select * FROM EstateObjects WHERE Id = @id");
             SqlConnection.Open();
@@ -154,15 +157,15 @@ namespace EstateAgency
             {
                 while (reader.Read())
                 {
-                    StatusComboBox = reader.GetValue(1).ToString();
-                    OwnerComboBox = reader.GetValue(2).ToString();
+                    status = reader.GetInt32(1);
+                    owner = reader.GetInt32(2);
                     PriceTextBox = reader.GetValue(3).ToString();
                     AddressTextBox = reader.GetValue(4).ToString();
-                    DistrictComboBox = reader.GetValue(5).ToString();
+                    district  = reader.GetInt32(5);
                     DescriptionTextBox = reader.GetValue(6).ToString();
-                    RealtyTypeComboBox = reader.GetValue(7).ToString();
-                    TradeTypeComboBox = reader.GetValue(8).ToString();
-                    areaTextBox = reader.GetValue(9).ToString();
+                    realty = reader.GetInt32(7);
+                    trade = reader.GetInt32(8);
+                    AreaTextBox = reader.GetValue(9).ToString();
                     RoomsTextBox = reader.GetValue(10).ToString();
                     LandTextBox = reader.GetValue(11).ToString();
                     LandAreaTextBox = reader.GetValue(12).ToString();
@@ -173,6 +176,56 @@ namespace EstateAgency
                 reader.Close();
                 SqlConnection.Close();
             }
+            StatusComboBox = Value(SqlConnection, "Statuses", status);
+            OwnerComboBox = Value(SqlConnection, "Owners", owner);
+            RealtyTypeComboBox = Value(SqlConnection, "RealtyTypes", realty);
+            TradeTypeComboBox = Value(SqlConnection, "TradeTypes", trade);
+            DistrictComboBox = Value(SqlConnection, "Districts", district);
+        }
+
+        private static string Value(SqlConnection SqlConnection, string whereToFind, int idxToFind)
+        {
+            string res = "";
+            string strCommand = string.Format("Select Name FROM {0} WHERE Id = '{1}'", whereToFind, idxToFind);
+            SqlConnection.Open();
+            SqlCommand command = new SqlCommand(strCommand, SqlConnection);
+            SqlDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    res = reader.GetValue(0).ToString();
+                }
+            }
+            finally
+            {
+                reader.Close();
+                SqlConnection.Close();
+            }
+            return res;
+        }
+
+        public static void UpdateStatus(SqlConnection sqlConnection, int updateID, int status)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            string strcom;
+
+            strcom = string.Format("UPDATE EstateObjects SET statusid=(@status) WHERE Id=@id");
+
+            command.CommandText = strcom;
+            command.Parameters.Add("id", SqlDbType.NVarChar).Value = updateID;
+            command.Parameters.Add("status", SqlDbType.NVarChar).Value = status;
+
+            sqlConnection.Open();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
         }
     }
 }

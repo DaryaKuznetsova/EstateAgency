@@ -157,6 +157,8 @@ namespace EstateAgency
         {
             if (filter) ShowSearchResults();
             else ShowTable.AllTable(SqlConnection);
+            if(Links) dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, CurrentUser.ClientId);
+
         }
 
         public static string CreateParameters(CheckedListBox clb)
@@ -266,6 +268,8 @@ namespace EstateAgency
             LandAreaLabel.Visible = false;
             InfoButton.Visible = false;
             paymentButton.Visible = false;
+            RefuseButton.Visible = false;
+            BackButton.Visible = false;
         }
 
         private void RequestsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -278,10 +282,14 @@ namespace EstateAgency
         private void accountSMI_Click(object sender, EventArgs e)
         {
             Exit();
+            paymentButton.Visible = true;
+            RefuseButton.Visible = true;
+            BackButton.Visible = true;
             dataGridView1.Visible = true;
             paymentButton.Visible = true;
             dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, CurrentUser.ClientId);
         }
+        bool Links = false;
 
         private void paymentButton_Click(object sender, EventArgs e)
         {
@@ -293,19 +301,28 @@ namespace EstateAgency
                 if (converted == false)
                     return;
 
+                int itemid = 0;
+                bool converted2 = Int32.TryParse(dataGridView1[1, 0].Value.ToString(), out itemid);
+                if (converted2 == false)
+                    return;
+                MessageBox.Show(itemid.ToString());
+
                 PaymentForm pf = new PaymentForm(SqlConnection);
-                string[] res = Query.Contacts(SqlConnection, CurrentUser.ClientId, id);
+                string[] res = Trades.Contacts(SqlConnection, CurrentUser.ClientId, itemid);
                 pf.PhoneTextBox.Text = res[0];
                 pf.EmailTextBox.Text = res[1];
-                pf.Id = id;
+                pf.ItemId = itemid;
+                pf.LinkId = id;
                 try
                 {
                     pf.ShowDialog();
+                    RefreshData();
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("запускай через отладчик");
                 }
+
             }
         }
 
@@ -504,9 +521,7 @@ namespace EstateAgency
             AreaMaxTextBox.Visible = false;
             SearchButton.Visible = false;
             dataGridView1.Visible = false;
-            InfoButton.Visible = false;
-            paymentButton.Visible = false;
-            EnterPictureBox.Enabled = false;
+
         }
 
         private void InfoButton_Click(object sender, EventArgs e)
@@ -521,6 +536,35 @@ namespace EstateAgency
             itemf.Notation = Notation.Insert;
             itemf.ShowDialog();
             RefreshData();
+        }
+
+        private void RefuseButton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                int index = dataGridView1.SelectedRows[0].Index;
+                int id = 0;
+                bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                try
+                {
+                    Trades.DeleteTrade(SqlConnection, id);
+                    Trades.DeleteLink(SqlConnection, id);
+                    MessageBox.Show("Заявка удалена.");
+                }
+                catch (Exception r)
+                {
+                    MessageBox.Show(r.ToString());
+                }
+            }
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            EnterClient();
+            Links = true;
         }
     }
 }

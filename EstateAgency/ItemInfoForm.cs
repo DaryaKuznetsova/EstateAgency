@@ -21,7 +21,7 @@ namespace EstateAgency
             set
             {
                 notation = value;
-                ChangeNotation();
+                //ChangeNotation();
             }
         }
 
@@ -67,6 +67,8 @@ namespace EstateAgency
             {
                 acceptButton.Visible = true;
                 acceptButton.Enabled = true;
+                RefuseButton.Visible = true;
+                RefuseButton.Enabled = true;
             }
         }
 
@@ -74,6 +76,14 @@ namespace EstateAgency
         {
             TradeTypeComboBox.AllowDrop = true;
             RealtyTypeComboBox.AllowDrop = true;
+            TradeTypeComboBox.AllowDrop = true;
+            RealtyTypeComboBox.AllowDrop = true;
+            RealtyTypeComboBox.Enabled = true;
+            TradeTypeComboBox.Enabled = true;
+            DistrictComboBox.Enabled = true;
+            StatusComboBox.Enabled = true;
+            OwnerComboBox.Enabled = true;
+
 
             PriceTextBox.ReadOnly = false;
             AddressTextBox.ReadOnly = false;
@@ -106,12 +116,17 @@ namespace EstateAgency
             PrevImageButton.Visible = false;
             NextImageButton.Enabled = false;
             NextImageButton.Visible = false;
+            RefuseButton.Visible = false;
+            RefuseButton.Enabled = false;
         }
 
         private void MakeReadOnly()
         {
-            TradeTypeComboBox.AllowDrop = false;
-            RealtyTypeComboBox.AllowDrop = false;
+            RealtyTypeComboBox.Enabled = false;
+            TradeTypeComboBox.Enabled = false;
+            DistrictComboBox.Enabled = false;
+            StatusComboBox.Enabled = false;
+            OwnerComboBox.Enabled = false;
 
             PriceTextBox.ReadOnly = true;
             AddressTextBox.ReadOnly = true;
@@ -146,7 +161,7 @@ namespace EstateAgency
             SqlConnection.Open();
             using (var command = SqlConnection.CreateCommand())
             {
-                command.CommandText = "select * from RealtyTypes";
+                command.CommandText = "select * from RealtyTypes order by id";
                 var table = new DataTable();
                 table.Load(command.ExecuteReader());
                 RealtyTypeComboBox.DataSource = table;
@@ -156,7 +171,7 @@ namespace EstateAgency
 
             using (var command = SqlConnection.CreateCommand())
             {
-                command.CommandText = "select * from TradeTypes";
+                command.CommandText = "select * from TradeTypes order by id";
                 var table = new DataTable();
                 table.Load(command.ExecuteReader());
                 TradeTypeComboBox.DataSource = table;
@@ -166,7 +181,7 @@ namespace EstateAgency
 
             using (var command = SqlConnection.CreateCommand())
             {
-                command.CommandText = "select * from Districts";
+                command.CommandText = "select * from Districts order by id";
                 var table = new DataTable();
                 table.Load(command.ExecuteReader());
                 DistrictComboBox.DataSource = table;
@@ -175,16 +190,17 @@ namespace EstateAgency
             }
             using (var command = SqlConnection.CreateCommand())
             {
-                command.CommandText = "select * from Statuses";
+                command.CommandText = "select * from Statuses order by id";
                 var table = new DataTable();
                 table.Load(command.ExecuteReader());
-                StatusComboBox.DataSource = table;
+
                 StatusComboBox.ValueMember = "Id";
                 StatusComboBox.DisplayMember = "Name";
+                StatusComboBox.DataSource = table;
             }
             using (var command = SqlConnection.CreateCommand())
             {
-                command.CommandText = "select * from Owners";
+                command.CommandText = "select * from Owners order by id";
                 var table = new DataTable();
                 table.Load(command.ExecuteReader());
                 OwnerComboBox.DataSource = table;
@@ -215,6 +231,7 @@ namespace EstateAgency
                 out realtyTypeComboBox, out tradeTypeComboBox, out areaTextBox,
                 out roomsTextBox, out landTextBox, out landAreaTextBox);
 
+
             StatusComboBox.Text = statusComboBox;
             OwnerComboBox.Text = ownerComboBox;
             PriceTextBox.Text = priceTextBox;
@@ -238,6 +255,16 @@ namespace EstateAgency
             }
 
             Block();
+        }
+
+        private static string CorrectText(ComboBox cmb, int idx)
+        {
+            string res = "";
+            if (idx >= 6) idx -= 2;
+            else idx -= 1;
+            DataRowView drv = (DataRowView)cmb.Items[idx];
+            res = drv["Name"].ToString();
+            return res;
         }
 
         private static List<string> images;
@@ -327,7 +354,7 @@ namespace EstateAgency
             Address = AddressTextBox.Text;
             Description = DescriptionTextBox.Text;
             Rooms = Convert.ToByte(RoomsTextBox.Text);
-            if (!Block())
+            if (Block())
             {
                 LandArea = (float)Convert.ToDouble(LandAreaTextBox.Text);
                 Area = (float)Convert.ToDouble(AreaTextBox.Text);
@@ -354,7 +381,7 @@ namespace EstateAgency
         {
             try
             {
-                EstateObjects.Delete(Id, "EstateObjects", "Id", SqlConnection);
+                EstateObjects.Delete(Id, SqlConnection);
                 MessageBox.Show("Запись удалена");
                 this.Close();
             }
@@ -368,6 +395,8 @@ namespace EstateAgency
         private void ItemInfoForm_Load(object sender, EventArgs e)
         {
             CreateItemInfoForm(Id);
+
+            ChangeNotation();
         }
 
         private void PriceTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -466,9 +495,11 @@ namespace EstateAgency
             try
             {
                 ConvertData();
-                EstateObjects.Update(SqlConnection, Id, 3, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
+                EstateObjects.UpdateStatus(SqlConnection, Id, 3);
                 Trades.CreateTrade(SqlConnection, Id, CurrentUser.ManagerId);
+                Trades.UpdateLinksWithTrade(SqlConnection);
                 MessageBox.Show("Заявка одобрена");
+                this.Close();
             }
             catch (Exception t)
             {
@@ -482,9 +513,17 @@ namespace EstateAgency
             try
             {
                 ConvertData();
-                EstateObjects.Update(SqlConnection, Id, 2, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
-                Trades.CreateClientObjectLink(SqlConnection, CurrentUser.ClientId, Id);
-                MessageBox.Show("Заявка подана на рассмотрение");
+                EstateObjects.UpdateStatus(SqlConnection, Id, 2);
+                try
+                {
+                    Trades.CreateClientObjectLink(SqlConnection, CurrentUser.ClientId, Id);
+                    MessageBox.Show("Заявка подана на рассмотрение");
+                    this.Close();
+                }
+                catch (Exception tt)
+                {
+                    MessageBox.Show("К сожалению, кто-то только что оформил заявку на этот объект. Попробуйте выбрать другой объект в нашем каталоге.");
+                }
             }
             catch(Exception u)
             {
@@ -498,9 +537,9 @@ namespace EstateAgency
             try
             {
                 ConvertData();
-                EstateObjects.Update(SqlConnection, Id, 1, OwnerId, Price, Address, District, Description, RealtyTypes, TradeTypes, Area, Rooms, LandDescription, LandArea);
-                Trades.CreateTrade(SqlConnection, Id, CurrentUser.ManagerId);
+                EstateObjects.UpdateStatus(SqlConnection, Id, 1);
                 MessageBox.Show("Заявка отклонена");
+                this.Close();
             }
             catch (Exception t)
             {

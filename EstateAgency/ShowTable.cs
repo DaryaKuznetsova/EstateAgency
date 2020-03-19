@@ -72,7 +72,7 @@ namespace EstateAgency
         {
             SqlCommand command = sqlConnection.CreateCommand();
 
-            command.CommandText = string.Format("SELECT * from EstateObjects inner join ClientObjectLinks on EstateObjects.id = clientobjectlinks.ObjectId inner join Clients on clientobjectlinks.clientid = clients.id where clients.id = '{0}'", id);
+            command.CommandText = string.Format("SELECT ClientObjectLinks.id, ClientObjectLinks.objectid, EstateObjects.Price, EstateObjects.Address, EstateObjects.Area from EstateObjects inner join ClientObjectLinks on EstateObjects.id = clientobjectlinks.ObjectId inner join Clients on clientobjectlinks.clientid = clients.id where clients.id = '{0}' and estateobjects.statusid=3", id);
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             try
