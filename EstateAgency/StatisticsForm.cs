@@ -49,6 +49,16 @@ namespace EstateAgency
                 EstateObjectColumnsListBox.DisplayMember = "column_name";
             }
 
+            using (var command = SqlConnection.CreateCommand())
+            {
+                command.CommandText = "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'Clients'";
+                var table = new DataTable();
+                table.Load(command.ExecuteReader());
+                ClientsColumnsListBox.DataSource = table;
+                ClientsColumnsListBox.ValueMember = "column_name";
+                ClientsColumnsListBox.DisplayMember = "column_name";
+            }
+
             SqlConnection.Close();
         }
 
@@ -101,6 +111,16 @@ namespace EstateAgency
                 DistrictCheckedListBox.DataSource = table2;
                 DistrictCheckedListBox.ValueMember = "Id";
                 DistrictCheckedListBox.DisplayMember = "Name";
+            }
+
+            using (var command = SqlConnection.CreateCommand())
+            {
+                command.CommandText = "select * from Statuses";
+                var table2 = new DataTable();
+                table2.Load(command.ExecuteReader());
+                StatusComboBox.DataSource = table2;
+                StatusComboBox.ValueMember = "Id";
+                StatusComboBox.DisplayMember = "Name";
             }
 
             SqlConnection.Close();
@@ -159,6 +179,7 @@ namespace EstateAgency
         {
             int realtyType = Convert.ToInt32(RealtyTypeComboBox.SelectedValue);
             int tradeType = Convert.ToInt32(TradeTypeComboBox.SelectedValue);
+            int status= Convert.ToInt32(StatusComboBox.SelectedValue);
             float minPrice = PriceMinTextBox.Value;
             float maxPrice = PriceMaxTextBox.Value;
             float minArea = AreaMinTextBox.Value;
@@ -172,6 +193,7 @@ namespace EstateAgency
             string districts = CreateParameters(DistrictCheckedListBox);
             string rooms = CreateParameters(RoomsCheckedListBox);
 
+            string clientsParameters = CreateSelectStringColumns(ClientsColumnsListBox, "c");
             string tradesParameters = CreateSelectStringColumns(TradeColumnsListBox, "t");
             string estateobjectsParameters = CreateSelectStringColumns(EstateObjectColumnsListBox, "e");
 
@@ -183,57 +205,22 @@ namespace EstateAgency
                         dataGridView1.DataSource = CompoundStatistics.SelectTrades(firstDate, secondDate, SqlConnection, tradesParameters);
                     if (TableNameListBox.CheckedItems[0].ToString() == "Объекты недвижимости")
                         dataGridView1.DataSource = Query.SelectEstateObjects(realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection, estateobjectsParameters);
+                    if (TableNameListBox.CheckedItems[0].ToString() == "Клиенты")
+                        dataGridView1.DataSource = CompoundStatistics.SelectClients(SqlConnection, clientsParameters);
                 }
-                else dataGridView1.DataSource = CompoundStatistics.JoinTradeObject(firstDate, secondDate, realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection, estateobjectsParameters, tradesParameters);
-                DataTable = (DataTable)dataGridView1.DataSource;
-            }
-        }
-
-        private static DataTable DataTable;
-
-        private void SearchButton_Click(object sender, EventArgs e)
-        {
-            string fileName = "";
-            bool save = SavingIntoFile(ref fileName); // Название и путь файла выбраны успешно
-            if (save)
-            {
-                try
+                if (TableNameListBox.CheckedItems.Count == 2)
                 {
-                    //DataTable.ExportToExcel(fileName);
-                    ////ExcelExport.ExportFiles(DataTable, fileName);
-
-                    MessageBox.Show("Изменения сохранены!");
+                    if (TableNameListBox.CheckedItems[0].ToString() == "Сделки" && TableNameListBox.CheckedItems[1].ToString() == "Клиенты")
+                        dataGridView1.DataSource = CompoundStatistics.JoinClientTrade(firstDate, secondDate, SqlConnection, tradesParameters, clientsParameters);
+                    if (TableNameListBox.CheckedItems[0].ToString() == "Сделки" && TableNameListBox.CheckedItems[1].ToString() == "Объекты недвижимости")
+                        dataGridView1.DataSource = CompoundStatistics.JoinClientTradeObject(firstDate, secondDate, status, realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection, estateobjectsParameters, tradesParameters, clientsParameters, false);
+                    //else MessageBox.Show("Пожалуйста, добавьте таблицу Сделки для получения информации о Клиентах и их Объектах Недвижимости");
                 }
-                catch(Exception exp)
-                {
-                    MessageBox.Show(exp.ToString());
-                }               
+                else dataGridView1.DataSource = CompoundStatistics.JoinClientTradeObject(firstDate, secondDate, status, realtyType, tradeType, minPrice, maxPrice, minArea, maxArea, minLandArea, maxLandArea, districts, rooms, SqlConnection, estateobjectsParameters, tradesParameters, clientsParameters, true);
             }
         }
 
-        public static bool SavingIntoFile(ref string filename) // Выбор пути сохранения и проверка расширения
-        {
-            bool ok = false;
-            SaveFileDialog SFD = new SaveFileDialog();
-            SFD.Filter = "Файлы Excel|*.docx;*.doc";
-            if (SFD.ShowDialog() == DialogResult.Cancel)
-                return false;
 
-            filename = SFD.FileName;
-            string sss = "";
-            string ssss = "";
-            if (filename.Length >= 3)
-            {
-                sss = filename.Substring(filename.Length - 3);
-                ssss = filename.Substring(filename.Length - 4);
-            }
-            if (sss != "doc" && ssss != "docx")
-            {
-                MessageBox.Show("Неверное расширение");
-                ok = false;
-            }
-            else ok = true;
-            return ok;
-        }
+
     }
 }

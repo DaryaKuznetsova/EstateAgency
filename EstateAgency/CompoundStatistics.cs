@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace EstateAgency
 {
@@ -37,14 +38,64 @@ namespace EstateAgency
             return dt;
         }
 
+        public static DataTable SelectClients(SqlConnection sqlConnection, string clientParameters = "*")
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            command.CommandText = string.Format("select {0} from clients c", clientParameters);
 
-        private static string JoinTradeObjectCommand(string parameters, string districts, string rooms)
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            try
+            {
+                adapter.Fill(dt);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+            return dt;
+        }
+
+        private static string JoinClinetTradeCommand(string parameters)
         {
             string res = string.Format("select {0} " +
-                "from EstateObjects e " +
-                "inner join Trades t on e.Id=t.ItemId " +
+    "from Clients c " +
+    "inner join Trades t on c.Id=t.ClientId " +
+    "where t.date between @firstdate and @seconddate", parameters);
+            return res;
+        }
+
+        public static DataTable JoinClientTrade(DateTime firstDate, DateTime secondDate, SqlConnection sqlConnection, string tradeParameters, string clientParameters)
+        {
+            SqlCommand command = sqlConnection.CreateCommand();
+            string parameters = ClientTradeColumns(tradeParameters, clientParameters);
+            command.CommandText = JoinClinetTradeCommand(parameters);
+
+            command.Parameters.Add("firstdate", SqlDbType.NVarChar).Value = firstDate;
+            command.Parameters.Add("seconddate", SqlDbType.NVarChar).Value = secondDate;
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            try
+            {
+                adapter.Fill(dt);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+            return dt;
+        }
+
+        private static string JoinClientTradeObjectCommand(string parameters, string districts, string rooms)
+        {
+            string res = string.Format("select {0} " +
+                "from Trades t " +
+                "inner join EstateObjects e on t.ItemId=e.Id " +
+                "inner join Clients c on t.ClientId=c.Id " +
                 "where e.realtytypeid=@realtytype " +
                 "and e.tradetypeid=@tradetype " +
+                "and e.statusid=@status " +
                 "and e.price BETWEEN @minprice AND @maxprice " +
                 "and e.area between @minarea and @maxarea " +
                 "and (e.landarea between @minlandarea and @maxlandarea or e.landarea is NULL) " +
@@ -54,13 +105,18 @@ namespace EstateAgency
             return res;
         }
 
-        public static DataTable JoinTradeObject(DateTime firstDate, DateTime secondDate, int realtyType, int tradeType, float minPrice, float maxPrice, float minArea, float maxArea, float minLandArea, float maxLandArea, string districts, string rooms, SqlConnection sqlConnection, string estateParameters = "*", string tradeParameters = "*")
+        public static DataTable JoinClientTradeObject(DateTime firstDate, DateTime secondDate,
+            int status, int realtyType, int tradeType, float minPrice, float maxPrice,
+            float minArea, float maxArea, float minLandArea, float maxLandArea,
+            string districts, string rooms, SqlConnection sqlConnection,
+            string estateParameters, string tradeParameters, string clientParameters, bool withClient)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            string parameters = Columns(estateParameters, tradeParameters);
-            command.CommandText = JoinTradeObjectCommand(parameters, districts, rooms);
+            string parameters = AllColumns(estateParameters, tradeParameters, clientParameters, withClient);
+            command.CommandText = JoinClientTradeObjectCommand(parameters, districts, rooms);
 
             command.Parameters.Add("realtytype", SqlDbType.NVarChar).Value = realtyType;
+            command.Parameters.Add("status", SqlDbType.NVarChar).Value = status;
             command.Parameters.Add("tradetype", SqlDbType.NVarChar).Value = tradeType;
             command.Parameters.Add("minprice", SqlDbType.NVarChar).Value = minPrice;
             command.Parameters.Add("maxprice", SqlDbType.NVarChar).Value = maxPrice;
@@ -84,25 +140,63 @@ namespace EstateAgency
             return dt;
         }
 
-        private static string Columns(string estate, string trade)
+        private static string ClientTradeColumns(string trade, string client)
         {
             string res = "";
-            if (String.Compare(estate, trade) == 0) res = estate;
-            if (trade == "*" && estate != "*")
+            if (String.Compare(client, trade) == 0) res = client;
+            if (trade == "*" && client != "*")
             {
                 string temp = "t.id, t.itemid, t.managerid, t.clientid, t.date, t.paymentid, t.paymentinstrument, ";
-                res = temp + estate;
+                res = temp + client;
             }
-            if (trade != "*" && estate == "*")
+            if (trade != "*" && client == "*")
             {
-                string temp = "e.id, e.statusid, e.ownerid, e.price, e.address, e.districtid, e.description, e.realtytypeid, e.tradetypeid, e.area, e.rooms, e.landdescription, e.landarea, ";
+                string temp = "c.id, c.Surname, c.Name, c.Patronymic, c.Phone, c.Email, ";
                 res = temp + trade;
             }
-            if (trade != "*" && estate != "*")
+            if (trade != "*" && client != "*")
             {
-                res = estate + ", " + trade;
+                res = client + ", " + trade;
             }
             return res;
         }
+
+        private static string AllColumns(string estate, string trade, string client, bool withClient)
+        {
+            if (!withClient) client = "";
+            string res = "";
+            string tradeTemp = "t.id, t.itemid, t.managerid, t.clientid, t.date, t.paymenttypeid, t.paymentinstrumentid, ";
+            string clientTemp = "c.id, c.Surname, c.Name, c.Patronymic, c.Phone, c.Email, ";
+            string estateTemp = "e.id, e.statusid, e.price, e.address, e.ownerid, e.districtid, e.description, e.realtytypeid, e.tradetypeid, e.rooms, e.landarea, e.landdescription, ";
+
+            if (trade == "*" && estate == "*" && client == "*")
+                res = "*";
+
+            if (trade == "*" && estate == "*" && client!="*")
+                res = tradeTemp + estateTemp + client;
+
+            if (trade == "*" && estate != "*" && client == "*")
+                res = tradeTemp + clientTemp + estate;
+
+            if (trade == "*" && estate != "*" && client != "*")
+                res = tradeTemp + estate + ", " + client;
+
+            if (trade != "*" && estate == "*" && client == "*")
+                res = clientTemp + estateTemp+ trade;
+
+            if (trade != "*" && estate == "*" && client != "*")
+                res = trade + ", " + estateTemp  + client;
+
+            if (trade != "*" && estate != "*" && client == "*")
+                res = trade + ", " + estate + ", " + client;
+
+            if (trade != "*" && estate != "*" && client != "*")
+                res = trade+", " + estate + ", " + client;
+
+            if(!withClient)
+            if (res[res.Length - 2] == ',') res = res.Substring(0, res.Length - 2);
+            return res;
+        }
+
     }
 }

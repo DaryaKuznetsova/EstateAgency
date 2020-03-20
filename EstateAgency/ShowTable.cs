@@ -68,11 +68,18 @@ namespace EstateAgency
         }
 
 
-        public static DataTable DisplayClientRequests(SqlConnection sqlConnection, int id)
+        public static DataTable DisplayClientRequests(SqlConnection sqlConnection, int id, int status)
         {
             SqlCommand command = sqlConnection.CreateCommand();
 
-            command.CommandText = string.Format("SELECT ClientObjectLinks.id, ClientObjectLinks.objectid, EstateObjects.Price, EstateObjects.Address, EstateObjects.Area from EstateObjects inner join ClientObjectLinks on EstateObjects.id = clientobjectlinks.ObjectId inner join Clients on clientobjectlinks.clientid = clients.id where clients.id = '{0}' and estateobjects.statusid=3", id);
+            command.CommandText = string.Format("SELECT Requests.id, Requests.objectid," +
+                " EstateObjects.Price, EstateObjects.Address," +
+                " EstateObjects.Area from EstateObjects" +
+                " inner join Requests on EstateObjects.id = Requests.ObjectId" +
+                " inner join Clients on requests.clientid = clients.id" +
+                " where clients.id = @client and estateobjects.statusid=@status");
+            command.Parameters.AddWithValue("client", id);
+            command.Parameters.AddWithValue("status", status);
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             try
@@ -90,11 +97,12 @@ namespace EstateAgency
             return dt;
         }
 
-        public static DataTable Test(SqlConnection sqlConnection)
+        public static DataTable DisplayTrades(SqlConnection sqlConnection, int clientid)
         {
             SqlCommand command = sqlConnection.CreateCommand();
 
-            command.CommandText = string.Format("SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'Trades'");
+            command.CommandText = string.Format("SELECT * from trades where clientid=@id");
+            command.Parameters.AddWithValue("id", clientid);
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             try

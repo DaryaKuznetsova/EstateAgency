@@ -68,33 +68,14 @@
     </Compile>
     <Compile Include="CompoundStatistics.cs" />
     <Compile Include="CurrentUser.cs" />
-    <Compile Include="CustomerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CustomerForm.Designer.cs">
-      <DependentUpon>CustomerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EstateObject.cs" />
     <Compile Include="EstateObjects.cs" />
     <Compile Include="ExcelExport.cs" />
     <Compile Include="ExportWord.cs" />
-    <Compile Include="ItemAddForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ItemAddForm.Designer.cs">
-      <DependentUpon>ItemAddForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ItemInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ItemInfoForm.Designer.cs">
       <DependentUpon>ItemInfoForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ManagerForm.cs">
       <SubType>Form</SubType>
@@ -149,17 +130,8 @@
     <EmbeddedResource Include="AuthorizationForm.resx">
       <DependentUpon>AuthorizationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomerForm.resx">
-      <DependentUpon>CustomerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ItemAddForm.resx">
-      <DependentUpon>ItemAddForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ItemInfoForm.resx">
       <DependentUpon>ItemInfoForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManagerForm.resx">
       <DependentUpon>ManagerForm.cs</DependentUpon>

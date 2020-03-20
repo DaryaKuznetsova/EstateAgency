@@ -57,13 +57,15 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.ClientsColumnsListBox = new System.Windows.Forms.CheckedListBox();
+            this.StatusComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // LandAreaMaxTextBox
             // 
             this.LandAreaMaxTextBox.ForeColor = System.Drawing.Color.Red;
-            this.LandAreaMaxTextBox.Location = new System.Drawing.Point(515, 374);
+            this.LandAreaMaxTextBox.Location = new System.Drawing.Point(743, 370);
             this.LandAreaMaxTextBox.Min = false;
             this.LandAreaMaxTextBox.Name = "LandAreaMaxTextBox";
             this.LandAreaMaxTextBox.Size = new System.Drawing.Size(44, 22);
@@ -74,7 +76,7 @@
             // LandAreaMinTextBox
             // 
             this.LandAreaMinTextBox.ForeColor = System.Drawing.Color.Red;
-            this.LandAreaMinTextBox.Location = new System.Drawing.Point(468, 374);
+            this.LandAreaMinTextBox.Location = new System.Drawing.Point(696, 370);
             this.LandAreaMinTextBox.Min = false;
             this.LandAreaMinTextBox.Name = "LandAreaMinTextBox";
             this.LandAreaMinTextBox.Size = new System.Drawing.Size(41, 22);
@@ -85,7 +87,7 @@
             // AreaMaxTextBox
             // 
             this.AreaMaxTextBox.ForeColor = System.Drawing.Color.Red;
-            this.AreaMaxTextBox.Location = new System.Drawing.Point(516, 320);
+            this.AreaMaxTextBox.Location = new System.Drawing.Point(744, 316);
             this.AreaMaxTextBox.Min = false;
             this.AreaMaxTextBox.Name = "AreaMaxTextBox";
             this.AreaMaxTextBox.Size = new System.Drawing.Size(44, 22);
@@ -96,7 +98,7 @@
             // AreaMinTextBox
             // 
             this.AreaMinTextBox.ForeColor = System.Drawing.Color.Red;
-            this.AreaMinTextBox.Location = new System.Drawing.Point(468, 320);
+            this.AreaMinTextBox.Location = new System.Drawing.Point(696, 316);
             this.AreaMinTextBox.Min = false;
             this.AreaMinTextBox.Name = "AreaMinTextBox";
             this.AreaMinTextBox.Size = new System.Drawing.Size(41, 22);
@@ -107,7 +109,7 @@
             // PriceMaxTextBox
             // 
             this.PriceMaxTextBox.ForeColor = System.Drawing.Color.Red;
-            this.PriceMaxTextBox.Location = new System.Drawing.Point(405, 320);
+            this.PriceMaxTextBox.Location = new System.Drawing.Point(633, 316);
             this.PriceMaxTextBox.Min = false;
             this.PriceMaxTextBox.Name = "PriceMaxTextBox";
             this.PriceMaxTextBox.Size = new System.Drawing.Size(43, 22);
@@ -118,7 +120,7 @@
             // PriceMinTextBox
             // 
             this.PriceMinTextBox.ForeColor = System.Drawing.Color.Red;
-            this.PriceMinTextBox.Location = new System.Drawing.Point(348, 320);
+            this.PriceMinTextBox.Location = new System.Drawing.Point(576, 316);
             this.PriceMinTextBox.Min = false;
             this.PriceMinTextBox.Name = "PriceMinTextBox";
             this.PriceMinTextBox.Size = new System.Drawing.Size(47, 22);
@@ -171,7 +173,7 @@
             // LandAreaLabel
             // 
             this.LandAreaLabel.AutoSize = true;
-            this.LandAreaLabel.Location = new System.Drawing.Point(465, 354);
+            this.LandAreaLabel.Location = new System.Drawing.Point(693, 350);
             this.LandAreaLabel.Name = "LandAreaLabel";
             this.LandAreaLabel.Size = new System.Drawing.Size(124, 17);
             this.LandAreaLabel.TabIndex = 37;
@@ -180,7 +182,7 @@
             // AreaLabel
             // 
             this.AreaLabel.AutoSize = true;
-            this.AreaLabel.Location = new System.Drawing.Point(465, 296);
+            this.AreaLabel.Location = new System.Drawing.Point(693, 292);
             this.AreaLabel.Name = "AreaLabel";
             this.AreaLabel.Size = new System.Drawing.Size(68, 17);
             this.AreaLabel.TabIndex = 36;
@@ -189,7 +191,7 @@
             // PriceLabel
             // 
             this.PriceLabel.AutoSize = true;
-            this.PriceLabel.Location = new System.Drawing.Point(352, 298);
+            this.PriceLabel.Location = new System.Drawing.Point(580, 294);
             this.PriceLabel.Name = "PriceLabel";
             this.PriceLabel.Size = new System.Drawing.Size(43, 17);
             this.PriceLabel.TabIndex = 35;
@@ -203,9 +205,9 @@
             "Купить",
             "Снять",
             "Посуточно"});
-            this.TradeTypeComboBox.Location = new System.Drawing.Point(192, 319);
+            this.TradeTypeComboBox.Location = new System.Drawing.Point(198, 319);
             this.TradeTypeComboBox.Name = "TradeTypeComboBox";
-            this.TradeTypeComboBox.Size = new System.Drawing.Size(149, 24);
+            this.TradeTypeComboBox.Size = new System.Drawing.Size(180, 24);
             this.TradeTypeComboBox.TabIndex = 34;
             // 
             // RealtyTypeComboBox
@@ -218,7 +220,7 @@
             "Дом"});
             this.RealtyTypeComboBox.Location = new System.Drawing.Point(12, 319);
             this.RealtyTypeComboBox.Name = "RealtyTypeComboBox";
-            this.RealtyTypeComboBox.Size = new System.Drawing.Size(174, 24);
+            this.RealtyTypeComboBox.Size = new System.Drawing.Size(180, 24);
             this.RealtyTypeComboBox.TabIndex = 33;
             // 
             // TableNameListBox
@@ -226,10 +228,11 @@
             this.TableNameListBox.FormattingEnabled = true;
             this.TableNameListBox.Items.AddRange(new object[] {
             "Сделки",
-            "Объекты недвижимости"});
+            "Объекты недвижимости",
+            "Клиенты"});
             this.TableNameListBox.Location = new System.Drawing.Point(13, 34);
             this.TableNameListBox.Name = "TableNameListBox";
-            this.TableNameListBox.Size = new System.Drawing.Size(203, 55);
+            this.TableNameListBox.Size = new System.Drawing.Size(203, 72);
             this.TableNameListBox.TabIndex = 49;
             // 
             // TradeColumnsListBox
@@ -299,7 +302,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(12, 550);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(742, 339);
+            this.dataGridView1.Size = new System.Drawing.Size(841, 339);
             this.dataGridView1.TabIndex = 55;
             // 
             // label1
@@ -356,11 +359,30 @@
             this.label6.TabIndex = 61;
             this.label6.Text = "По";
             // 
-            // ReportForm
+            // ClientsColumnsListBox
+            // 
+            this.ClientsColumnsListBox.FormattingEnabled = true;
+            this.ClientsColumnsListBox.Location = new System.Drawing.Point(638, 35);
+            this.ClientsColumnsListBox.Name = "ClientsColumnsListBox";
+            this.ClientsColumnsListBox.Size = new System.Drawing.Size(207, 123);
+            this.ClientsColumnsListBox.TabIndex = 62;
+            // 
+            // StatusComboBox
+            // 
+            this.StatusComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.StatusComboBox.FormattingEnabled = true;
+            this.StatusComboBox.Location = new System.Drawing.Point(384, 319);
+            this.StatusComboBox.Name = "StatusComboBox";
+            this.StatusComboBox.Size = new System.Drawing.Size(180, 24);
+            this.StatusComboBox.TabIndex = 63;
+            // 
+            // StatisticsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(769, 901);
+            this.ClientSize = new System.Drawing.Size(877, 949);
+            this.Controls.Add(this.StatusComboBox);
+            this.Controls.Add(this.ClientsColumnsListBox);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -389,7 +411,7 @@
             this.Controls.Add(this.PriceLabel);
             this.Controls.Add(this.TradeTypeComboBox);
             this.Controls.Add(this.RealtyTypeComboBox);
-            this.Name = "ReportForm";
+            this.Name = "StatisticsForm";
             this.Text = "ReportForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -427,5 +449,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckedListBox ClientsColumnsListBox;
+        private System.Windows.Forms.ComboBox StatusComboBox;
     }
 }

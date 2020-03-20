@@ -157,7 +157,7 @@ namespace EstateAgency
         {
             if (filter) ShowSearchResults();
             else ShowTable.AllTable(SqlConnection);
-            if(Links) dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, CurrentUser.ClientId);
+            if (Links) dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, CurrentUser.ClientId, 3);
 
         }
 
@@ -282,12 +282,14 @@ namespace EstateAgency
         private void accountSMI_Click(object sender, EventArgs e)
         {
             Exit();
+            personSMI.Visible = true;
+            personSMI.Enabled = true;
             paymentButton.Visible = true;
             RefuseButton.Visible = true;
             BackButton.Visible = true;
             dataGridView1.Visible = true;
             paymentButton.Visible = true;
-            dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, CurrentUser.ClientId);
+            dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, CurrentUser.ClientId, 3);
         }
         bool Links = false;
 
@@ -421,7 +423,7 @@ namespace EstateAgency
                 try
                 {
                     ExcelExport.InsetExcel(fileName, SqlConnection);
-                    MessageBox.Show("opened");
+                    MessageBox.Show("Информация добавлена");
                 }
                 catch (Exception exp)
                 {
@@ -497,8 +499,8 @@ namespace EstateAgency
             DistrictLabel.Visible = true;
             RoomsLabel.Visible = true;
             LandAreaLabel.Visible = true;
-            InfoButton.Visible = true;
             EnterPictureBox.Enabled = false;
+            
         }
 
         public void EnterManager()
@@ -564,7 +566,33 @@ namespace EstateAgency
         private void BackButton_Click(object sender, EventArgs e)
         {
             EnterClient();
+            dataGridView1.DataSource = null;
             Links = true;
+        }
+
+        private void MyTradesSMI_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CurrentRequestsSMI_Click(object sender, EventArgs e)
+        {
+            Exit();
+            BackButton.Visible = true;
+            personSMI.Visible = true;
+            personSMI.Enabled = true;
+            dataGridView1.Visible = true;
+            dataGridView1.DataSource = ShowTable.DisplayClientRequests(SqlConnection, CurrentUser.ClientId, 2);
+        }
+
+        private void TradesSMI_Click(object sender, EventArgs e)
+        {
+            Exit();
+            BackButton.Visible = true;
+            personSMI.Visible = true;
+            personSMI.Enabled = true;
+            dataGridView1.Visible = true;
+            dataGridView1.DataSource = ShowTable.DisplayTrades(SqlConnection, CurrentUser.ClientId);
         }
     }
 }

@@ -83,8 +83,11 @@ namespace EstateAgency
     string description, int realtytype, int tradetype, float area, byte rooms = 0, string landdescription = null, float landarea = 0)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            string strcom1 = string.Format("insert into EstateObjects (statusid, ownerid, price, address, districtid, description, realtytypeid, tradetypeid, area, rooms)" +
-                "values (@status, @owner, @price, @address, @district, @description, @realtytype, @tradetype, @area, @rooms)");
+            string strcom1 = string.Format("insert into EstateObjects " +
+                "(statusid, ownerid, price, address, districtid, " +
+                "description, realtytypeid, tradetypeid, area, rooms) " +
+                "values (@status, @owner, @price, @address, @district, " +
+                "@description, @realtytype, @tradetype, @area, @rooms)");
             string strcom2 = string.Format("insert into EstateObjects (statusid, ownerid, price, address, districtid, description, realtytypeid, tradetypeid, area)" +
     "values (@status, @owner, @price, @address, @district, @description, @realtytype, @tradetype, @area)");
             string strcom3 = string.Format("insert into EstateObjects (statusid, ownerid, price, address, districtid, description, realtytypeid, tradetypeid, area, rooms, landdescription, landarea)" +

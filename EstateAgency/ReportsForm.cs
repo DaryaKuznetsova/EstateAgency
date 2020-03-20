@@ -148,7 +148,7 @@ namespace EstateAgency
         {
             GetInfo(ManagerComboBox.SelectedValue.ToString(), dateTimePicker1.Value, dateTimePicker2.Value);
             string fileName = "";
-            bool save = StatisticsForm.SavingIntoFile(ref fileName); // Название и путь файла выбраны успешно
+            bool save = SavingIntoFile(ref fileName); // Название и путь файла выбраны успешно
             if (save)
             {
                 try
@@ -182,32 +182,30 @@ namespace EstateAgency
             Total = TotalCount(SqlConnection, date1, date2);
         }
 
-        private string Name(int id)
+
+        static bool SavingIntoFile(ref string filename) // Выбор пути сохранения и проверка расширения
         {
-            string name = "";
-            List<string> managers = new List<string>();
-            mId = new List<int>();
-            string strCommand = string.Format("Select surname, name, patronymic FROM Managers " +
-                "where id=@id");
-            SqlConnection.Open();
-            SqlCommand command = new SqlCommand(strCommand, SqlConnection);
-            command.Parameters.AddWithValue("@id", id);
-            SqlDataReader reader = command.ExecuteReader();
-            try
+            bool ok = false;
+            SaveFileDialog SFD = new SaveFileDialog();
+            SFD.Filter = "Файлы Excel|*.docx;*.doc";
+            if (SFD.ShowDialog() == DialogResult.Cancel)
+                return false;
+
+            filename = SFD.FileName;
+            string sss = "";
+            string ssss = "";
+            if (filename.Length >= 3)
             {
-                while (reader.Read())
-                {
-                    string temp = reader.GetString(0) + " " + reader.GetString(1)[0] + "." + reader.GetString(2)[0] + ".";
-                    managers.Add(temp);
-                    mId.Add(reader.GetInt32(3));
-                }
+                sss = filename.Substring(filename.Length - 3);
+                ssss = filename.Substring(filename.Length - 4);
             }
-            finally
+            if (sss != "doc" && ssss != "docx")
             {
-                reader.Close();
-                SqlConnection.Close();
+                MessageBox.Show("Неверное расширение");
+                ok = false;
             }
-            return name;
+            else ok = true;
+            return ok;
         }
     }
 }

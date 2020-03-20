@@ -495,15 +495,15 @@ namespace EstateAgency
             try
             {
                 ConvertData();
-                EstateObjects.UpdateStatus(SqlConnection, Id, 3);
                 Trades.CreateTrade(SqlConnection, Id, CurrentUser.ManagerId);
+                EstateObjects.UpdateStatus(SqlConnection, Id, 3);
                 Trades.UpdateLinksWithTrade(SqlConnection);
                 MessageBox.Show("Заявка одобрена");
                 this.Close();
             }
-            catch (Exception t)
+            catch (Exception)
             {
-                MessageBox.Show(t.ToString());
+                MessageBox.Show("Очевидно, другой менеджер уже успел рассмотреть эту заявку. Обновите страницу и рассмотрите другие заявки.");
             }
 
         }
@@ -522,7 +522,7 @@ namespace EstateAgency
                 }
                 catch (Exception tt)
                 {
-                    MessageBox.Show("К сожалению, кто-то только что оформил заявку на этот объект. Попробуйте выбрать другой объект в нашем каталоге.");
+                  MessageBox.Show("К сожалению, кто-то только что оформил заявку на этот объект. Попробуйте выбрать другой объект в нашем каталоге.");
                 }
             }
             catch(Exception u)
@@ -537,8 +537,13 @@ namespace EstateAgency
             try
             {
                 ConvertData();
-                EstateObjects.UpdateStatus(SqlConnection, Id, 1);
-                MessageBox.Show("Заявка отклонена");
+                if(Trades.FirstManager(SqlConnection, Id))
+                {
+                    EstateObjects.UpdateStatus(SqlConnection, Id, 1);
+                    int linkid = Trades.FindLinkId(SqlConnection, Id);
+                    Trades.DeleteLink(SqlConnection, linkid);
+                    MessageBox.Show("Заявка отклонена");
+                }
                 this.Close();
             }
             catch (Exception t)

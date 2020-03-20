@@ -14,7 +14,7 @@ namespace EstateAgency
         public static void CreateClientObjectLink(SqlConnection sqlConnection, int ClientId, int ObjectId)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            string strcom = string.Format("insert into ClientObjectLinks (ClientId, ObjectId)" +
+            string strcom = string.Format("insert into Requests (ClientId, ObjectId) " +
                 "values (@client, @object)");
             command.CommandText = strcom;
             command.Parameters.Add("client", SqlDbType.NVarChar).Value = ClientId;
@@ -30,29 +30,80 @@ namespace EstateAgency
             }
         }
 
-        public static void CreateTrade(SqlConnection sqlConnection, int item, int manager)
+        public static int FindLinkId(SqlConnection sqlConnection, int itemid)
         {
-            int client = FindClient(sqlConnection, item);
-            DateTime date = new DateTime();
-            date = DateTime.Today;
-            SqlCommand command = sqlConnection.CreateCommand();
-            string strcom = string.Format("insert into trades (itemid, managerid, clientid, date)" +
-                " values (@item, @manager, @client, @date)");
-            command.CommandText = strcom;
-            command.Parameters.Add("item", SqlDbType.NVarChar).Value = item;
-            command.Parameters.Add("manager", SqlDbType.NVarChar).Value = manager;
-            command.Parameters.Add("client", SqlDbType.NVarChar).Value = client;
-            command.Parameters.Add("date", SqlDbType.NVarChar).Value = date;
+            int linkid = -1;
+            string strCommand = string.Format("Select id FROM requests WHERE objectid = @id");
             sqlConnection.Open();
+            SqlCommand command = new SqlCommand(strCommand, sqlConnection);
+            command.Parameters.AddWithValue("id", itemid);
+            SqlDataReader reader = command.ExecuteReader();
             try
             {
-                command.ExecuteNonQuery();
-
+                while (reader.Read())
+                {
+                    linkid = reader.GetInt32(0);
+                }
             }
             finally
             {
+                reader.Close();
                 sqlConnection.Close();
             }
+            return linkid;
+        }
+
+        public static void CreateTrade(SqlConnection sqlConnection, int item, int manager)
+        {
+            if (FirstManager(sqlConnection, item))
+            {
+                int client = FindClient(sqlConnection, item);
+                DateTime date = new DateTime();
+                date = DateTime.Today;
+                SqlCommand command = sqlConnection.CreateCommand();
+                string strcom = string.Format("insert into trades (itemid, managerid, clientid, date)" +
+                    " values (@item, @manager, @client, @date)");
+                command.CommandText = strcom;
+                command.Parameters.Add("item", SqlDbType.NVarChar).Value = item;
+                command.Parameters.Add("manager", SqlDbType.NVarChar).Value = manager;
+                command.Parameters.Add("client", SqlDbType.NVarChar).Value = client;
+                command.Parameters.Add("date", SqlDbType.NVarChar).Value = date;
+                sqlConnection.Open();
+                try
+                {
+                    command.ExecuteNonQuery();
+
+                }
+                finally
+                {
+                    sqlConnection.Close();
+                }
+            }
+            else throw new IndexOutOfRangeException();
+        }
+
+        public static bool FirstManager(SqlConnection sqlConnection, int id)
+        {
+            int status = -1;
+            string strCommand = string.Format("Select statusid FROM Estateobjects WHERE id = @id");
+            sqlConnection.Open();
+            SqlCommand command = new SqlCommand(strCommand, sqlConnection);
+            command.Parameters.AddWithValue("id", id);
+            SqlDataReader reader = command.ExecuteReader();
+            try
+            {
+                while (reader.Read())
+                {
+                    status = reader.GetInt32(0);
+                }
+            }
+            finally
+            {
+                reader.Close();
+                sqlConnection.Close();
+            }
+            if (status == 2) return true;
+            else return false;
         }
 
         private static int CurrentTrade(SqlConnection sqlConnection)
@@ -80,7 +131,7 @@ namespace EstateAgency
         private static int FindClient(SqlConnection sqlConnection, int id)
         {
             int client = -1;
-            string strCommand = string.Format("Select clientid FROM ClientObjectLinks WHERE objectid = @id");
+            string strCommand = string.Format("Select clientid FROM Requests WHERE objectid = @id");
             sqlConnection.Open();
             SqlCommand command = new SqlCommand(strCommand, sqlConnection);
             command.Parameters.AddWithValue("id", id);
@@ -197,7 +248,7 @@ namespace EstateAgency
             int[] res = new int[2];
             int trade = -1;
             int item = -1;
-            string strCommand = string.Format("Select tradeid, objectid FROM ClientObjectLinks WHERE id=@id");
+            string strCommand = string.Format("Select tradeid, objectid FROM Requests WHERE id=@id");
             sqlConnection.Open();
             SqlCommand command = new SqlCommand(strCommand, sqlConnection);
             command.Parameters.AddWithValue("id", id);
@@ -224,7 +275,7 @@ namespace EstateAgency
         public static void DeleteLink(SqlConnection sqlConnection, int deleteid)
         {
             SqlCommand command = sqlConnection.CreateCommand();
-            string strCommand = string.Format("DELETE FROM ClientObjectLinks WHERE id = @deleteid");
+            string strCommand = string.Format("DELETE FROM Requests WHERE id = @deleteid");
             command.CommandText = strCommand;
             command.Parameters.Add("deleteid", SqlDbType.NVarChar).Value = deleteid;
             sqlConnection.Open();
@@ -244,7 +295,7 @@ namespace EstateAgency
 
             SqlCommand command = sqlConnection.CreateCommand();
             string strcom;
-            strcom = string.Format("UPDATE ClientObjectLinks SET tradeid=(@ptid)");
+            strcom = string.Format("UPDATE Requests SET tradeid=(@ptid)");
             command.CommandText = strcom;
             command.Parameters.AddWithValue("@ptid", trade);
 

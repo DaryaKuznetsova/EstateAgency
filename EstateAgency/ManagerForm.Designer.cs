@@ -66,7 +66,8 @@
             this.InfoButton = new System.Windows.Forms.Button();
             this.RefuseButton = new System.Windows.Forms.Button();
             this.BackButton = new System.Windows.Forms.Button();
-            this.MyTradesSMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.CurrentRequestsSMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.TradesSMI = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EnterPictureBox)).BeginInit();
@@ -90,7 +91,8 @@
             // 
             this.personSMI.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.accountSMI,
-            this.MyTradesSMI});
+            this.CurrentRequestsSMI,
+            this.TradesSMI});
             this.personSMI.Name = "personSMI";
             this.personSMI.Size = new System.Drawing.Size(137, 24);
             this.personSMI.Text = "Личный кабинет";
@@ -99,7 +101,7 @@
             // 
             this.accountSMI.Name = "accountSMI";
             this.accountSMI.Size = new System.Drawing.Size(216, 26);
-            this.accountSMI.Text = "Мои заявки";
+            this.accountSMI.Text = "Принятые заявки";
             this.accountSMI.Click += new System.EventHandler(this.accountSMI_Click);
             // 
             // catalogSMI
@@ -119,7 +121,7 @@
             this.открытьXlsФайлToolStripMenuItem,
             this.ввестиЗначенияВручнуюToolStripMenuItem});
             this.addSMI.Name = "addSMI";
-            this.addSMI.Size = new System.Drawing.Size(216, 26);
+            this.addSMI.Size = new System.Drawing.Size(205, 26);
             this.addSMI.Text = "Добавить запись";
             this.addSMI.Click += new System.EventHandler(this.addSMI_Click);
             // 
@@ -140,21 +142,21 @@
             // changeSMI
             // 
             this.changeSMI.Name = "changeSMI";
-            this.changeSMI.Size = new System.Drawing.Size(216, 26);
+            this.changeSMI.Size = new System.Drawing.Size(205, 26);
             this.changeSMI.Text = "Изменить запись";
             this.changeSMI.Click += new System.EventHandler(this.changeSMI_Click);
             // 
             // deleteSMI
             // 
             this.deleteSMI.Name = "deleteSMI";
-            this.deleteSMI.Size = new System.Drawing.Size(216, 26);
+            this.deleteSMI.Size = new System.Drawing.Size(205, 26);
             this.deleteSMI.Text = "Удалить запись";
             this.deleteSMI.Click += new System.EventHandler(this.deleteSMI_Click);
             // 
             // RequestsToolStripMenuItem
             // 
             this.RequestsToolStripMenuItem.Name = "RequestsToolStripMenuItem";
-            this.RequestsToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.RequestsToolStripMenuItem.Size = new System.Drawing.Size(205, 26);
             this.RequestsToolStripMenuItem.Text = "Заявки";
             this.RequestsToolStripMenuItem.Click += new System.EventHandler(this.RequestsToolStripMenuItem_Click);
             // 
@@ -444,11 +446,19 @@
             this.BackButton.UseVisualStyleBackColor = true;
             this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
-            // MyTradesSMI
+            // CurrentRequestsSMI
             // 
-            this.MyTradesSMI.Name = "MyTradesSMI";
-            this.MyTradesSMI.Size = new System.Drawing.Size(216, 26);
-            this.MyTradesSMI.Text = "Мои сделки";
+            this.CurrentRequestsSMI.Name = "CurrentRequestsSMI";
+            this.CurrentRequestsSMI.Size = new System.Drawing.Size(216, 26);
+            this.CurrentRequestsSMI.Text = "Активные заявки";
+            this.CurrentRequestsSMI.Click += new System.EventHandler(this.CurrentRequestsSMI_Click);
+            // 
+            // TradesSMI
+            // 
+            this.TradesSMI.Name = "TradesSMI";
+            this.TradesSMI.Size = new System.Drawing.Size(216, 26);
+            this.TradesSMI.Text = "Мои сделки";
+            this.TradesSMI.Click += new System.EventHandler(this.TradesSMI_Click);
             // 
             // ManagerForm
             // 
@@ -530,7 +540,8 @@
         private System.Windows.Forms.Button InfoButton;
         private System.Windows.Forms.Button RefuseButton;
         private System.Windows.Forms.Button BackButton;
-        private System.Windows.Forms.ToolStripMenuItem MyTradesSMI;
+        private System.Windows.Forms.ToolStripMenuItem CurrentRequestsSMI;
+        private System.Windows.Forms.ToolStripMenuItem TradesSMI;
     }
 }
 
